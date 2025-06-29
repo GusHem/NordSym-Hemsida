@@ -876,115 +876,87 @@
         }
         .gallery-container {
             position: relative;
-            max-width: 100%;
+            max-width: 90%;
             margin: 0 auto;
+            padding-top: 1rem; /* Space for hover effect */
         }
-        
+         @media (min-width: 640px) {
+            .gallery-container {
+                max-width: 520px;
+            }
+        }
+         @media (min-width: 1024px) {
+            .gallery-container {
+                max-width: 700px;
+            }
+        }
         .gallery-viewport {
             overflow: hidden;
+            padding-top: 1rem; /* Prevents clipping on hover */
+            margin-top: -1rem; /* Compensates for padding */
         }
         .gallery-wrapper {
             display: flex;
+            transition: transform 0.5s ease-in-out;
         }
-        
+        .gallery-wrapper .case-study-card {
+            flex: 0 0 100%;
+            margin: 0;
+        }
+        @media (max-width: 768px) {
+            .gallery-wrapper {
+                scroll-snap-type: x mandatory;
+                overflow-x: auto;
+                scroll-behavior: smooth;
+            }
+            
+            .gallery-wrapper .case-study-card {
+                scroll-snap-align: start;
+                min-width: 100%;
+            }
+            
+            .gallery-nav {
+                display: none;
+            }
+        }
+
         .case-study-card {
             background-color: rgba(var(--nord-sym-deep-space-blue), 0.7);
             border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.3);
             backdrop-filter: blur(8px);
             border-radius: 1.5rem;
-            padding: 1.5rem;
+            padding: 2rem;
             display: flex; 
             flex-direction: column;
             transition: all .3s ease;
+            min-height: 480px;
         }
-        
-        /* Mobile-specific gallery styles */
-        @media (max-width: 1023px) {
-            .gallery-container {
-                max-width: 90%;
-            }
-            .gallery-viewport {
-                overflow-x: auto;
-                scroll-snap-type: x mandatory;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: none;
-            }
-            .gallery-viewport::-webkit-scrollbar { display: none; }
-            .gallery-wrapper {
-                padding-bottom: 1rem;
-            }
-            .gallery-wrapper .case-study-card {
-                flex: 0 0 100%;
-                scroll-snap-align: start;
-                margin-right: 1rem;
-            }
-            .gallery-wrapper .case-study-card:last-child {
-                margin-right: 0;
-            }
-            .gallery-nav {
-                display: flex;
-                width: 40px;
-                height: 40px;
-            }
-            .gallery-nav.prev { left: -5px; }
-            .gallery-nav.next { right: -5px; }
-            .case-study-results-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.5rem;
-            }
-            .case-study-result-item:nth-child(3) {
-                grid-column: span 2;
-                margin-top: 0.5rem;
-            }
-            .case-study-result-item .value { font-size: 1rem; }
-            .case-study-result-item .label { font-size: 0.7rem; }
-        }
-
-        /* Desktop & Tablet gallery styles */
-        @media (min-width: 1024px) {
-            .gallery-container {
-                 max-width: 700px;
-            }
-            .gallery-wrapper {
-                transition: transform 0.5s ease-in-out;
-            }
-            .gallery-wrapper .case-study-card {
-                flex: 0 0 100%;
-                margin: 0;
-                padding: 2.5rem;
-                display: grid;
-                grid-template-columns: 1fr 1.5fr;
-                gap: 2rem;
-                height: auto;
-                min-height: 0;
-            }
-            .case-study-main {
-                 display: flex;
-                 flex-direction: column;
-            }
-            .case-study-main-content {
-                flex-grow: 1; 
-            }
-            .gallery-nav.prev { left: -50px; }
-            .gallery-nav.next { right: -50px; }
-        }
-
         .case-study-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 0 25px rgba(var(--nord-sym-cyan-rgb), 0.4), 0 4px 15px rgba(0,0,0,0.3);
             border-color: var(--nord-sym-cyan);
         }
         
+        @media (min-width: 1024px) {
+            #atom-gallery-section .case-study-card {
+                 grid-template-columns: 1fr 1.5fr;
+                 gap: 2rem;
+                 display: grid;
+                 min-height: auto;
+                 padding: 2.5rem;
+            }
+        }
+
         .case-study-sidebar { display: flex; flex-direction: column; gap: 1rem; }
         .case-study-sidebar-item { display: flex; align-items: flex-start; gap: .75rem; }
         .case-study-sidebar-item i { font-size: 1.25rem; color: var(--nord-sym-cyan); margin-top: .1rem; flex-shrink: 0; }
         .case-study-sidebar-item h5 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: .05em; color: var(--nord-sym-text-medium); margin-bottom: 0; }
         .case-study-sidebar-item p { font-weight: 500; color: var(--nord-sym-text-light); font-size: .875rem; }
 
-        .case-study-main { display: flex; flex-direction: column; flex-grow: 1; }
+        .case-study-main { display: flex; flex-direction: column; }
         .case-study-main h4 { font-family: 'Comfortaa', sans-serif; color: var(--nord-sym-light-accent); font-size: 1.25rem; margin-bottom: .5rem; }
-        .case-study-main p { color: var(--nord-sym-text-medium); line-height: 1.6; margin-bottom: 1rem; font-size: .9rem; }
-        .case-study-results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; border-top: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.2); padding-top: 1rem; }
+        .case-study-main p { color: var(--nord-sym-text-medium); line-height: 1.6; margin-bottom: 1rem; font-size: .9rem; flex-grow: 1; }
+        .case-study-results-grid { display: grid; gap: 1rem; border-top: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.2); padding-top: 1rem; grid-template-columns: repeat(3, 1fr); }
         
         .case-study-result-item { text-align: center; }
         .case-study-result-item i { font-size: 1.5rem; color: var(--nord-sym-cyan); margin-bottom: .25rem; }
@@ -1016,7 +988,12 @@
             font-size: 1.75rem;
             color: var(--nord-sym-text-light);
         }
-        
+        .gallery-nav.prev { left: -30px; }
+        .gallery-nav.next { right: -30px; }
+        @media (min-width: 640px) {
+            .gallery-nav.prev { left: -50px; }
+            .gallery-nav.next { right: -50px; }
+        }
         .gallery-nav.disabled {
             opacity: 0.3;
             cursor: not-allowed;
@@ -1380,6 +1357,7 @@
                 <div class="gallery-container">
                     <div class="gallery-viewport">
                         <div id="galleryWrapper" class="gallery-wrapper">
+                            <!-- Atom 1: Offertassistent (Original) -->
                             <div class="case-study-card">
                                  <div class="case-study-sidebar">
                                     <div class="case-study-sidebar-item"> <i class="ph-buildings"></i> <div> <h5>Bransch</h5> <p>Catering</p> </div> </div>
@@ -1387,10 +1365,8 @@
                                     <div class="case-study-sidebar-item"> <i class="ph-power"></i> <div> <h5>Status</h5> <p>I Drift</p> </div> </div>
                                 </div>
                                 <div class="case-study-main">
-                                    <div class="case-study-main-content">
-                                        <h4>AI-driven Offertassistent</h4>
-                                        <p>Frigör ert team från manuell offerthantering. Vår AI-assistent strukturerar och kvalitetssäkrar varje förfrågan, vilket ger er personal mer tid för det som verkligen betyder något – era kunder.</p>
-                                    </div>
+                                    <h4>AI-driven Offertassistent</h4>
+                                    <p>Frigör ert team från manuell offerthantering. Vår AI-assistent strukturerar och kvalitetssäkrar varje förfrågan, vilket ger er personal mer tid för det som verkligen betyder något – era kunder.</p>
                                     <div class="case-study-results-grid">
                                         <div class="case-study-result-item"><i class="ph-clock-arrow-counter-clockwise"></i><div class="value">&gt;75%</div><div class="label">Minskad Admin</div></div>
                                         <div class="case-study-result-item"><i class="ph-chat-centered-text"></i><div class="value">+40%</div><div class="label">Kundinteraktion</div></div>
@@ -1398,39 +1374,71 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Atom 2: Multi-Agent Research Orchestrator -->
                             <div class="case-study-card">
                                  <div class="case-study-sidebar">
-                                    <div class="case-study-sidebar-item"> <i class="ph-buildings"></i> <div> <h5>Bransch</h5> <p>Digital Marknadsföring</p> </div> </div>
-                                    <div class="case-study-sidebar-item"> <i class="ph-compass-tool"></i> <div> <h5>Teknik</h5> <p>n8n, Google API, Claude AI</p> </div> </div>
-                                    <div class="case-study-sidebar-item"> <i class="ph-power"></i> <div> <h5>Status</h5> <p>Tillgänglig</p> </div> </div>
+                                    <div class="case-study-sidebar-item"> <i class="ph-buildings"></i> <div> <h5>Bransch</h5> <p>Konsult & Analys</p> </div> </div>
+                                    <div class="case-study-sidebar-item"> <i class="ph-compass-tool"></i> <div> <h5>Teknik</h5> <p>Claude AI, n8n, RAG, Web Search</p> </div> </div>
+                                    <div class="case-study-sidebar-item"> <i class="ph-power"></i> <div> <h5>Status</h5> <p>Aktiv Drift</p> </div> </div>
                                 </div>
                                 <div class="case-study-main">
-                                    <div class="case-study-main-content">
-                                        <h4>Autonom SEO-Analytiker</h4>
-                                        <p>En proaktiv AI-agent som övervakar sökresultat, analyserar konkurrenters innehåll och automatiskt genererar prioriterade SEO-rekommendationer för att driva organisk trafik och kvalificerade leads.</p>
-                                    </div>
+                                    <h4>Multi-Agent Research Orchestrator</h4>
+                                    <p>Automatiserar djupforskning genom koordinerade AI-agenter. Tar emot ett topic och levererar komplett marknadsanalys med källor, konkurrentinsikt och strategiska rekommendationer.</p>
                                     <div class="case-study-results-grid">
-                                        <div class="case-study-result-item"><i class="ph-trend-up"></i><div class="value">+30%</div><div class="label">Sökordsranking</div></div>
-                                        <div class="case-study-result-item"><i class="ph-binoculars"></i><div class="value">Realtid</div><div class="label">Konkurrentanalys</div></div>
-                                        <div class="case-study-result-item"><i class="ph-file-text"></i><div class="value">100%</div><div class="label">Auto-rapportering</div></div>
+                                        <div class="case-study-result-item"><i class="ph-timer"></i><div class="value">&gt;80%</div><div class="label">Minskad Researchtid</div></div>
+                                        <div class="case-study-result-item"><i class="ph-binoculars"></i><div class="value">+60%</div><div class="label">Djupare Insikter</div></div>
+                                        <div class="case-study-result-item"><i class="ph-target"></i><div class="value">Förhöjd</div><div class="label">Strategisk Precision</div></div>
                                     </div>
                                 </div>
                             </div>
+                            <!-- Atom 3: Lead Magnet Content Generator -->
                             <div class="case-study-card">
                                  <div class="case-study-sidebar">
-                                    <div class="case-study-sidebar-item"> <i class="ph-buildings"></i> <div> <h5>Bransch</h5> <p>Tech / Konsult</p> </div> </div>
-                                    <div class="case-study-sidebar-item"> <i class="ph-compass-tool"></i> <div> <h5>Teknik</h5> <p>Notion API, n8n, Gemini AI</p> </div> </div>
-                                    <div class="case-study-sidebar-item"> <i class="ph-power"></i> <div> <h5>Status</h5> <p>Tillgänglig</p> </div> </div>
+                                    <div class="case-study-sidebar-item"> <i class="ph-buildings"></i> <div> <h5>Bransch</h5> <p>Marknadsföring & Sales</p> </div> </div>
+                                    <div class="case-study-sidebar-item"> <i class="ph-compass-tool"></i> <div> <h5>Teknik</h5> <p>GPT-4, n8n, Airtable, Social Media APIs</p> </div> </div>
+                                    <div class="case-study-sidebar-item"> <i class="ph-power"></i> <div> <h5>Status</h5> <p>I Drift</p> </div> </div>
                                 </div>
                                 <div class="case-study-main">
-                                    <div class="case-study-main-content">
-                                        <h4>Intern Kunskapsassistent</h4>
-                                        <p>En AI-assistent integrerad i Slack/Teams som svarar på anställdas frågor genom att omedelbart hämta och sammanfatta information direkt från företagets centrala kunskapsbas (t.ex. Notion).</p>
-                                    </div>
+                                    <h4>Lead Magnet Content Generator</h4>
+                                    <p>Genererar automatiskt personaliserat innehåll baserat på lead-beteende. Skapar blogginlägg, sociala medier-poster och email-sekvenser som konverterar prospects till kunder.</p>
                                     <div class="case-study-results-grid">
-                                        <div class="case-study-result-item"><i class="ph-timer"></i><div class="value">-80%</div><div class="label">Tid att Hitta Info</div></div>
-                                        <div class="case-study-result-item"><i class="ph-student"></i><div class="value">Snabbare</div><div class="label">Onboarding</div></div>
-                                        <div class="case-study-result-item"><i class="ph-brain"></i><div class="value">Centraliserad</div><div class="label">Kunskap</div></div>
+                                        <div class="case-study-result-item"><i class="ph-trend-up"></i><div class="value">+45%</div><div class="label">Konvertering</div></div>
+                                        <div class="case-study-result-item"><i class="ph-timer"></i><div class="value">&gt;70%</div><div class="label">Minskad Content-tid</div></div>
+                                        <div class="case-study-result-item"><i class="ph-sparkle"></i><div class="value">Förhöjd</div><div class="label">Lead Quality</div></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Atom 4: Customer Onboarding Autopilot -->
+                            <div class="case-study-card">
+                                 <div class="case-study-sidebar">
+                                    <div class="case-study-sidebar-item"> <i class="ph-buildings"></i> <div> <h5>Bransch</h5> <p>SaaS & B2B</p> </div> </div>
+                                    <div class="case-study-sidebar-item"> <i class="ph-compass-tool"></i> <div> <h5>Teknik</h5> <p>n8n, Notion, Email APIs, Claude AI</p> </div> </div>
+                                    <div class="case-study-sidebar-item"> <i class="ph-power"></i> <div> <h5>Status</h5> <p>Aktiv Drift</p> </div> </div>
+                                </div>
+                                <div class="case-study-main">
+                                    <h4>Customer Onboarding Autopilot</h4>
+                                    <p>Helt automatiserad kundintroduktion från första kontakt till aktivt användande. Personlig välkomstsekvens, progressiv utbildning och proaktiv support.</p>
+                                    <div class="case-study-results-grid">
+                                        <div class="case-study-result-item"><i class="ph-rocket-launch"></i><div class="value">+85%</div><div class="label">Customer Success</div></div>
+                                        <div class="case-study-result-item"><i class="ph-timer"></i><div class="value">&gt;60%</div><div class="label">Minskad Support-tid</div></div>
+                                        <div class="case-study-result-item"><i class="ph-user-focus"></i><div class="value">Förhöjd</div><div class="label">Retention</div></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Atom 5: Revenue Intelligence Tracker -->
+                            <div class="case-study-card">
+                                 <div class="case-study-sidebar">
+                                    <div class="case-study-sidebar-item"> <i class="ph-buildings"></i> <div> <h5>Bransch</h5> <p>Finance & Sales</p> </div> </div>
+                                    <div class="case-study-sidebar-item"> <i class="ph-compass-tool"></i> <div> <h5>Teknik</h5> <p>n8n, Stripe, Notion, Claude AI</p> </div> </div>
+                                    <div class="case-study-sidebar-item"> <i class="ph-power"></i> <div> <h5>Status</h5> <p>I Drift</p> </div> </div>
+                                </div>
+                                <div class="case-study-main">
+                                    <h4>Revenue Intelligence Tracker</h4>
+                                    <p>Automatisk intäktsanalys med prediktiva insikter. Spårar säljmönster, identifierar tillväxtmöjligheter och varnar för revenue-risker i realtid.</p>
+                                    <div class="case-study-results-grid">
+                                        <div class="case-study-result-item"><i class="ph-binoculars"></i><div class="value">+40%</div><div class="label">Revenue Visibility</div></div>
+                                        <div class="case-study-result-item"><i class="ph-lightning"></i><div class="value">&gt;70%</div><div class="label">Snabbare Beslut</div></div>
+                                        <div class="case-study-result-item"><i class="ph-chart-line-up"></i><div class="value">Förhöjd</div><div class="label">Profit Optimization</div></div>
                                     </div>
                                 </div>
                             </div>
@@ -2497,64 +2505,29 @@
         }, { threshold: 0.1 });
         const reactorSection = document.getElementById('ai-reaktor');
         if (reactorSection) animationObserver.observe(reactorSection);
-        
-        // --- Gallery Logic (Desktop & Mobile) ---
-        function setupGallery() {
-            const galleryViewport = document.querySelector('.gallery-viewport');
-            const galleryWrapper = document.getElementById('galleryWrapper');
-            const nextBtn = document.getElementById('galleryNext');
-            const prevBtn = document.getElementById('galleryPrev');
-            
-            if (!galleryWrapper || !nextBtn || !prevBtn || !galleryViewport) return;
 
-            const cards = galleryWrapper.querySelectorAll('.case-study-card');
-            const totalCards = cards.length;
+        const galleryWrapper = document.getElementById('galleryWrapper');
+        const nextBtn = document.getElementById('galleryNext');
+        const prevBtn = document.getElementById('galleryPrev');
+        if (galleryWrapper && nextBtn && prevBtn) {
             let currentIndex = 0;
-
-            function updateButtons() {
+            const totalCards = galleryWrapper.querySelectorAll('.case-study-card').length;
+            function updateGallery() {
+                galleryWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
                 prevBtn.classList.toggle('disabled', currentIndex === 0);
                 nextBtn.classList.toggle('disabled', currentIndex === totalCards - 1);
             }
-
-            function goToSlide(index) {
-                currentIndex = Math.max(0, Math.min(index, totalCards - 1));
-                
-                const targetCard = cards[currentIndex];
-                if (targetCard) {
-                    targetCard.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'nearest',
-                        inline: 'start'
-                    });
-                }
-                updateButtons();
-            }
-
-            nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
-            prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
-            
-            // Use Intersection Observer for robust slide detection on all touch devices
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting && entry.intersectionRatio > 0.75) {
-                        const newIndex = Array.from(cards).indexOf(entry.target);
-                        if (newIndex !== currentIndex) {
-                            currentIndex = newIndex;
-                            updateButtons();
-                        }
-                    }
-                });
-            }, {
-                root: galleryViewport,
-                threshold: 0.75 
+            nextBtn.addEventListener('click', () => { if (currentIndex < totalCards - 1) { currentIndex++; updateGallery(); } });
+            prevBtn.addEventListener('click', () => { if (currentIndex > 0) { currentIndex--; updateGallery(); } });
+            let touchstartX = 0, touchendX = 0;
+            galleryWrapper.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; });
+            galleryWrapper.addEventListener('touchend', e => {
+                touchendX = e.changedTouches[0].screenX;
+                if (touchendX < touchstartX - 50) nextBtn.click();
+                if (touchendX > touchstartX + 50) prevBtn.click();
             });
-
-            cards.forEach(card => observer.observe(card));
-            
-            updateButtons(); // Initial state
+            updateGallery();
         }
-        setupGallery();
-
 
         document.querySelectorAll('.btn-primary, .btn-secondary-on-dark, .btn-intro-cta').forEach(btn => {
             btn.addEventListener('click', () => {
