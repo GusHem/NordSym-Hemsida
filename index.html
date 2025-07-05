@@ -902,23 +902,18 @@
         .gallery-wrapper .case-study-card {
             flex: 0 0 100%;
             margin: 0;
-            box-sizing: border-box; /* Ensures padding is included in width */
         }
-        @media (max-width: 1023px) { /* Changed from 768px to 1023px for better breakpoint control */
+        @media (max-width: 768px) {
             .gallery-wrapper {
                 scroll-snap-type: x mandatory;
-                -webkit-overflow-scrolling: touch; /* Momentum scrolling for iOS */
                 overflow-x: auto;
                 scroll-behavior: smooth;
             }
             
             .gallery-wrapper .case-study-card {
-                scroll-snap-align: center; /* Changed to center for better feel */
-                min-width: 90%; /* A bit smaller than 100% to show edges */
-                margin: 0 5%; /* Center the card */
+                scroll-snap-align: start;
+                min-width: 100%;
             }
-             .gallery-wrapper .case-study-card:first-child { margin-left: 5%; }
-             .gallery-wrapper .case-study-card:last-child { margin-right: 5%; }
             
             .gallery-nav {
                 display: none;
@@ -930,19 +925,12 @@
             border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.3);
             backdrop-filter: blur(8px);
             border-radius: 1.5rem;
-            padding: 1.5rem; /* Reduced padding for mobile */
+            padding: 2rem;
             display: flex; 
             flex-direction: column;
             transition: all .3s ease;
-            height: auto; /* Removed fixed height, letting content define it */
+            /* REMOVED: min-height: 480px; */
         }
-
-        @media (min-width: 640px) {
-             .case-study-card {
-                padding: 2rem;
-             }
-        }
-        
         .case-study-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 0 25px rgba(var(--nord-sym-cyan-rgb), 0.4), 0 4px 15px rgba(0,0,0,0.3);
@@ -954,34 +942,20 @@
                  grid-template-columns: 1fr 1.5fr;
                  gap: 2rem;
                  display: grid;
+                 min-height: auto;
                  padding: 2.5rem;
             }
-            .gallery-wrapper .case-study-card {
-                min-width: auto;
-                margin: 0;
-            }
         }
 
-        .case-study-sidebar { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 1rem; 
-            margin-bottom: 1.5rem; /* Add space between sections on mobile */
-        }
-        @media (min-width: 1024px) {
-             .case-study-sidebar {
-                 margin-bottom: 0;
-             }
-        }
-
+        .case-study-sidebar { display: flex; flex-direction: column; gap: 1rem; }
         .case-study-sidebar-item { display: flex; align-items: flex-start; gap: .75rem; }
         .case-study-sidebar-item i { font-size: 1.25rem; color: var(--nord-sym-cyan); margin-top: .1rem; flex-shrink: 0; }
         .case-study-sidebar-item h5 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: .05em; color: var(--nord-sym-text-medium); margin-bottom: 0; }
-        .case-study-sidebar-item p { font-weight: 500; color: var(--nord-sym-text-light); font-size: .875rem; overflow-wrap: break-word; word-break: break-word; }
+        .case-study-sidebar-item p { font-weight: 500; color: var(--nord-sym-text-light); font-size: .875rem; }
 
         .case-study-main { display: flex; flex-direction: column; }
-        .case-study-main h4 { font-family: 'Comfortaa', sans-serif; color: var(--nord-sym-light-accent); font-size: 1.25rem; margin-bottom: .5rem; overflow-wrap: break-word; word-break: break-word; }
-        .case-study-main p { color: var(--nord-sym-text-medium); line-height: 1.6; margin-bottom: 1rem; font-size: .9rem; flex-grow: 1; overflow-wrap: break-word; word-break: break-word;}
+        .case-study-main h4 { font-family: 'Comfortaa', sans-serif; color: var(--nord-sym-light-accent); font-size: 1.25rem; margin-bottom: .5rem; }
+        .case-study-main p { color: var(--nord-sym-text-medium); line-height: 1.6; margin-bottom: 1rem; font-size: .9rem; flex-grow: 1; }
         .case-study-results-grid { display: grid; gap: 1rem; border-top: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.2); padding-top: 1rem; grid-template-columns: repeat(3, 1fr); }
         
         .case-study-result-item { text-align: center; }
@@ -1363,7 +1337,7 @@
                     AI är bara ett verktyg. Verkligt värde skapas när det förankras i er unika expertis. Det är i den syntesen vi bygger intelligenta system som levererar mätbar avkastning.
                 </p>
                 <div class="text-center mt-8 text-sm text-sky-200 space-y-2 md:space-y-0 md:space-x-6">
-                    <span>Genomsnittlig utvecklingstid: <strong>6-12 veckor</strong></span>
+                    <span><strong>För skräddarsydda ekosystem:</strong> Genomsnittlig utvecklingstid: <strong>6-12 veckor</strong></span>
                     <span class="hidden md:inline">|</span>
                     <span>Fokus på <strong>mätbara förbättringar</strong> och tidsbesparing</span>
                 </div>
@@ -1376,23 +1350,23 @@
                 <div class="text-center mb-16">
                     <span class="inline-block bg-sky-800/50 text-sky-200 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Från Vision till Verklighet</span>
                     <h3 class="text-3xl md:text-4xl font-bold text-white mt-4">Vårt Atom-Galleri</h3>
-                    <p class="text-center nord-accent-text italic max-w-2xl mx-auto mt-4 mb-8">
-                        För atomär precision och dedikerad fokus antar vi endast ett begränsat antal nya projekt per kvartal.
+                    <p class="text-center nord-accent-text max-w-2xl mx-auto mt-4 mb-8">
+                        Vårt mål är resultat, levererat på två sätt: genom snabb insättning av våra beprövade Atomer, eller genom djupt, fokuserat byggande av ett helt nytt ekosystem.
                     </p>
                 </div>
                 <div class="gallery-container">
                     <div class="gallery-viewport">
                         <div id="galleryWrapper" class="gallery-wrapper">
-                            <!-- Atom 1: Automatiserad Offertassistent -->
+                            <!-- Atom 1: AI-driven Offert- & Eventassistent -->
                             <div class="case-study-card">
                                  <div class="case-study-sidebar">
-                                    <div class="case-study-sidebar-item"> <i class="ph-buildings"></i> <div> <h5>Bransch</h5> <p>Catering</p> </div> </div>
+                                    <div class="case-study-sidebar-item"> <i class="ph-buildings"></i> <div> <h5>Bransch</h5> <p>Catering, Event & Service</p> </div> </div>
                                     <div class="case-study-sidebar-item"> <i class="ph-compass-tool"></i> <div> <h5>Teknik</h5> <p>React, n8n, Airtable, Claude AI</p> </div> </div>
                                     <div class="case-study-sidebar-item"> <i class="ph-power"></i> <div> <h5>Status</h5> <p>I Drift</p> </div> </div>
                                 </div>
                                 <div class="case-study-main">
-                                    <h4>Automatiserad Offertassistent</h4>
-                                    <p>Frigör ert team från manuell offerthantering. Vår AI-assistent strukturerar och kvalitetssäkrar varje förfrågan, vilket ger er personal mer tid för det som verkligen betyder något – era kunder.</p>
+                                    <h4>AI-driven Offert- & Eventassistent</h4>
+                                    <p>Slut på manuell offerthantering som kostar er både tid och kunder. Vår AI-agent Klara fungerar som er digitala eventkoordinator - från första kundkontakt till färdig offert, inklusive menyrådgivning och eventplanering. Automatisera hela processen medan ni fokuserar på det som verkligen skapar värde - att leverera fantastiska upplevelser.</p>
                                     <div class="case-study-results-grid">
                                         <div class="case-study-result-item"><i class="ph-clock-arrow-counter-clockwise"></i><div class="value">&gt;75%</div><div class="label">Minskad Admin</div></div>
                                         <div class="case-study-result-item"><i class="ph-chat-centered-text"></i><div class="value">+40%</div><div class="label">Kundinteraktion</div></div>
@@ -1400,71 +1374,71 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Atom 2: Automatiserad Omvärldsanalytiker -->
+                            <!-- Atom 2: Autonom SEO-Analytiker -->
                             <div class="case-study-card">
                                  <div class="case-study-sidebar">
-                                    <div class="case-study-sidebar-item"> <i class="ph-buildings"></i> <div> <h5>Bransch</h5> <p>Konsult & Analys</p> </div> </div>
-                                    <div class="case-study-sidebar-item"> <i class="ph-compass-tool"></i> <div> <h5>Teknik</h5> <p>Claude AI, n8n, RAG, Web Search</p> </div> </div>
-                                    <div class="case-study-sidebar-item"> <i class="ph-power"></i> <div> <h5>Status</h5> <p>Aktiv Drift</p> </div> </div>
+                                    <div class="case-study-sidebar-item"> <i class="ph-buildings"></i> <div> <h5>Bransch</h5> <p>Digital Marknadsföring</p> </div> </div>
+                                    <div class="case-study-sidebar-item"> <i class="ph-compass-tool"></i> <div> <h5>Teknik</h5> <p>n8n, Google API, Claude AI</p> </div> </div>
+                                    <div class="case-study-sidebar-item"> <i class="ph-power"></i> <div> <h5>Status</h5> <p>Tillgänglig</p> </div> </div>
                                 </div>
                                 <div class="case-study-main">
-                                    <h4>Automatiserad Omvärldsanalytiker</h4>
-                                    <p>Automatiserar djupforskning genom koordinerade AI-agenter. Tar emot ett topic och levererar komplett marknadsanalys med källor, konkurrentinsikt och strategiska rekommendationer.</p>
+                                    <h4>Autonom SEO-Analytiker</h4>
+                                    <p>En proaktiv AI-agent som övervakar sökresultat, analyserar konkurrenters innehåll och automatiskt genererar prioriterade SEO-rekommendationer för att driva organisk trafik och kvalificerade leads.</p>
                                     <div class="case-study-results-grid">
-                                        <div class="case-study-result-item"><i class="ph-timer"></i><div class="value">&gt;80%</div><div class="label">Minskad Researchtid</div></div>
-                                        <div class="case-study-result-item"><i class="ph-binoculars"></i><div class="value">+60%</div><div class="label">Djupare Insikter</div></div>
-                                        <div class="case-study-result-item"><i class="ph-target"></i><div class="value">Förhöjd</div><div class="label">Strategisk Precision</div></div>
+                                        <div class="case-study-result-item"><i class="ph-trend-up"></i><div class="value">+30%</div><div class="label">Sökordsranking</div></div>
+                                        <div class="case-study-result-item"><i class="ph-binoculars"></i><div class="value">Realtid</div><div class="label">Konkurrentanalys</div></div>
+                                        <div class="case-study-result-item"><i class="ph-file-text"></i><div class="value">100%</div><div class="label">Auto-rapportering</div></div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Atom 3: Dynamisk Innehållsgenerator -->
+                            <!-- Atom 3: LinkedIn Lead Automation -->
                             <div class="case-study-card">
                                  <div class="case-study-sidebar">
-                                    <div class="case-study-sidebar-item"> <i class="ph-buildings"></i> <div> <h5>Bransch</h5> <p>Marknadsföring & Sales</p> </div> </div>
-                                    <div class="case-study-sidebar-item"> <i class="ph-compass-tool"></i> <div> <h5>Teknik</h5> <p>GPT-4, n8n, Airtable, Social Media APIs</p> </div> </div>
-                                    <div class="case-study-sidebar-item"> <i class="ph-power"></i> <div> <h5>Status</h5> <p>I Drift</p> </div> </div>
+                                    <div class="case-study-sidebar-item"> <i class="ph-buildings"></i> <div> <h5>Bransch</h5> <p>B2B Sälj & Marknadsföring</p> </div> </div>
+                                    <div class="case-study-sidebar-item"> <i class="ph-compass-tool"></i> <div> <h5>Teknik</h5> <p>Apify, n8n, LLM (Claude/Gemini)</p> </div> </div>
+                                    <div class="case-study-sidebar-item"> <i class="ph-power"></i> <div> <h5>Status</h5> <p>Tillgänglig</p> </div> </div>
                                 </div>
                                 <div class="case-study-main">
-                                    <h4>Dynamisk Innehållsgenerator</h4>
-                                    <p>Genererar automatiskt personaliserat innehåll baserat på lead-beteende. Skapar blogginlägg, sociala medier-poster och email-sekvenser som konverterar prospects till kunder.</p>
+                                    <h4>LinkedIn Lead Automation</h4>
+                                    <p>En sofistikerad AI-agent som intelligent analyserar virala LinkedIn-inlägg för att identifiera och kvalificera högkvalitativa B2B-leads – helt utan kalla meddelanden.</p>
                                     <div class="case-study-results-grid">
-                                        <div class="case-study-result-item"><i class="ph-trend-up"></i><div class="value">+45%</div><div class="label">Konvertering</div></div>
-                                        <div class="case-study-result-item"><i class="ph-timer"></i><div class="value">&gt;70%</div><div class="label">Minskad Content-tid</div></div>
-                                        <div class="case-study-result-item"><i class="ph-sparkle"></i><div class="value">Förhöjd</div><div class="label">Lead Quality</div></div>
+                                        <div class="case-study-result-item"><i class="ph-users-three"></i><div class="value">+50%</div><div class="label">Kvalificerade Leads</div></div>
+                                        <div class="case-study-result-item"><i class="ph-clock-arrow-counter-clockwise"></i><div class="value">-90%</div><div class="label">Manuell Prospektering</div></div>
+                                        <div class="case-study-result-item"><i class="ph-target"></i><div class="value">Hög Relevans</div><div class="label">Bättre Målgrupp</div></div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Atom 4: Automatiserad Kund-Onboarding -->
+                            <!-- Atom 4: Multi-Agent Research System -->
                             <div class="case-study-card">
                                  <div class="case-study-sidebar">
-                                    <div class="case-study-sidebar-item"> <i class="ph-buildings"></i> <div> <h5>Bransch</h5> <p>SaaS & B2B</p> </div> </div>
-                                    <div class="case-study-sidebar-item"> <i class="ph-compass-tool"></i> <div> <h5>Teknik</h5> <p>n8n, Notion, Email APIs, Claude AI</p> </div> </div>
-                                    <div class="case-study-sidebar-item"> <i class="ph-power"></i> <div> <h5>Status</h5> <p>Aktiv Drift</p> </div> </div>
+                                    <div class="case-study-sidebar-item"> <i class="ph-buildings"></i> <div> <h5>Bransch</h5> <p>Konsult / Strategi / Finans</p> </div> </div>
+                                    <div class="case-study-sidebar-item"> <i class="ph-compass-tool"></i> <div> <h5>Teknik</h5> <p>LangGraph, n8n, Multi-LLM</p> </div> </div>
+                                    <div class="case-study-sidebar-item"> <i class="ph-power"></i> <div> <h5>Status</h5> <p>Tillgänglig</p> </div> </div>
                                 </div>
                                 <div class="case-study-main">
-                                    <h4>Automatiserad Kund-Onboarding</h4>
-                                    <p>Helt automatiserad kundintroduktion från första kontakt till aktivt användande. Personlig välkomstsekvens, progressiv utbildning och proaktiv support.</p>
+                                    <h4>Multi-Agent Research System</h4>
+                                    <p>Ett avancerat system där specialiserade AI-agenter samarbetar för att genomföra djupgående marknads-, företags- och konkurrentanalys på en bråkdel av tiden.</p>
                                     <div class="case-study-results-grid">
-                                        <div class="case-study-result-item"><i class="ph-rocket-launch"></i><div class="value">+85%</div><div class="label">Customer Success</div></div>
-                                        <div class="case-study-result-item"><i class="ph-timer"></i><div class="value">&gt;60%</div><div class="label">Minskad Support-tid</div></div>
-                                        <div class="case-study-result-item"><i class="ph-user-focus"></i><div class="value">Förhöjd</div><div class="label">Retention</div></div>
+                                        <div class="case-study-result-item"><i class="ph-timer"></i><div class="value">&gt;95%</div><div class="label">Snabbare Analys</div></div>
+                                        <div class="case-study-result-item"><i class="ph-brain"></i><div class="value">Djupare</div><div class="label">Insikter</div></div>
+                                        <div class="case-study-result-item"><i class="ph-chart-line-up"></i><div class="value">Skalbar</div><div class="label">Research On-Demand</div></div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Atom 5: Automatiserad Intäktsbevakare -->
-                            <div class="case-study-card">
+                            <!-- Atom 5: AI Sales Assistant -->
+                             <div class="case-study-card">
                                  <div class="case-study-sidebar">
-                                    <div class="case-study-sidebar-item"> <i class="ph-buildings"></i> <div> <h5>Bransch</h5> <p>Finance & Sales</p> </div> </div>
-                                    <div class="case-study-sidebar-item"> <i class="ph-compass-tool"></i> <div> <h5>Teknik</h5> <p>n8n, Stripe, Notion, Claude AI</p> </div> </div>
-                                    <div class="case-study-sidebar-item"> <i class="ph-power"></i> <div> <h5>Status</h5> <p>I Drift</p> </div> </div>
+                                    <div class="case-study-sidebar-item"> <i class="ph-buildings"></i> <div> <h5>Bransch</h5> <p>Sälj / Alla B2B</p> </div> </div>
+                                    <div class="case-study-sidebar-item"> <i class="ph-compass-tool"></i> <div> <h5>Teknik</h5> <p>CRM Integration, n8n, LLM</p> </div> </div>
+                                    <div class="case-study-sidebar-item"> <i class="ph-power"></i> <div> <h5>Status</h5> <p>Tillgänglig</p> </div> </div>
                                 </div>
                                 <div class="case-study-main">
-                                    <h4>Automatiserad Intäktsbevakare</h4>
-                                    <p>Automatisk intäktsanalys med prediktiva insikter. Spårar säljmönster, identifierar tillväxtmöjligheter och varnar för revenue-risker i realtid.</p>
+                                    <h4>AI Sales Assistant</h4>
+                                    <p>En outtröttlig säljassistent som arbetar 24/7. Den fångar upp leads, utför research och skickar personaliserade uppföljningar för att hålla er säljpipeline fylld.</p>
                                     <div class="case-study-results-grid">
-                                        <div class="case-study-result-item"><i class="ph-binoculars"></i><div class="value">+40%</div><div class="label">Revenue Visibility</div></div>
-                                        <div class="case-study-result-item"><i class="ph-lightning"></i><div class="value">&gt;70%</div><div class="label">Snabbare Beslut</div></div>
-                                        <div class="case-study-result-item"><i class="ph-chart-line-up"></i><div class="value">Förhöjd</div><div class="label">Profit Optimization</div></div>
+                                        <div class="case-study-result-item"><i class="ph-chart-bar"></i><div class="value">+25%</div><div class="label">Konverteringsgrad</div></div>
+                                        <div class="case-study-result-item"><i class="ph-power"></i><div class="value">24/7</div><div class="label">Alltid Aktiv</div></div>
+                                        <div class="case-study-result-item"><i class="ph-chat-centered-dots"></i><div class="value">100%</div><div class="label">Personaliserad Dialog</div></div>
                                     </div>
                                 </div>
                             </div>
@@ -2208,8 +2182,10 @@
             </div>
             <div class="mt-8 border-t border-sky-700/50 pt-6 text-center text-xs text-content-dark-bg space-x-4">
                 <span>© <span id="currentYear"></span> NordSym AB. Alla rättigheter förbehållna.</span>
-                <a href="#" data-policy="privacy" class="footer-link hover:underline">Integritetspolicy</a>
-                <a href="#" data-policy="terms" class="footer-link hover:underline">Användarvillkor</a>
+                <a href="#" data-policy="privacy" data-lang="sv" class="footer-link hover:underline">Integritetspolicy</a>
+                <a href="#" data-policy="terms" data-lang="sv" class="footer-link hover:underline">Användarvillkor</a>
+                <a href="#" data-policy="privacy" data-lang="en" class="footer-link hover:underline ml-4">Privacy Policy (EN)</a>
+                <a href="#" data-policy="terms" data-lang="en" class="footer-link hover:underline">Terms of Service (EN)</a>
             </div>
         </div>
     </footer>
@@ -2234,37 +2210,73 @@
     document.addEventListener('DOMContentLoaded', () => {
         // --- LEGAL TEXTS & MODAL ---
         const legalTexts = {
-            privacy: {
-                title: 'Integritetspolicy',
-                content: `
-                    <p><strong>Senast uppdaterad: ${new Date().toLocaleDateString('sv-SE')}</strong></p>
-                    <h3>Om denna policy</h3><p>NordSym AB (org.nr 559535-5768) värdesätter ditt förtroende och din integritet. Denna integritetspolicy beskriver hur vi samlar in, använder och skyddar dina personuppgifter när du besöker vår webbplats eller använder våra tjänster.</p>
-                    <h3>Vem vi är</h3><p>NordSym AB<br>Organisationsnummer: 559535-5768<br>E-post: <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a><br>Webbplats: nordsym.com</p><p>Vi är personuppgiftsansvariga för den behandling av personuppgifter som beskrivs i denna policy.</p>
-                    <h3>Vilka personuppgifter vi samlar in</h3><ul><li><strong>Kontaktformulär och förfrågningar:</strong> Namn och kontaktuppgifter (e-post, telefon), företagsinformation, befattning, och beskrivning av era behov.</li><li><strong>Jobbansökningar:</strong> Namn, kontaktuppgifter, CV, professionell bakgrund, relevanta länkar (LinkedIn etc.), och motivationsbeskrivning.</li><li><strong>Nyhetsbrev:</strong> E-postadress och interaktionsdata (öppningar, klick).</li><li><strong>Webbplatsanvändning:</strong> Anonymiserad IP-adress, webbläsarinformation och användarinteraktion via cookies.</li><li><strong>Klient- och projektdata:</strong> Affärsprocesser, tekniska krav och kommunikationshistorik nödvändig för projektleverans.</li></ul>
-                    <h3>Varför vi behandlar dina personuppgifter</h3><p>Vi behandlar dina uppgifter för att kunna fullfölja våra åtaganden (Art. 6.1.b GDPR) som att besvara förfrågningar och leverera tjänster. Vi har också ett berättigat intresse (Art. 6.1.f GDPR) av att utveckla våra tjänster och kommunicera med potentiella kunder. För nyhetsbrev och viss marknadsföring inhämtar vi ditt samtycke (Art. 6.1.a GDPR).</p>
-                    <h3>Hur vi skyddar dina uppgifter</h3><p>Vi använder tekniska och organisatoriska säkerhetsåtgärder som kryptering (HTTPS), åtkomstkontroll, regelbundna säkerhetsöversyner och sekretessavtal för att skydda dina uppgifter.</p>
-                    <h3>Datadelning och tredje part</h3><p>Vi använder betrodda tjänsteleverantörer som Formspree, Google Analytics, Microsoft 365, Notion, Airtable, GitHub, och ledande AI-plattformar (Anthropic, OpenAI) samt automationsverktyg (Make, n8n) för att kunna bedriva vår verksamhet. Alla leverantörer är valda för att uppfylla GDPR-krav. Vi säkerställer adekvat skyddsnivå vid eventuella överföringar utanför EU/EES.</p>
-                    <h3>Lagringstider</h3><p>Vi lagrar data endast så länge som det är nödvändigt för ändamålet. Exempelvis sparas kontaktförfrågningar i 24 månader, projektdata i 7 år enligt bokföringslagen, och prenumerationer tills du avregistrerar dig.</p>
-                    <h3>Dina rättigheter</h3><p>Du har rätt till tillgång, rättelse, radering, begränsning, dataportabilitet och att invända mot behandlingen av dina personuppgifter. Du kan även när som helst återkalla ditt samtycke. Kontakta <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a> för att utöva dina rättigheter.</p>
-                    <h3>Cookies och spårning</h3><p>Vi använder nödvändiga cookies för webbplatsens funktionalitet och anonymiserade analyscookies (Google Analytics) för att förbättra användarupplevelsen. Du kan hantera cookie-inställningar i din webbläsare.</p>
-                    <h3>Kontakt och klagomål</h3><p>För frågor, kontakta oss på <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a>. Klagomål kan lämnas till Integritetsskyddsmyndigheten (IMY).</p>
-                    <h3>Ändringar av denna policy</h3><p>Vi kan uppdatera denna policy. Väsentliga ändringar kommuniceras tydligt på vår webbplats eller via e-post.</p>
-                `
+            sv: {
+                privacy: {
+                    title: 'Integritetspolicy',
+                    content: `
+                        <p><strong>Senast uppdaterad: ${new Date().toLocaleDateString('sv-SE')}</strong></p>
+                        <h3>Om denna policy</h3><p>NordSym AB (org.nr 559535-5768) värdesätter ditt förtroende och din integritet. Denna integritetspolicy beskriver hur vi samlar in, använder och skyddar dina personuppgifter när du besöker vår webbplats eller använder våra tjänster.</p>
+                        <h3>Vem vi är</h3><p>NordSym AB<br>Organisationsnummer: 559535-5768<br>E-post: <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a><br>Webbplats: nordsym.com</p><p>Vi är personuppgiftsansvariga för den behandling av personuppgifter som beskrivs i denna policy.</p>
+                        <h3>Vilka personuppgifter vi samlar in</h3><ul><li><strong>Kontaktformulär och förfrågningar:</strong> Namn och kontaktuppgifter (e-post, telefon), företagsinformation, befattning, och beskrivning av era behov.</li><li><strong>Jobbansökningar:</strong> Namn, kontaktuppgifter, CV, professionell bakgrund, relevanta länkar (LinkedIn etc.), och motivationsbeskrivning.</li><li><strong>Nyhetsbrev:</strong> E-postadress och interaktionsdata (öppningar, klick).</li><li><strong>Webbplatsanvändning:</strong> Anonymiserad IP-adress, webbläsarinformation och användarinteraktion via cookies.</li><li><strong>Klient- och projektdata:</strong> Affärsprocesser, tekniska krav och kommunikationshistorik nödvändig för projektleverans.</li></ul>
+                        <h3>Varför vi behandlar dina personuppgifter</h3><p>Vi behandlar dina uppgifter för att kunna fullfölja våra åtaganden (Art. 6.1.b GDPR) som att besvara förfrågningar och leverera tjänster. Vi har också ett berättigat intresse (Art. 6.1.f GDPR) av att utveckla våra tjänster och kommunicera med potentiella kunder. För nyhetsbrev och viss marknadsföring inhämtar vi ditt samtycke (Art. 6.1.a GDPR).</p>
+                        <h3>Hur vi skyddar dina uppgifter</h3><p>Vi använder tekniska och organisatoriska säkerhetsåtgärder som kryptering (HTTPS), åtkomstkontroll, regelbundna säkerhetsöversyner och sekretessavtal för att skydda dina uppgifter.</p>
+                        <h3>Datadelning och tredje part</h3><p>Vi använder betrodda tjänsteleverantörer som Formspree, Google Analytics, Microsoft 365, Notion, Airtable, GitHub, och ledande AI-plattformar (Anthropic, OpenAI) samt automationsverktyg (Make, n8n) för att kunna bedriva vår verksamhet. Alla leverantörer är valda för att uppfylla GDPR-krav. Vi säkerställer adekvat skyddsnivå vid eventuella överföringar utanför EU/EES.</p>
+                        <h3>Lagringstider</h3><p>Vi lagrar data endast så länge som det är nödvändigt för ändamålet. Exempelvis sparas kontaktförfrågningar i 24 månader, projektdata i 7 år enligt bokföringslagen, och prenumerationer tills du avregistrerar dig.</p>
+                        <h3>Dina rättigheter</h3><p>Du har rätt till tillgång, rättelse, radering, begränsning, dataportabilitet och att invända mot behandlingen av dina personuppgifter. Du kan även när som helst återkalla ditt samtycke. Kontakta <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a> för att utöva dina rättigheter.</p>
+                        <h3>Cookies och spårning</h3><p>Vi använder nödvändiga cookies för webbplatsens funktionalitet och anonymiserade analyscookies (Google Analytics) för att förbättra användarupplevelsen. Du kan hantera cookie-inställningar i din webbläsare.</p>
+                        <h3>Kontakt och klagomål</h3><p>För frågor, kontakta oss på <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a>. Klagomål kan lämnas till Integritetsskyddsmyndigheten (IMY).</p>
+                        <h3>Ändringar av denna policy</h3><p>Vi kan uppdatera denna policy. Väsentliga ändringar kommuniceras tydligt på vår webbplats eller via e-post.</p>
+                    `
+                },
+                terms: {
+                    title: 'Användarvillkor',
+                    content: `
+                        <p><strong>Senast uppdaterad: ${new Date().toLocaleDateString('sv-SE')}</strong></p>
+                        <h3>Allmänt</h3><p>Dessa användarvillkor reglerar din användning av NordSym AB:s ("vi", "oss", "NordSym") webbplats (nordsym.com) och tjänster. Genom att använda våra tjänster accepterar du dessa villkor.</p>
+                        <h3>Våra tjänster</h3><p>Vi erbjuder AI-konsulting, strategisk rådgivning, utveckling av skräddarsydda AI-system och automationslösningar.</p>
+                        <h3>Användaransvar</h3><p>Du ansvarar för att tillhandahålla korrekt information och att inte använda våra tjänster för olagliga ändamål. Du får inte utföra omvänd teknik (reverse engineering) på våra system eller återförsälja våra tjänster utan skriftligt godkännande.</p>
+                        <h3>Immaterialrätter och dataägandeskap</h3><p>NordSym äger våra algoritmer, metoder och ramverk. Du som kund behåller full äganderätt till dina affärsdata och de specifika resultat som genereras av dina data. För skräddarsydda AI-agenter utvecklade specifikt för dig, tillhör äganderätten dig, medan den underliggande tekniska plattformen förblir vår egendom.</p>
+                        <h3>Konfidentialitet och sekretess</h3><p>Båda parter åtar sig att behandla konfidentiell information med sekretess. Detta inkluderar affärsstrategier, tekniska specifikationer och finansiell information.</p>
+                        <h3>Ansvarsbegränsning</h3><p>Vi ansvarar inte för indirekta skador som förlorad vinst eller data. Vårt totala ansvar är begränsat till det belopp som betalats för den specifika tjänsten. Vi garanterar inga specifika affärsresultat eller ROI, även om det är vårt mål.</p>
+                        <h3>Dataskydd och GDPR</h3><p>All behandling av personuppgifter sker enligt vår Integritetspolicy. När vi behandlar data för din räkning agerar vi som personuppgiftsbiträde, och ett databehandlingsavtal (DPA) upprättas vid behov.</p>
+                        <h3>Gällande lag och tvister</h3><p>Dessa villkor regleras av svensk rätt. Tvister ska i första hand lösas genom förhandling. Om enighet inte kan nås ska tvisten avgöras av svensk domstol.</p>
+                        <h3>Ändringar av villkoren</h3><p>Vi förbehåller oss rätten att uppdatera dessa villkor. Väsentliga ändringar meddelas minst 30 dagar i förväg.</p>
+                    `
+                }
             },
-            terms: {
-                title: 'Användarvillkor',
-                content: `
-                    <p><strong>Senast uppdaterad: ${new Date().toLocaleDateString('sv-SE')}</strong></p>
-                    <h3>Allmänt</h3><p>Dessa användarvillkor reglerar din användning av NordSym AB:s ("vi", "oss", "NordSym") webbplats (nordsym.com) och tjänster. Genom att använda våra tjänster accepterar du dessa villkor.</p>
-                    <h3>Våra tjänster</h3><p>Vi erbjuder AI-konsulting, strategisk rådgivning, utveckling av skräddarsydda AI-system och automationslösningar.</p>
-                    <h3>Användaransvar</h3><p>Du ansvarar för att tillhandahålla korrekt information och att inte använda våra tjänster för olagliga ändamål. Du får inte utföra omvänd teknik (reverse engineering) på våra system eller återförsälja våra tjänster utan skriftligt godkännande.</p>
-                    <h3>Immaterialrätter och dataägandeskap</h3><p>NordSym äger våra algoritmer, metoder och ramverk. Du som kund behåller full äganderätt till dina affärsdata och de specifika resultat som genereras av dina data. För skräddarsydda AI-agenter utvecklade specifikt för dig, tillhör äganderätten dig, medan den underliggande tekniska plattformen förblir vår egendom.</p>
-                    <h3>Konfidentialitet och sekretess</h3><p>Båda parter åtar sig att behandla konfidentiell information med sekretess. Detta inkluderar affärsstrategier, tekniska specifikationer och finansiell information.</p>
-                    <h3>Ansvarsbegränsning</h3><p>Vi ansvarar inte för indirekta skador som förlorad vinst eller data. Vårt totala ansvar är begränsat till det belopp som betalats för den specifika tjänsten. Vi garanterar inga specifika affärsresultat eller ROI, även om det är vårt mål.</p>
-                    <h3>Dataskydd och GDPR</h3><p>All behandling av personuppgifter sker enligt vår Integritetspolicy. När vi behandlar data för din räkning agerar vi som personuppgiftsbiträde, och ett databehandlingsavtal (DPA) upprättas vid behov.</p>
-                    <h3>Gällande lag och tvister</h3><p>Dessa villkor regleras av svensk rätt. Tvister ska i första hand lösas genom förhandling. Om enighet inte kan nås ska tvisten avgöras av svensk domstol.</p>
-                    <h3>Ändringar av villkoren</h3><p>Vi förbehåller oss rätten att uppdatera dessa villkor. Väsentliga ändringar meddelas minst 30 dagar i förväg.</p>
-                `
+            en: {
+                privacy: {
+                    title: 'Privacy Policy',
+                    content: `
+                        <p><strong>Last Updated: ${new Date().toLocaleDateString('en-US')}</strong></p>
+                        <h4>About This Policy</h4><p>NordSym AB (Swedish Org. No. 559535-5768) values your trust and privacy. This Privacy Policy describes how we collect, use, and protect your personal data when you visit our website or use our services.</p>
+                        <h4>Who We Are</h4><p>NordSym AB<br>Organization Number: 559535-5768<br>Email: <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a><br>Website: nordsym.com</p><p>We are the data controller for the processing of personal data described in this policy.</p>
+                        <h4>What Personal Data We Collect</h4><ul><li><strong>Contact Forms and Inquiries:</strong> Name and contact details (email, phone), company information, job title, and a description of your needs.</li><li><strong>Job Applications:</strong> Name, contact details, CV, professional background, relevant links (LinkedIn, etc.), and a motivational description.</li><li><strong>Newsletter:</strong> Email address and interaction data (opens, clicks).</li><li><strong>Website Usage:</strong> Anonymized IP address, browser information, and user interaction via cookies.</li><li><strong>Client and Project Data:</strong> Business processes, technical requirements, and communication history necessary for project delivery.</li></ul>
+                        <h4>Why We Process Your Personal Data</h4><p>We process your data to fulfill our commitments (Art. 6.1.b GDPR), such as responding to inquiries and delivering services. We also have a legitimate interest (Art. 6.1.f GDPR) in developing our services and communicating with potential clients. For newsletters and certain marketing activities, we obtain your consent (Art. 6.1.a GDPR).</p>
+                        <h4>How We Protect Your Data</h4><p>We use technical and organizational security measures such as encryption (HTTPS), access control, regular security reviews, and confidentiality agreements to protect your data.</p>
+                        <h4>Data Sharing and Third Parties</h4><p>We use trusted service providers such as Formspree, Google Analytics, Microsoft 365, Notion, Airtable, GitHub, and leading AI platforms (Anthropic, OpenAI) as well as automation tools (Make, n8n) to conduct our business. All providers are selected to comply with GDPR requirements. We ensure an adequate level of protection for any transfers of data outside the EU/EEA.</p>
+                        <h4>Data Retention Periods</h4><p>We store data only for as long as is necessary for the purpose. For example, contact inquiries are saved for 24 months, project data for 7 years in accordance with the Swedish Accounting Act, and newsletter subscriptions until you unsubscribe.</p>
+                        <h4>Your Rights</h4><p>You have the right to access, rectify, erase, restrict, and port your personal data, and to object to its processing. You can also withdraw your consent at any time. Contact <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a> to exercise your rights.</p>
+                        <h4>Cookies and Tracking</h4><p>We use necessary cookies for website functionality and anonymized analytics cookies (Google Analytics) to improve the user experience. You can manage cookie settings in your browser.</p>
+                        <h4>Contact and Complaints</h4><p>For questions, please contact us at <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a>. Complaints can be filed with the Swedish Authority for Privacy Protection (Integritetsskyddsmyndigheten - IMY).</p>
+                        <h4>Changes to This Policy</h4><p>We may update this policy. Significant changes will be clearly communicated on our website or via email.</p>
+                    `
+                },
+                terms: {
+                    title: 'Terms of Service',
+                    content: `
+                        <p><strong>Last Updated: ${new Date().toLocaleDateString('en-US')}</strong></p>
+                        <h4>General</h4><p>These Terms of Service govern your use of the NordSym AB ("we", "us", "NordSym") website (nordsym.com) and services. By using our services, you accept these terms.</p>
+                        <h4>Our Services</h4><p>We offer AI consulting, strategic advisory, development of custom AI systems, and automation solutions.</p>
+                        <h4>User Responsibilities</h4><p>You are responsible for providing accurate information and for not using our services for illegal purposes. You may not reverse engineer our systems or resell our services without written approval.</p>
+                        <h4>Intellectual Property and Data Ownership</h4><p>NordSym owns our algorithms, methods, and frameworks. You, as the client, retain full ownership of your business data and the specific results generated from your data. For custom AI agents developed specifically for you, the ownership belongs to you, while the underlying technical platform remains our property.</p>
+                        <h4>Confidentiality and Secrecy</h4><p>Both parties commit to treating confidential information with secrecy. This includes business strategies, technical specifications, and financial information.</p>
+                        <h4>Limitation of Liability</h4><p>We are not liable for indirect damages such as lost profits or data. Our total liability is limited to the amount paid for the specific service. We do not guarantee specific business results or ROI, although that is our goal.</p>
+                        <h4>Data Protection and GDPR</h4><p>All processing of personal data is conducted in accordance with our Privacy Policy. When we process data on your behalf, we act as a data processor, and a Data Processing Agreement (DPA) will be established as needed.</p>
+                        <h4>Governing Law and Disputes</h4><p>These terms are governed by Swedish law. Disputes shall primarily be resolved through negotiation. If an agreement cannot be reached, the dispute shall be settled by a Swedish court.</p>
+                        <h4>Changes to the Terms</h4><p>We reserve the right to update these terms. Significant changes will be communicated at least 30 days in advance.</p>
+                    `
+                }
             }
         };
 
@@ -2273,8 +2285,8 @@
         const legalModalContent = document.getElementById('legalModalContent');
         const legalModalClose = document.getElementById('legalModalClose');
 
-        function showLegalModal(type) {
-            const data = legalTexts[type];
+        function showLegalModal(type, lang = 'sv') {
+            const data = legalTexts[lang]?.[type];
             if (!data) return;
             legalModalTitle.textContent = data.title;
             legalModalContent.innerHTML = data.content;
@@ -2290,7 +2302,9 @@
         document.querySelectorAll('a[data-policy]').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                showLegalModal(e.currentTarget.dataset.policy);
+                const policyType = e.currentTarget.dataset.policy;
+                const lang = e.currentTarget.dataset.lang || 'sv';
+                showLegalModal(policyType, lang);
             });
         });
 
@@ -2538,69 +2552,27 @@
         if (galleryWrapper && nextBtn && prevBtn) {
             let currentIndex = 0;
             const totalCards = galleryWrapper.querySelectorAll('.case-study-card').length;
+            
             function updateGallery() {
-                if (window.innerWidth >= 1024) {
-                    galleryWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+                // This function should only apply transforms on desktop
+                if (window.innerWidth > 768) {
+                     galleryWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+                } else {
+                    // On mobile, remove any transform to allow native scrolling
+                    galleryWrapper.style.transform = 'none';
                 }
                 prevBtn.classList.toggle('disabled', currentIndex === 0);
-                nextBtn.classList.toggle('disabled', currentIndex >= totalCards - 1);
+                nextBtn.classList.toggle('disabled', currentIndex === totalCards - 1);
             }
 
-            function scrollToCard(index) {
-                currentIndex = Math.max(0, Math.min(index, totalCards - 1));
-                if (window.innerWidth < 1024) {
-                    const card = galleryWrapper.children[currentIndex];
-                    if (card) {
-                        const newScrollLeft = card.offsetLeft - galleryWrapper.offsetLeft - (galleryWrapper.offsetWidth - card.offsetWidth) / 2;
-                        galleryWrapper.scrollTo({
-                            left: newScrollLeft,
-                            behavior: 'smooth'
-                        });
-                    }
-                }
-                updateGallery();
-            }
+            nextBtn.addEventListener('click', () => { if (currentIndex < totalCards - 1) { currentIndex++; updateGallery(); } });
+            prevBtn.addEventListener('click', () => { if (currentIndex > 0) { currentIndex--; updateGallery(); } });
             
-            nextBtn.addEventListener('click', () => { 
-                if (currentIndex < totalCards - 1) { 
-                    if (window.innerWidth >= 1024) {
-                        currentIndex++;
-                        updateGallery();
-                    } else {
-                        scrollToCard(currentIndex + 1);
-                    }
-                } 
-            });
-
-            prevBtn.addEventListener('click', () => { 
-                 if (currentIndex > 0) { 
-                    if (window.innerWidth >= 1024) {
-                        currentIndex--;
-                        updateGallery();
-                    } else {
-                        scrollToCard(currentIndex - 1);
-                    }
-                }
-            });
-
-            if (window.innerWidth < 1024) {
-                let scrollTimeout;
-                galleryWrapper.addEventListener('scroll', () => {
-                    clearTimeout(scrollTimeout);
-                    scrollTimeout = setTimeout(() => {
-                        const cardWidth = galleryWrapper.querySelector('.case-study-card').clientWidth;
-                        const scrollLeft = galleryWrapper.scrollLeft;
-                        const newIndex = Math.round(scrollLeft / cardWidth);
-                        if (newIndex !== currentIndex) {
-                            currentIndex = newIndex;
-                            updateGallery();
-                        }
-                    }, 150);
-                }, { passive: true });
-            }
-            
-            updateGallery();
+            // Ensure the gallery is correctly set on resize
             window.addEventListener('resize', updateGallery);
+            
+            // Initial setup
+            updateGallery();
         }
 
         document.querySelectorAll('.btn-primary, .btn-secondary-on-dark, .btn-intro-cta').forEach(btn => {
