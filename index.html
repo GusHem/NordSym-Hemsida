@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="NordSym bygger med banbrytande AI – från enskilda, intelligenta agenter som automatiserar era processer, till skräddarsydda ekosystem för er framgång.">
+    <!-- Google Site Verification -->
+    <meta name="google-site-verification" content="o4dbX3CBdFuWz6AJz1zjE7y5Cx2uoMzRNUapwfmQPz0">
     <!-- SEO & Meta Optimizations -->
     <meta name="keywords" content="AI automation Sverige, nordisk AI konsult, intelligent automation, AI-agenter, maskininlärning konsult, svensk AI företag">
     <meta name="author" content="NordSym AB">
@@ -27,6 +29,9 @@
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 
     <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-KRLNF7DHVJ"></script>
@@ -79,9 +84,6 @@
             padding-top: 80px; 
             display: flex;
             flex-direction: column;
-        }
-        body.modal-open {
-            overflow: hidden;
         }
         @media (min-width: 1024px) {
             body {
@@ -194,7 +196,7 @@
         
         .nav-link.active { color: var(--nord-sym-cyan); font-weight: 700; } 
 
-        .btn-primary, .btn-secondary-on-dark, .btn-service-cta {
+        .btn-primary, .btn-secondary-on-dark, .btn-service-cta, .btn-google {
             font-weight: 600;
             border-radius: 9999px; 
             padding: 0.85rem 2.25rem; 
@@ -206,7 +208,7 @@
             display: inline-flex; 
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
             text-align: center;
         }
         .btn-primary {
@@ -221,11 +223,12 @@
                         inset 0px -2px 2px rgba(255,255,255,0.1),
                         inset 0px 1px 1px rgba(0,0,0,0.15);
         }
-        .btn-secondary-on-dark {
+        .btn-secondary-on-dark, .btn-google {
             color: var(--nord-sym-text-light);
             border: 2px solid var(--nord-sym-text-light);
+            background-color: transparent;
         }
-        .btn-secondary-on-dark:hover {
+        .btn-secondary-on-dark:hover, .btn-google:hover {
             background-color: var(--nord-sym-text-light);
             color: var(--nord-sym-deep-space-blue);
             transform: translateY(-3px) scale(1.03);
@@ -233,6 +236,35 @@
                         0px 5px 10px rgba(0,0,0,0.2),
                         inset 0px -2px 2px rgba(255,255,255,0.03);
         }
+        .btn-google {
+            width: 100%;
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+        }
+        .btn-google svg {
+            width: 20px;
+            height: 20px;
+        }
+        .form-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: var(--nord-sym-text-medium);
+            font-size: 0.75rem;
+            margin: 1.5rem 0;
+        }
+        .form-divider::before, .form-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #4A5568;
+        }
+        .form-divider:not(:empty)::before {
+            margin-right: .5em;
+        }
+        .form-divider:not(:empty)::after {
+            margin-left: .5em;
+        }
+
         .btn-service-cta { 
             background-color: transparent;
             color: var(--nord-sym-cyan);
@@ -914,10 +946,6 @@
                 scroll-snap-align: start;
                 min-width: 100%;
             }
-            
-            .gallery-nav {
-                display: none;
-            }
         }
 
         .case-study-card {
@@ -956,7 +984,25 @@
         .case-study-main { display: flex; flex-direction: column; }
         .case-study-main h4 { font-family: 'Comfortaa', sans-serif; color: var(--nord-sym-light-accent); font-size: 1.25rem; margin-bottom: .5rem; }
         .case-study-main p { color: var(--nord-sym-text-medium); line-height: 1.6; margin-bottom: 1rem; font-size: .9rem; flex-grow: 1; }
-        .case-study-results-grid { display: grid; gap: 1rem; border-top: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.2); padding-top: 1rem; grid-template-columns: repeat(3, 1fr); }
+        
+        .case-study-results-grid { 
+            display: grid; 
+            gap: 1rem; 
+            border-top: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.2); 
+            padding-top: 1rem; 
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .case-study-results-grid > :last-child:nth-child(odd) {
+             grid-column: span 2 / span 2;
+        }
+        @media (min-width: 1024px) {
+            .case-study-results-grid {
+                 grid-template-columns: repeat(3, 1fr);
+            }
+            .case-study-results-grid > :last-child:nth-child(odd) {
+                grid-column: auto;
+            }
+        }
         
         .case-study-result-item { text-align: center; }
         .case-study-result-item i { font-size: 1.5rem; color: var(--nord-sym-cyan); margin-bottom: .25rem; }
@@ -994,6 +1040,15 @@
             .gallery-nav.prev { left: -50px; }
             .gallery-nav.next { right: -50px; }
         }
+        @media (max-width: 768px) {
+            .gallery-nav {
+                top: auto;
+                bottom: -60px; /* Position below cards */
+                transform: translateY(0);
+            }
+            .gallery-nav.prev { left: 30%; transform: translateX(-50%); }
+            .gallery-nav.next { right: 30%; transform: translateX(50%); }
+        }
         .gallery-nav.disabled {
             opacity: 0.3;
             cursor: not-allowed;
@@ -1019,7 +1074,7 @@
         }
         .btn-intro-cta i { vertical-align: middle; }
 
-        #vilka-ar-vi-content {
+        #vilka-ar-vi-content, .legal-page-content {
             max-width: 900px;
         }
         .footer-quicklinks {
@@ -1153,101 +1208,34 @@
             border: 0;
         }
 
-        .legal-modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(12, 20, 39, 0.5);
-            backdrop-filter: blur(8px);
-            z-index: 100;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-            animation: fadeInOverlay 0.3s ease-out;
-        }
-        .legal-modal-overlay.active {
-            display: flex;
-        }
-        @keyframes fadeInOverlay {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .legal-modal {
-            background-color: rgba(var(--nord-sym-deep-space-blue), 0.95);
-            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.3);
-            border-radius: 1rem;
-            max-width: 800px;
-            width: 100%;
-            max-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            animation: scaleUpModal 0.3s ease-out;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-         @keyframes scaleUpModal {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        .legal-modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.2);
-        }
-        .legal-modal-title {
+        .legal-page-section .legal-content h3 {
             font-family: 'Comfortaa', sans-serif;
-            font-size: 1.25rem;
-            color: var(--nord-sym-text-light);
-        }
-        .legal-modal-close {
-            background: none;
-            border: none;
-            color: var(--nord-sym-text-medium);
-            cursor: pointer;
             font-size: 1.5rem;
-            transition: color 0.3s, transform 0.3s;
-        }
-        .legal-modal-close:hover {
-            color: var(--nord-sym-cyan);
-            transform: rotate(90deg);
-        }
-        .legal-modal-content {
-            padding: 1.5rem;
-            overflow-y: auto;
-            color: var(--nord-sym-text-medium);
-        }
-        .legal-modal-content h3 {
-            font-family: 'Comfortaa', sans-serif;
-            font-size: 1.1rem;
             font-weight: 700;
             color: var(--nord-sym-text-light);
-            margin-top: 1.5rem;
-            margin-bottom: 0.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
             border-bottom: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.2);
-            padding-bottom: 0.25rem;
+            padding-bottom: 0.5rem;
         }
-         .legal-modal-content h3:first-child {
+         .legal-page-section .legal-content h3:first-child {
             margin-top: 0;
         }
-        .legal-modal-content p, .legal-modal-content li {
-            font-size: 0.9rem;
+        .legal-page-section .legal-content p, .legal-page-section .legal-content li {
+            font-size: 1rem;
             line-height: 1.7;
             margin-bottom: 1rem;
         }
-        .legal-modal-content ul {
+        .legal-page-section .legal-content ul {
             list-style-type: '• ';
             padding-left: 1.5rem;
         }
-         .legal-modal-content a {
+         .legal-page-section .legal-content a {
             color: var(--nord-sym-cyan);
             text-decoration: underline;
             transition: color 0.3s;
         }
-        .legal-modal-content a:hover {
+        .legal-page-section .legal-content a:hover {
             color: var(--nord-sym-light-accent);
         }
     </style>
@@ -1256,7 +1244,7 @@
     <header id="header" class="fixed w-full z-50 top-0 left-0 right-0">
         <div class="container mx-auto px-4 md:px-6 py-4"> 
             <div class="flex items-center justify-between">
-                <a href="#" onclick="window.nord.showPage('hero'); return false;" class="hidden md:block flex-shrink-0">
+                <a href="#hero" class="hidden md:block flex-shrink-0">
                     <img src="https://raw.githubusercontent.com/GusHem/Logga-utan-text/refs/heads/main/Final%20logo%20no%20text.svg" alt="NordSym Logotyp" class="h-24 transition-all duration-300">
                 </a>
                 <button id="mobile-menu-trigger" class="md:hidden absolute left-4 top-1/2 -translate-y-1/2 z-50">
@@ -1264,28 +1252,28 @@
                 </button>
 
                 <nav aria-label="Huvudnavigation" class="hidden md:flex flex-grow justify-center space-x-5 items-center">
-                    <a href="#" onclick="window.nord.showPage('hero'); return false;" data-page="hero" class="nav-link transition-colors font-medium">Hem</a>
-                    <a href="#" onclick="window.nord.showPage('om-oss'); return false;" data-page="om-oss" class="nav-link transition-colors font-medium">Om Oss</a>
-                    <a href="#" onclick="window.nord.showPage('ai-reaktor'); return false;" data-page="ai-reaktor" class="nav-link transition-colors font-medium">AI-Reaktor</a>
-                    <a href="#" onclick="window.nord.showPage('ai-portal'); return false;" data-page="ai-portal" class="nav-link transition-colors font-medium">AI-Portal</a>
-                    <a href="#" onclick="window.nord.showPage('karriar'); return false;" data-page="karriar" class="nav-link transition-colors font-medium">Gör din del</a>
+                    <a href="#hero" data-page="hero" class="nav-link transition-colors font-medium">Hem</a>
+                    <a href="#om-oss" data-page="om-oss" class="nav-link transition-colors font-medium">Om Oss</a>
+                    <a href="#ai-reaktor" data-page="ai-reaktor" class="nav-link transition-colors font-medium">AI-Reaktor</a>
+                    <a href="#ai-portal" data-page="ai-portal" class="nav-link transition-colors font-medium">AI-Portal</a>
+                    <a href="#karriar" data-page="karriar" class="nav-link transition-colors font-medium">Gör din del</a>
                 </nav>
                 
                 <div class="hidden md:block flex-shrink-0"> 
-                    <a href="#" onclick="window.nord.handleBokaMoteClick(event)" class="btn-primary text-sm">Upptäck Era AI-Möjligheter</a>
+                    <a href="#home-contact-section" class="btn-primary text-sm">Upptäck Era AI-Möjligheter</a>
                 </div>
                  <div class="md:hidden w-16 h-16"></div> 
 
             </div>
         </div>
         <div id="mobile-menu" class="hidden md:hidden bg-nord-sym-deep-space-blue/95 backdrop-blur-sm shadow-lg rounded-b-xl absolute w-full left-0 top-full">
-            <a href="#" onclick="window.nord.showPage('hero'); return false;" data-page="hero" class="block px-6 py-4 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">Hem</a>
-            <a href="#" onclick="window.nord.showPage('om-oss'); return false;" data-page="om-oss" class="block px-6 py-4 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">Om Oss</a>
-            <a href="#" onclick="window.nord.showPage('ai-reaktor'); return false;" data-page="ai-reaktor" class="block px-6 py-4 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">AI-Reaktor</a>
-            <a href="#" onclick="window.nord.showPage('ai-portal'); return false;" data-page="ai-portal" class="block px-6 py-4 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">AI-Portal</a>
-            <a href="#" onclick="window.nord.showPage('karriar'); return false;" data-page="karriar" class="block px-6 py-4 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">Gör din del</a>
+            <a href="#hero" data-page="hero" class="block px-6 py-4 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">Hem</a>
+            <a href="#om-oss" data-page="om-oss" class="block px-6 py-4 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">Om Oss</a>
+            <a href="#ai-reaktor" data-page="ai-reaktor" class="block px-6 py-4 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">AI-Reaktor</a>
+            <a href="#ai-portal" data-page="ai-portal" class="block px-6 py-4 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">AI-Portal</a>
+            <a href="#karriar" data-page="karriar" class="block px-6 py-4 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">Gör din del</a>
             <div class="px-6 py-4">
-                <a href="#" onclick="window.nord.handleBokaMoteClick(event)" data-page="kontakt" class="btn-primary w-full">Upptäck Era AI-Möjligheter</a>
+                <a href="#home-contact-section" data-page="kontakt" class="btn-primary w-full">Upptäck Era AI-Möjligheter</a>
             </div>
         </div>
     </header>
@@ -1295,7 +1283,7 @@
             <div class="stars-background opacity-50" aria-hidden="true"></div>
             <div class="section-content-wrapper">
                 <div class="flex flex-col items-center gap-y-8">
-                    <div id="hero-logo-wrapper" onclick="window.nord.showPage('om-oss');">
+                    <div id="hero-logo-wrapper" onclick="window.location.hash = '#om-oss'">
                         <img src="https://raw.githubusercontent.com/GusHem/Logga-utan-text/refs/heads/main/Final%20logo%20no%20text.svg" alt="NordSym Logotyp" width="400" height="114">
                     </div>
                     
@@ -1308,8 +1296,8 @@
                     </p>
 
                     <div class="space-y-4 md:space-y-0 md:space-x-6">
-                        <a href="#" onclick="window.nord.showPage('ai-reaktor'); return false;" class="btn-primary inline-block w-full md:w-auto">Upptäck Vår AI-Reaktor</a>
-                        <a href="#" onclick="window.nord.showPage('ai-portal'); return false;" class="btn-secondary-on-dark inline-block w-full md:w-auto">Utforska AI-Portalen</a>
+                        <a href="#ai-reaktor" class="btn-primary inline-block w-full md:w-auto">Upptäck Vår AI-Reaktor</a>
+                        <a href="#ai-portal" class="btn-secondary-on-dark inline-block w-full md:w-auto">Utforska AI-Portalen</a>
                     </div>
                 </div>
             </div>
@@ -1330,7 +1318,7 @@
                         <div class="venn-circle venn-circle-2" id="vennCircle2">
                              <span class="venn-circle-text">AVANCERAD<br>AI-AUTOMATION</span>
                         </div>
-                        <div class="venn-overlap-text" onclick="window.nord.showPage('ai-reaktor'); return false;" style="cursor:pointer;">ROI</div>
+                        <div class="venn-overlap-text" onclick="window.location.hash = '#ai-reaktor'" style="cursor:pointer;">ROI</div>
                     </div>
                 </div>
                 <p class="text-center text-content-dark-bg max-w-2xl mx-auto mt-6 text-md" id="vennTargetText">
@@ -1370,7 +1358,7 @@
                                     <div class="case-study-results-grid">
                                         <div class="case-study-result-item"><i class="ph-clock-arrow-counter-clockwise"></i><div class="value">&gt;75%</div><div class="label">Minskad Admin</div></div>
                                         <div class="case-study-result-item"><i class="ph-chat-centered-text"></i><div class="value">+40%</div><div class="label">Kundinteraktion</div></div>
-                                        <div class="case-study-result-item"><i class="ph-sparkle"></i><div class="value">Förhöjd</div><div class="label">Kundupplevelse</div></div>
+                                        <div class="case-study-result-item col-span-2"><i class="ph-sparkle"></i><div class="value">Förhöjd</div><div class="label">Kundupplevelse</div></div>
                                     </div>
                                 </div>
                             </div>
@@ -1387,7 +1375,7 @@
                                     <div class="case-study-results-grid">
                                         <div class="case-study-result-item"><i class="ph-trend-up"></i><div class="value">+30%</div><div class="label">Sökordsranking</div></div>
                                         <div class="case-study-result-item"><i class="ph-binoculars"></i><div class="value">Realtid</div><div class="label">Konkurrentanalys</div></div>
-                                        <div class="case-study-result-item"><i class="ph-file-text"></i><div class="value">100%</div><div class="label">Auto-rapportering</div></div>
+                                        <div class="case-study-result-item col-span-2"><i class="ph-file-text"></i><div class="value">100%</div><div class="label">Auto-rapportering</div></div>
                                     </div>
                                 </div>
                             </div>
@@ -1404,7 +1392,7 @@
                                     <div class="case-study-results-grid">
                                         <div class="case-study-result-item"><i class="ph-users-three"></i><div class="value">+50%</div><div class="label">Kvalificerade Leads</div></div>
                                         <div class="case-study-result-item"><i class="ph-clock-arrow-counter-clockwise"></i><div class="value">-90%</div><div class="label">Manuell Prospektering</div></div>
-                                        <div class="case-study-result-item"><i class="ph-target"></i><div class="value">Hög Relevans</div><div class="label">Bättre Målgrupp</div></div>
+                                        <div class="case-study-result-item col-span-2"><i class="ph-target"></i><div class="value">Hög Relevans</div><div class="label">Bättre Målgrupp</div></div>
                                     </div>
                                 </div>
                             </div>
@@ -1421,7 +1409,7 @@
                                     <div class="case-study-results-grid">
                                         <div class="case-study-result-item"><i class="ph-timer"></i><div class="value">&gt;95%</div><div class="label">Snabbare Analys</div></div>
                                         <div class="case-study-result-item"><i class="ph-brain"></i><div class="value">Djupare</div><div class="label">Insikter</div></div>
-                                        <div class="case-study-result-item"><i class="ph-chart-line-up"></i><div class="value">Skalbar</div><div class="label">Research On-Demand</div></div>
+                                        <div class="case-study-result-item col-span-2"><i class="ph-chart-line-up"></i><div class="value">Skalbar</div><div class="label">Research On-Demand</div></div>
                                     </div>
                                 </div>
                             </div>
@@ -1438,7 +1426,7 @@
                                     <div class="case-study-results-grid">
                                         <div class="case-study-result-item"><i class="ph-chart-bar"></i><div class="value">+25%</div><div class="label">Konverteringsgrad</div></div>
                                         <div class="case-study-result-item"><i class="ph-power"></i><div class="value">24/7</div><div class="label">Alltid Aktiv</div></div>
-                                        <div class="case-study-result-item"><i class="ph-chat-centered-dots"></i><div class="value">100%</div><div class="label">Personaliserad Dialog</div></div>
+                                        <div class="case-study-result-item col-span-2"><i class="ph-chat-centered-dots"></i><div class="value">100%</div><div class="label">Personaliserad Dialog</div></div>
                                     </div>
                                 </div>
                             </div>
@@ -1468,8 +1456,8 @@
                             Från enskilda AI-agenter till fullskaliga ekosystem. Vi designar och bygger en skräddarsydd lösning som löser era specifika problem och driver mätbar tillväxt.
                         </p>
                         <div class="mt-auto">
-                            <button type="button" onclick="window.nord.showPage('boka-samtal-skraddarsydd'); return false;" class="btn-primary text-sm w-full mb-3">Få Din AI-Roadmap</button>
-                            <a href="#" onclick="window.nord.showPage('ai-reaktor'); return false;" class="btn-service-cta w-full">Läs Mer om AI-Reaktorn</a>
+                            <a href="#boka-samtal-skraddarsydd" class="btn-primary text-sm w-full mb-3">Få Din AI-Roadmap</a>
+                            <a href="#ai-reaktor" class="btn-service-cta w-full">Läs Mer om AI-Reaktorn</a>
                         </div>
                     </div>
                     <div class="content-card-dark cta-card-transparent items-stretch text-left p-8 rounded-xl"> 
@@ -1481,15 +1469,15 @@
                             Kickstarta er AI-resa. Genom vår AI-Portal får ni en skräddarsydd handlingsplan och de insikter ni behöver för att framgångsrikt implementera AI i er verksamhet.
                         </p>
                         <div class="mt-auto">
-                            <button type="button" onclick="window.nord.showPage('boka-samtal-portal'); return false;" class="btn-primary text-sm w-full mb-3">Starta Med En AI-Analys</button>
-                            <a href="#" onclick="window.nord.showPage('ai-portal'); return false;" class="btn-service-cta w-full">Läs mer om AI-Portalen</a>
+                            <a href="#boka-samtal-portal" class="btn-primary text-sm w-full mb-3">Starta Med En AI-Analys</a>
+                            <a href="#ai-portal" class="btn-service-cta w-full">Läs mer om AI-Portalen</a>
                         </div>
                     </div>
                 </div>
                 
                  <div class="text-center mt-12 border-t border-sky-800/50 pt-10">
                     <p class="text-content-dark-bg mb-4">Bara nyfiken? Låt oss ta ett snabbt, oförpliktigande samtal.</p>
-                    <a href="#" onclick="window.nord.showPage('boka-samtal-intro'); return false;" class="btn-intro-cta inline-flex items-center gap-2">
+                    <a href="#boka-samtal-intro" class="btn-intro-cta inline-flex items-center gap-2">
                         <i class="ph-coffee"></i>
                         Boka 15 Min Introduktionssamtal
                     </a>
@@ -1498,7 +1486,7 @@
             </div>
         </section>
 
-        <section id="om-oss" class="space-background-section page-content-padding" style="display: none;">
+        <section id="om-oss" class="space-background-section page-content-padding">
             <div class="stars-background opacity-40" aria-hidden="true"></div>
             <div class="section-content-wrapper" id="vilka-ar-vi-content">
                 <div class="text-center mb-16 lg:mb-20">
@@ -1595,7 +1583,7 @@
             </div>
         </section>
 
-        <section id="ai-reaktor" class="space-background-section" style="display: none;">
+        <section id="ai-reaktor" class="space-background-section">
              <div class="stars-background opacity-40" aria-hidden="true"></div>
              <div class="section-content-wrapper page-content-padding">
                 <div class="solution-reactor-container"> 
@@ -1753,7 +1741,7 @@
             </div>
         </section>
 
-        <section id="ai-portal" class="space-background-section" style="display: none;">
+        <section id="ai-portal" class="space-background-section">
             <div class="stars-background opacity-40" aria-hidden="true"></div>
             <div class="section-content-wrapper page-content-padding">
                 <div class="portal-content-container">
@@ -1775,7 +1763,7 @@
                                     <p class="text-sm font-semibold uppercase tracking-wider">Er Branschexpertis</p>
                                 </div>
                                 
-                                <div id="portal-handlingsplan" class="venn-overlap-text" onclick="window.nord.showPage('boka-samtal-portal'); return false;">
+                                <div id="portal-handlingsplan" class="venn-overlap-text" onclick="window.location.hash = '#boka-samtal-portal'">
                                     AI-Strategi
                                 </div>
 
@@ -1872,7 +1860,7 @@
                         </div>
 
                         <div class="text-center mt-16">
-                             <a href="#" onclick="window.nord.showPage('boka-samtal-portal'); return false;" class="btn-secondary-on-dark inline-block w-full md:w-auto">Starta er AI-Portal</a>
+                             <a href="#boka-samtal-portal" class="btn-secondary-on-dark inline-block w-full md:w-auto">Starta er AI-Portal</a>
                         </div>
                     </div>
                 </div>
@@ -1895,7 +1883,7 @@
             </div>
         </section>
 
-        <section id="karriar" class="space-background-section page-content-padding" style="display: none;">
+        <section id="karriar" class="space-background-section page-content-padding">
             <div class="stars-background opacity-60" aria-hidden="true"></div>
             <div class="section-content-wrapper text-center">
                  <div class="flex justify-center space-x-2 mb-8 md:mb-10">
@@ -1916,7 +1904,7 @@
                     </p>
                 </div>
                 <div class="mt-12 md:mt-16 mb-10">
-                    <a href="#" onclick="window.nord.showPage('vilka-ar-vi'); return false;" class="btn-secondary-on-dark px-10 py-4 text-lg lg:text-xl lg:px-12 lg:py-5">
+                    <a href="#vilka-ar-vi" class="btn-secondary-on-dark px-10 py-4 text-lg lg:text-xl lg:px-12 lg:py-5">
                         Starta Din Resa <i class="ph-paper-plane-tilt ml-2"></i>
                     </a>
                     <p class="text-xs text-sky-300 mt-2 flex items-center justify-center">
@@ -1932,7 +1920,7 @@
             </div>
         </section>
         
-        <section id="vilka-ar-vi" class="space-background-section page-content-padding" style="display: none;">
+        <section id="vilka-ar-vi" class="space-background-section page-content-padding">
             <div class="stars-background opacity-60" aria-hidden="true"></div>
             <div class="section-content-wrapper text-center" id="vilka-ar-vi-content">
                 <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-8">Vilka är vi?</h2>
@@ -2006,7 +1994,12 @@
                                 <label for="applicant-motivation" class="form-label">Varför vill du jobba med oss på NordSym? (Max 300 ord)</label>
                                 <textarea name="motivation" id="applicant-motivation" rows="4" class="form-textarea" maxlength="1600" placeholder="Berätta kort om din motivation och hur du kan bidra."></textarea>
                             </div>
-                            <button type="submit" class="btn-primary w-full text-lg">Skicka Intresseanmälan</button>
+                            <div class="form-divider">ELLER</div>
+                            <button type="button" class="btn-google" onclick="window.nord.handleGoogleSignIn('jobApplicationForm')">
+                                <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path fill="currentColor" d="M488 261.8C488 403.3 381.5 504 244 504 110.1 504 0 393.9 0 256S110.1 8 244 8c66.8 0 126 25.4 170.1 66.2l-63.8 63.8C324.5 112.3 287.4 96 244 96c-88.6 0-160.1 71.5-160.1 160s71.5 160 160.1 160c97.5 0 140.2-69.7 143.8-107.4H244V261.8h244z"></path></svg>
+                                <span>Fortsätt med Google</span>
+                            </button>
+                            <button type="submit" class="btn-primary w-full text-lg mt-6">Skicka Intresseanmälan</button>
                         </div>
                     </form>
                     <div id="jobApplicationFormSuccessMessage" class="form-message form-success-message"></div>
@@ -2015,7 +2008,7 @@
             </div>
         </section>
 
-        <section id="boka-samtal-skraddarsydd" class="space-background-section page-content-padding" style="display: none;">
+        <section id="boka-samtal-skraddarsydd" class="space-background-section page-content-padding">
             <div class="stars-background opacity-50" aria-hidden="true"></div>
             <div class="section-content-wrapper text-center">
                 <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-8">Få Din Skräddarsydda AI-Roadmap</h2>
@@ -2028,6 +2021,11 @@
                             <div><label for="skraddarsydd-company" class="form-label">Företagsnamn</label><input type="text" name="company" id="skraddarsydd-company" required class="form-input"></div>
                             <div><label for="skraddarsydd-email" class="form-label">E-post</label><input type="email" name="email" id="skraddarsydd-email" required class="form-input"></div>
                             <div><label for="skraddarsydd-phone" class="form-label">Telefon (valfritt)</label><input type="tel" name="phone" id="skraddarsydd-phone" class="form-input"></div>
+                            <div class="form-divider"></div>
+                            <button type="button" class="btn-google" onclick="window.nord.handleGoogleSignIn('formSkraddarsydd')">
+                                <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path fill="currentColor" d="M488 261.8C488 403.3 381.5 504 244 504 110.1 504 0 393.9 0 256S110.1 8 244 8c66.8 0 126 25.4 170.1 66.2l-63.8 63.8C324.5 112.3 287.4 96 244 96c-88.6 0-160.1 71.5-160.1 160s71.5 160 160.1 160c97.5 0 140.2-69.7 143.8-107.4H244V261.8h244z"></path></svg>
+                                <span>Fyll i med Google</span>
+                            </button>
                             <button type="button" onclick="window.nord.nextCustomFormStep('formSkraddarsydd', 1)" class="btn-primary w-full mt-6">Nästa <i class="ph-arrow-right ml-2"></i></button>
                         </div>
                         <div class="form-step" data-step="2">
@@ -2067,7 +2065,7 @@
             </div>
         </section>
 
-        <section id="boka-samtal-portal" class="space-background-section page-content-padding" style="display: none;">
+        <section id="boka-samtal-portal" class="space-background-section page-content-padding">
             <div class="stars-background opacity-50" aria-hidden="true"></div>
             <div class="section-content-wrapper text-center">
                 <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-8">Starta Med En AI-Analys</h2>
@@ -2080,6 +2078,11 @@
                             <div><label for="portal-company" class="form-label">Företagsnamn</label><input type="text" name="company" id="portal-company" required class="form-input"></div>
                             <div><label for="portal-email" class="form-label">E-post</label><input type="email" name="email" id="portal-email" required class="form-input"></div>
                             <div><label for="portal-phone" class="form-label">Telefon (valfritt)</label><input type="tel" name="phone" id="portal-phone" class="form-input"></div>
+                            <div class="form-divider"></div>
+                            <button type="button" class="btn-google" onclick="window.nord.handleGoogleSignIn('formAiPortal')">
+                                <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path fill="currentColor" d="M488 261.8C488 403.3 381.5 504 244 504 110.1 504 0 393.9 0 256S110.1 8 244 8c66.8 0 126 25.4 170.1 66.2l-63.8 63.8C324.5 112.3 287.4 96 244 96c-88.6 0-160.1 71.5-160.1 160s71.5 160 160.1 160c97.5 0 140.2-69.7 143.8-107.4H244V261.8h244z"></path></svg>
+                                <span>Fyll i med Google</span>
+                            </button>
                             <button type="button" onclick="window.nord.nextCustomFormStep('formAiPortal', 1)" class="btn-primary w-full mt-6">Nästa <i class="ph-arrow-right ml-2"></i></button>
                         </div>
                         <div class="form-step" data-step="2">
@@ -2111,7 +2114,7 @@
             </div>
         </section>
         
-        <section id="boka-samtal-intro" class="space-background-section page-content-padding" style="display: none;">
+        <section id="boka-samtal-intro" class="space-background-section page-content-padding">
             <div class="stars-background opacity-50" aria-hidden="true"></div>
             <div class="section-content-wrapper text-center">
                 <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-4">15-Minuters Introduktionssamtal</h2>
@@ -2136,11 +2139,93 @@
                                 <label for="intro-challenge" class="form-label">Vad är er största utmaning just nu? (valfritt, ett par ord räcker)</label>
                                 <input type="text" name="challenge" id="intro-challenge" class="form-input">
                             </div>
-                            <button type="submit" class="btn-primary w-full text-lg">Boka Samtal</button>
+                            <div class="form-divider"></div>
+                             <button type="button" class="btn-google" onclick="window.nord.handleGoogleSignIn('formIntro')">
+                                <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path fill="currentColor" d="M488 261.8C488 403.3 381.5 504 244 504 110.1 504 0 393.9 0 256S110.1 8 244 8c66.8 0 126 25.4 170.1 66.2l-63.8 63.8C324.5 112.3 287.4 96 244 96c-88.6 0-160.1 71.5-160.1 160s71.5 160 160.1 160c97.5 0 140.2-69.7 143.8-107.4H244V261.8h244z"></path></svg>
+                                <span>Fyll i med Google</span>
+                            </button>
+                            <button type="submit" class="btn-primary w-full text-lg mt-6">Boka Samtal</button>
                         </div>
                     </form>
                     <div id="formIntroSuccessMessage" class="form-message form-success-message"></div>
                     <div id="formIntroErrorMessage" class="form-message form-error-message"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Legal Pages -->
+        <section id="integritetspolicy" class="legal-page-section space-background-section page-content-padding">
+            <div class="stars-background opacity-40" aria-hidden="true"></div>
+            <div class="section-content-wrapper legal-page-content">
+                <div class="legal-content">
+                    <p><strong>Senast uppdaterad: 2024-07-08</strong></p>
+                    <h3>Om denna policy</h3><p>NordSym AB (org.nr 559535-5768) värdesätter ditt förtroende och din integritet. Denna integritetspolicy beskriver hur vi samlar in, använder och skyddar dina personuppgifter när du besöker vår webbplats eller använder våra tjänster.</p>
+                    <h3>Vem vi är</h3><p>NordSym AB<br>Organisationsnummer: 559535-5768<br>E-post: <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a><br>Webbplats: nordsym.com</p><p>Vi är personuppgiftsansvariga för den behandling av personuppgifter som beskrivs i denna policy.</p>
+                    <h3>Vilka personuppgifter vi samlar in</h3><ul><li><strong>Kontaktformulär och förfrågningar:</strong> Namn och kontaktuppgifter (e-post, telefon), företagsinformation, befattning, och beskrivning av era behov.</li><li><strong>Jobbansökningar:</strong> Namn, kontaktuppgifter, CV, professionell bakgrund, relevanta länkar (LinkedIn etc.), och motivationsbeskrivning.</li><li><strong>Nyhetsbrev:</strong> E-postadress och interaktionsdata (öppningar, klick).</li><li><strong>Webbplatsanvändning:</strong> Anonymiserad IP-adress, webbläsarinformation och användarinteraktion via cookies.</li><li><strong>Klient- och projektdata:</strong> Affärsprocesser, tekniska krav och kommunikationshistorik nödvändig för projektleverans.</li></ul>
+                    <h3>Varför vi behandlar dina personuppgifter</h3><p>Vi behandlar dina uppgifter för att kunna fullfölja våra åtaganden (Art. 6.1.b GDPR) som att besvara förfrågningar och leverera tjänster. Vi har också ett berättigat intresse (Art. 6.1.f GDPR) av att utveckla våra tjänster och kommunicera med potentiella kunder. För nyhetsbrev och viss marknadsföring inhämtar vi ditt samtycke (Art. 6.1.a GDPR).</p>
+                    <h3>Hur vi skyddar dina uppgifter</h3><p>Vi använder tekniska och organisatoriska säkerhetsåtgärder som kryptering (HTTPS), åtkomstkontroll, regelbundna säkerhetsöversyner och sekretessavtal för att skydda dina uppgifter.</p>
+                    <h3>Datadelning och tredje part</h3><p>Vi använder betrodda tjänsteleverantörer som Formspree, Google Analytics, Microsoft 365, Notion, Airtable, GitHub, och ledande AI-plattformar (Anthropic, OpenAI) samt automationsverktyg (Make, n8n) för att kunna bedriva vår verksamhet. Alla leverantörer är valda för att uppfylla GDPR-krav. Vi säkerställer adekvat skyddsnivå vid eventuella överföringar utanför EU/EES.</p>
+                    <h3>Lagringstider</h3><p>Vi lagrar data endast så länge som det är nödvändigt för ändamålet. Exempelvis sparas kontaktförfrågningar i 24 månader, projektdata i 7 år enligt bokföringslagen, och prenumerationer tills du avregistrerar dig.</p>
+                    <h3>Dina rättigheter</h3><p>Du har rätt till tillgång, rättelse, radering, begränsning, dataportabilitet och att invända mot behandlingen av dina personuppgifter. Du kan även när som helst återkalla ditt samtycke. Kontakta <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a> för att utöva dina rättigheter.</p>
+                    <h3>Cookies och spårning</h3><p>Vi använder nödvändiga cookies för webbplatsens funktionalitet och anonymiserade analyscookies (Google Analytics) för att förbättra användarupplevelsen. Du kan hantera cookie-inställningar i din webbläsare.</p>
+                    <h3>Kontakt och klagomål</h3><p>För frågor, kontakta oss på <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a>. Klagomål kan lämnas till Integritetsskyddsmyndigheten (IMY).</p>
+                    <h3>Ändringar av denna policy</h3><p>Vi kan uppdatera denna policy. Väsentliga ändringar kommuniceras tydligt på vår webbplats eller via e-post.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="anvandarvillkor" class="legal-page-section space-background-section page-content-padding">
+            <div class="stars-background opacity-40" aria-hidden="true"></div>
+            <div class="section-content-wrapper legal-page-content">
+                <div class="legal-content">
+                    <p><strong>Senast uppdaterad: 2024-07-08</strong></p>
+                    <h3>Allmänt</h3><p>Dessa användarvillkor reglerar din användning av NordSym AB:s ("vi", "oss", "NordSym") webbplats (nordsym.com) och tjänster. Genom att använda våra tjänster accepterar du dessa villkor.</p>
+                    <h3>Våra tjänster</h3><p>Vi erbjuder AI-konsulting, strategisk rådgivning, utveckling av skräddarsydda AI-system och automationslösningar.</p>
+                    <h3>Användaransvar</h3><p>Du ansvarar för att tillhandahålla korrekt information och att inte använda våra tjänster för olagliga ändamål. Du får inte utföra omvänd teknik (reverse engineering) på våra system eller återförsälja våra tjänster utan skriftligt godkännande.</p>
+                    <h3>Immaterialrätter och dataägandeskap</h3><p>NordSym äger våra algoritmer, metoder och ramverk. Du som kund behåller full äganderätt till dina affärsdata och de specifika resultat som genereras av dina data. För skräddarsydda AI-agenter utvecklade specifikt för dig, tillhör äganderätten dig, medan den underliggande tekniska plattformen förblir vår egendom.</p>
+                    <h3>Konfidentialitet och sekretess</h3><p>Båda parter åtar sig att behandla konfidentiell information med sekretess. Detta inkluderar affärsstrategier, tekniska specifikationer och finansiell information.</p>
+                    <h3>Ansvarsbegränsning</h3><p>Vi ansvarar inte för indirekta skador som förlorad vinst eller data. Vårt totala ansvar är begränsat till det belopp som betalats för den specifika tjänsten. Vi garanterar inga specifika affärsresultat eller ROI, även om det är vårt mål.</p>
+                    <h3>Dataskydd och GDPR</h3><p>All behandling av personuppgifter sker enligt vår Integritetspolicy. När vi behandlar data för din räkning agerar vi som personuppgiftsbiträde, och ett databehandlingsavtal (DPA) upprättas vid behov.</p>
+                    <h3>Gällande lag och tvister</h3><p>Dessa villkor regleras av svensk rätt. Tvister ska i första hand lösas genom förhandling. Om enighet inte kan nås ska tvisten avgöras av svensk domstol.</p>
+                    <h3>Ändringar av villkoren</h3><p>Vi förbehåller oss rätten att uppdatera dessa villkor. Väsentliga ändringar meddelas minst 30 dagar i förväg.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="privacy-policy" class="legal-page-section space-background-section page-content-padding">
+            <div class="stars-background opacity-40" aria-hidden="true"></div>
+            <div class="section-content-wrapper legal-page-content">
+                <div class="legal-content">
+                    <p><strong>Last Updated: 2024-07-08</strong></p>
+                    <h3>About This Policy</h4><p>NordSym AB (Swedish Org. No. 559535-5768) values your trust and privacy. This Privacy Policy describes how we collect, use, and protect your personal data when you visit our website or use our services.</p>
+                    <h3>Who We Are</h4><p>NordSym AB<br>Organization Number: 559535-5768<br>Email: <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a><br>Website: nordsym.com</p><p>We are the data controller for the processing of personal data described in this policy.</p>
+                    <h3>What Personal Data We Collect</h4><ul><li><strong>Contact Forms and Inquiries:</strong> Name and contact details (email, phone), company information, job title, and a description of your needs.</li><li><strong>Job Applications:</strong> Name, contact details, CV, professional background, relevant links (LinkedIn, etc.), and a motivational description.</li><li><strong>Newsletter:</strong> Email address and interaction data (opens, clicks).</li><li><strong>Website Usage:</strong> Anonymized IP address, browser information, and user interaction via cookies.</li><li><strong>Client and Project Data:</strong> Business processes, technical requirements, and communication history necessary for project delivery.</li></ul>
+                    <h3>Why We Process Your Personal Data</h4><p>We process your data to fulfill our commitments (Art. 6.1.b GDPR), such as responding to inquiries and delivering services. We also have a legitimate interest (Art. 6.1.f GDPR) in developing our services and communicating with potential clients. For newsletters and certain marketing activities, we obtain your consent (Art. 6.1.a GDPR).</p>
+                    <h3>How We Protect Your Data</h4><p>We use technical and organizational security measures such as encryption (HTTPS), access control, regular security reviews, and confidentiality agreements to protect your data.</p>
+                    <h3>Data Sharing and Third Parties</h4><p>We use trusted service providers such as Formspree, Google Analytics, Microsoft 365, Notion, Airtable, GitHub, and leading AI platforms (Anthropic, OpenAI) as well as automation tools (Make, n8n) to conduct our business. All providers are selected to comply with GDPR requirements. We ensure an adequate level of protection for any transfers of data outside the EU/EEA.</p>
+                    <h3>Data Retention Periods</h4><p>We store data only for as long as is necessary for the purpose. For example, contact inquiries are saved for 24 months, project data for 7 years in accordance with the Swedish Accounting Act, and newsletter subscriptions until you unsubscribe.</p>
+                    <h3>Your Rights</h4><p>You have the right to access, rectify, erase, restrict, and port your personal data, and to object to its processing. You can also withdraw your consent at any time. Contact <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a> to exercise your rights.</p>
+                    <h3>Cookies and Tracking</h4><p>We use necessary cookies for website functionality and anonymized analytics cookies (Google Analytics) to improve the user experience. You can manage cookie settings in your browser.</p>
+                    <h3>Contact and Complaints</h4><p>For questions, please contact us at <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a>. Complaints can be filed with the Swedish Authority for Privacy Protection (Integritetsskyddsmyndigheten - IMY).</p>
+                    <h3>Changes to This Policy</h4><p>We may update this policy. Significant changes will be clearly communicated on our website or via email.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="terms-of-service" class="legal-page-section space-background-section page-content-padding">
+            <div class="stars-background opacity-40" aria-hidden="true"></div>
+            <div class="section-content-wrapper legal-page-content">
+                <div class="legal-content">
+                    <p><strong>Last Updated: 2024-07-08</strong></p>
+                    <h3>General</h4><p>These Terms of Service govern your use of the NordSym AB ("we", "us", "NordSym") website (nordsym.com) and services. By using our services, you accept these terms.</p>
+                    <h3>Our Services</h4><p>We offer AI consulting, strategic advisory, development of custom AI systems, and automation solutions.</p>
+                    <h3>User Responsibilities</h4><p>You are responsible for providing accurate information and for not using our services for illegal purposes. You may not reverse engineer our systems or resell our services without written approval.</p>
+                    <h3>Intellectual Property and Data Ownership</h4><p>NordSym owns our algorithms, methods, and frameworks. You, as the client, retain full ownership of your business data and the specific results generated from your data. For custom AI agents developed specifically for you, the ownership belongs to you, while the underlying technical platform remains our property.</p>
+                    <h3>Confidentiality and Secrecy</h4><p>Both parties commit to treating confidential information with secrecy. This includes business strategies, technical specifications, and financial information.</p>
+                    <h3>Limitation of Liability</h4><p>We are not liable for indirect damages such as lost profits or data. Our total liability is limited to the amount paid for the specific service. We do not guarantee specific business results or ROI, although that is our goal.</p>
+                    <h3>Data Protection and GDPR</h4><p>All processing of personal data is conducted in accordance with our Privacy Policy. When we process data on your behalf, we act as a data processor, and a Data Processing Agreement (DPA) will be established as needed.</p>
+                    <h3>Governing Law and Disputes</h4><p>These terms are governed by Swedish law. Disputes shall primarily be resolved through negotiation. If an agreement cannot be reached, the dispute shall be settled by a Swedish court.</p>
+                    <h3>Changes to the Terms</h4><p>We reserve the right to update these terms. Significant changes will be communicated at least 30 days in advance.</p>
                 </div>
             </div>
         </section>
@@ -2151,7 +2236,7 @@
         <div class="section-content-wrapper py-10 relative z-10">
             <div class="grid md:grid-cols-4 gap-8 text-sm">
                 <div class="md:col-span-1 flex flex-col items-center md:items-start text-center md:text-left">
-                    <a href="#" onclick="window.nord.showPage('hero'); return false;" class="inline-block mb-4">
+                    <a href="#hero" class="inline-block mb-4">
                         <img src="https://raw.githubusercontent.com/GusHem/Logga-utan-text/refs/heads/main/Final%20logo%20no%20text.svg" alt="NordSym Logotyp" class="h-16" loading="lazy" decoding="async">
                     </a>
                     <p class="text-xs text-content-dark-bg">AI-drivna system med mänsklig insikt och teknologisk precision.</p>
@@ -2160,10 +2245,10 @@
                 <div class="md:col-span-1 text-center md:text-left">
                     <p class="font-semibold text-nord-sym-text-light mb-2">Snabblänkar</p>
                     <div class="footer-quicklinks">
-                        <a href="#" onclick="window.nord.showPage('om-oss'); return false;" class="footer-link">Om Oss</a>
-                        <a href="#" onclick="window.nord.showPage('ai-reaktor'); return false;" class="footer-link">AI-Reaktor</a>
-                        <a href="#" onclick="window.nord.showPage('ai-portal'); return false;" class="footer-link">AI-Portal</a>
-                        <a href="#" onclick="window.nord.showPage('karriar'); return false;" class="footer-link">Gör din del</a>
+                        <a href="#om-oss" class="footer-link">Om Oss</a>
+                        <a href="#ai-reaktor" class="footer-link">AI-Reaktor</a>
+                        <a href="#ai-portal" class="footer-link">AI-Portal</a>
+                        <a href="#karriar" class="footer-link">Gör din del</a>
                     </div>
                 </div>
 
@@ -2182,174 +2267,67 @@
             </div>
             <div class="mt-8 border-t border-sky-700/50 pt-6 text-center text-xs text-content-dark-bg space-x-4">
                 <span>© <span id="currentYear"></span> NordSym AB. Alla rättigheter förbehållna.</span>
-                <a href="#" data-policy="privacy" data-lang="sv" class="footer-link hover:underline">Integritetspolicy</a>
-                <a href="#" data-policy="terms" data-lang="sv" class="footer-link hover:underline">Användarvillkor</a>
-                <a href="#" data-policy="privacy" data-lang="en" class="footer-link hover:underline ml-4">Privacy Policy (EN)</a>
-                <a href="#" data-policy="terms" data-lang="en" class="footer-link hover:underline">Terms of Service (EN)</a>
+                <a href="#integritetspolicy" class="footer-link hover:underline">Integritetspolicy</a>
+                <a href="#anvandarvillkor" class="footer-link hover:underline">Användarvillkor</a>
+                <a href="#privacy-policy" class="footer-link hover:underline ml-4">Privacy Policy (EN)</a>
+                <a href="#terms-of-service" class="footer-link hover:underline">Terms of Service (EN)</a>
             </div>
         </div>
     </footer>
     
-    <!-- Legal Modal -->
-    <div id="legalModalOverlay" class="legal-modal-overlay">
-        <div id="legalModal" class="legal-modal">
-            <div class="legal-modal-header">
-                <h2 id="legalModalTitle" class="legal-modal-title"></h2>
-                <button id="legalModalClose" class="legal-modal-close" aria-label="Stäng fönster">&times;</button>
-            </div>
-            <div id="legalModalContent" class="legal-modal-content">
-                <!-- Content will be injected by JavaScript -->
-            </div>
-        </div>
-    </div>
-
     <script>
     // Create the global namespace immediately
     window.nord = {};
 
     document.addEventListener('DOMContentLoaded', () => {
-        // --- LEGAL TEXTS & MODAL ---
-        const legalTexts = {
-            sv: {
-                privacy: {
-                    title: 'Integritetspolicy',
-                    content: `
-                        <p><strong>Senast uppdaterad: ${new Date().toLocaleDateString('sv-SE')}</strong></p>
-                        <h3>Om denna policy</h3><p>NordSym AB (org.nr 559535-5768) värdesätter ditt förtroende och din integritet. Denna integritetspolicy beskriver hur vi samlar in, använder och skyddar dina personuppgifter när du besöker vår webbplats eller använder våra tjänster.</p>
-                        <h3>Vem vi är</h3><p>NordSym AB<br>Organisationsnummer: 559535-5768<br>E-post: <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a><br>Webbplats: nordsym.com</p><p>Vi är personuppgiftsansvariga för den behandling av personuppgifter som beskrivs i denna policy.</p>
-                        <h3>Vilka personuppgifter vi samlar in</h3><ul><li><strong>Kontaktformulär och förfrågningar:</strong> Namn och kontaktuppgifter (e-post, telefon), företagsinformation, befattning, och beskrivning av era behov.</li><li><strong>Jobbansökningar:</strong> Namn, kontaktuppgifter, CV, professionell bakgrund, relevanta länkar (LinkedIn etc.), och motivationsbeskrivning.</li><li><strong>Nyhetsbrev:</strong> E-postadress och interaktionsdata (öppningar, klick).</li><li><strong>Webbplatsanvändning:</strong> Anonymiserad IP-adress, webbläsarinformation och användarinteraktion via cookies.</li><li><strong>Klient- och projektdata:</strong> Affärsprocesser, tekniska krav och kommunikationshistorik nödvändig för projektleverans.</li></ul>
-                        <h3>Varför vi behandlar dina personuppgifter</h3><p>Vi behandlar dina uppgifter för att kunna fullfölja våra åtaganden (Art. 6.1.b GDPR) som att besvara förfrågningar och leverera tjänster. Vi har också ett berättigat intresse (Art. 6.1.f GDPR) av att utveckla våra tjänster och kommunicera med potentiella kunder. För nyhetsbrev och viss marknadsföring inhämtar vi ditt samtycke (Art. 6.1.a GDPR).</p>
-                        <h3>Hur vi skyddar dina uppgifter</h3><p>Vi använder tekniska och organisatoriska säkerhetsåtgärder som kryptering (HTTPS), åtkomstkontroll, regelbundna säkerhetsöversyner och sekretessavtal för att skydda dina uppgifter.</p>
-                        <h3>Datadelning och tredje part</h3><p>Vi använder betrodda tjänsteleverantörer som Formspree, Google Analytics, Microsoft 365, Notion, Airtable, GitHub, och ledande AI-plattformar (Anthropic, OpenAI) samt automationsverktyg (Make, n8n) för att kunna bedriva vår verksamhet. Alla leverantörer är valda för att uppfylla GDPR-krav. Vi säkerställer adekvat skyddsnivå vid eventuella överföringar utanför EU/EES.</p>
-                        <h3>Lagringstider</h3><p>Vi lagrar data endast så länge som det är nödvändigt för ändamålet. Exempelvis sparas kontaktförfrågningar i 24 månader, projektdata i 7 år enligt bokföringslagen, och prenumerationer tills du avregistrerar dig.</p>
-                        <h3>Dina rättigheter</h3><p>Du har rätt till tillgång, rättelse, radering, begränsning, dataportabilitet och att invända mot behandlingen av dina personuppgifter. Du kan även när som helst återkalla ditt samtycke. Kontakta <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a> för att utöva dina rättigheter.</p>
-                        <h3>Cookies och spårning</h3><p>Vi använder nödvändiga cookies för webbplatsens funktionalitet och anonymiserade analyscookies (Google Analytics) för att förbättra användarupplevelsen. Du kan hantera cookie-inställningar i din webbläsare.</p>
-                        <h3>Kontakt och klagomål</h3><p>För frågor, kontakta oss på <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a>. Klagomål kan lämnas till Integritetsskyddsmyndigheten (IMY).</p>
-                        <h3>Ändringar av denna policy</h3><p>Vi kan uppdatera denna policy. Väsentliga ändringar kommuniceras tydligt på vår webbplats eller via e-post.</p>
-                    `
-                },
-                terms: {
-                    title: 'Användarvillkor',
-                    content: `
-                        <p><strong>Senast uppdaterad: ${new Date().toLocaleDateString('sv-SE')}</strong></p>
-                        <h3>Allmänt</h3><p>Dessa användarvillkor reglerar din användning av NordSym AB:s ("vi", "oss", "NordSym") webbplats (nordsym.com) och tjänster. Genom att använda våra tjänster accepterar du dessa villkor.</p>
-                        <h3>Våra tjänster</h3><p>Vi erbjuder AI-konsulting, strategisk rådgivning, utveckling av skräddarsydda AI-system och automationslösningar.</p>
-                        <h3>Användaransvar</h3><p>Du ansvarar för att tillhandahålla korrekt information och att inte använda våra tjänster för olagliga ändamål. Du får inte utföra omvänd teknik (reverse engineering) på våra system eller återförsälja våra tjänster utan skriftligt godkännande.</p>
-                        <h3>Immaterialrätter och dataägandeskap</h3><p>NordSym äger våra algoritmer, metoder och ramverk. Du som kund behåller full äganderätt till dina affärsdata och de specifika resultat som genereras av dina data. För skräddarsydda AI-agenter utvecklade specifikt för dig, tillhör äganderätten dig, medan den underliggande tekniska plattformen förblir vår egendom.</p>
-                        <h3>Konfidentialitet och sekretess</h3><p>Båda parter åtar sig att behandla konfidentiell information med sekretess. Detta inkluderar affärsstrategier, tekniska specifikationer och finansiell information.</p>
-                        <h3>Ansvarsbegränsning</h3><p>Vi ansvarar inte för indirekta skador som förlorad vinst eller data. Vårt totala ansvar är begränsat till det belopp som betalats för den specifika tjänsten. Vi garanterar inga specifika affärsresultat eller ROI, även om det är vårt mål.</p>
-                        <h3>Dataskydd och GDPR</h3><p>All behandling av personuppgifter sker enligt vår Integritetspolicy. När vi behandlar data för din räkning agerar vi som personuppgiftsbiträde, och ett databehandlingsavtal (DPA) upprättas vid behov.</p>
-                        <h3>Gällande lag och tvister</h3><p>Dessa villkor regleras av svensk rätt. Tvister ska i första hand lösas genom förhandling. Om enighet inte kan nås ska tvisten avgöras av svensk domstol.</p>
-                        <h3>Ändringar av villkoren</h3><p>Vi förbehåller oss rätten att uppdatera dessa villkor. Väsentliga ändringar meddelas minst 30 dagar i förväg.</p>
-                    `
-                }
-            },
-            en: {
-                privacy: {
-                    title: 'Privacy Policy',
-                    content: `
-                        <p><strong>Last Updated: ${new Date().toLocaleDateString('en-US')}</strong></p>
-                        <h4>About This Policy</h4><p>NordSym AB (Swedish Org. No. 559535-5768) values your trust and privacy. This Privacy Policy describes how we collect, use, and protect your personal data when you visit our website or use our services.</p>
-                        <h4>Who We Are</h4><p>NordSym AB<br>Organization Number: 559535-5768<br>Email: <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a><br>Website: nordsym.com</p><p>We are the data controller for the processing of personal data described in this policy.</p>
-                        <h4>What Personal Data We Collect</h4><ul><li><strong>Contact Forms and Inquiries:</strong> Name and contact details (email, phone), company information, job title, and a description of your needs.</li><li><strong>Job Applications:</strong> Name, contact details, CV, professional background, relevant links (LinkedIn, etc.), and a motivational description.</li><li><strong>Newsletter:</strong> Email address and interaction data (opens, clicks).</li><li><strong>Website Usage:</strong> Anonymized IP address, browser information, and user interaction via cookies.</li><li><strong>Client and Project Data:</strong> Business processes, technical requirements, and communication history necessary for project delivery.</li></ul>
-                        <h4>Why We Process Your Personal Data</h4><p>We process your data to fulfill our commitments (Art. 6.1.b GDPR), such as responding to inquiries and delivering services. We also have a legitimate interest (Art. 6.1.f GDPR) in developing our services and communicating with potential clients. For newsletters and certain marketing activities, we obtain your consent (Art. 6.1.a GDPR).</p>
-                        <h4>How We Protect Your Data</h4><p>We use technical and organizational security measures such as encryption (HTTPS), access control, regular security reviews, and confidentiality agreements to protect your data.</p>
-                        <h4>Data Sharing and Third Parties</h4><p>We use trusted service providers such as Formspree, Google Analytics, Microsoft 365, Notion, Airtable, GitHub, and leading AI platforms (Anthropic, OpenAI) as well as automation tools (Make, n8n) to conduct our business. All providers are selected to comply with GDPR requirements. We ensure an adequate level of protection for any transfers of data outside the EU/EEA.</p>
-                        <h4>Data Retention Periods</h4><p>We store data only for as long as is necessary for the purpose. For example, contact inquiries are saved for 24 months, project data for 7 years in accordance with the Swedish Accounting Act, and newsletter subscriptions until you unsubscribe.</p>
-                        <h4>Your Rights</h4><p>You have the right to access, rectify, erase, restrict, and port your personal data, and to object to its processing. You can also withdraw your consent at any time. Contact <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a> to exercise your rights.</p>
-                        <h4>Cookies and Tracking</h4><p>We use necessary cookies for website functionality and anonymized analytics cookies (Google Analytics) to improve the user experience. You can manage cookie settings in your browser.</p>
-                        <h4>Contact and Complaints</h4><p>For questions, please contact us at <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a>. Complaints can be filed with the Swedish Authority for Privacy Protection (Integritetsskyddsmyndigheten - IMY).</p>
-                        <h4>Changes to This Policy</h4><p>We may update this policy. Significant changes will be clearly communicated on our website or via email.</p>
-                    `
-                },
-                terms: {
-                    title: 'Terms of Service',
-                    content: `
-                        <p><strong>Last Updated: ${new Date().toLocaleDateString('en-US')}</strong></p>
-                        <h4>General</h4><p>These Terms of Service govern your use of the NordSym AB ("we", "us", "NordSym") website (nordsym.com) and services. By using our services, you accept these terms.</p>
-                        <h4>Our Services</h4><p>We offer AI consulting, strategic advisory, development of custom AI systems, and automation solutions.</p>
-                        <h4>User Responsibilities</h4><p>You are responsible for providing accurate information and for not using our services for illegal purposes. You may not reverse engineer our systems or resell our services without written approval.</p>
-                        <h4>Intellectual Property and Data Ownership</h4><p>NordSym owns our algorithms, methods, and frameworks. You, as the client, retain full ownership of your business data and the specific results generated from your data. For custom AI agents developed specifically for you, the ownership belongs to you, while the underlying technical platform remains our property.</p>
-                        <h4>Confidentiality and Secrecy</h4><p>Both parties commit to treating confidential information with secrecy. This includes business strategies, technical specifications, and financial information.</p>
-                        <h4>Limitation of Liability</h4><p>We are not liable for indirect damages such as lost profits or data. Our total liability is limited to the amount paid for the specific service. We do not guarantee specific business results or ROI, although that is our goal.</p>
-                        <h4>Data Protection and GDPR</h4><p>All processing of personal data is conducted in accordance with our Privacy Policy. When we process data on your behalf, we act as a data processor, and a Data Processing Agreement (DPA) will be established as needed.</p>
-                        <h4>Governing Law and Disputes</h4><p>These terms are governed by Swedish law. Disputes shall primarily be resolved through negotiation. If an agreement cannot be reached, the dispute shall be settled by a Swedish court.</p>
-                        <h4>Changes to the Terms</h4><p>We reserve the right to update these terms. Significant changes will be communicated at least 30 days in advance.</p>
-                    `
+        // --- GOOGLE SIGN-IN LOGIC ---
+        function parseJwt(token) {
+            try {
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+                return JSON.parse(jsonPayload);
+            } catch (e) {
+                console.error("Error parsing JWT: ", e);
+                return null;
+            }
+        }
+
+        function handleCredentialResponse(response, formId) {
+            const decodedToken = parseJwt(response.credential);
+            if (decodedToken) {
+                const form = document.getElementById(formId);
+                if (form) {
+                    const nameInput = form.querySelector('input[name="name"], input[name="applicant-name"]');
+                    const emailInput = form.querySelector('input[name="email"], input[name="applicant-email"]');
+                    if (nameInput && decodedToken.name) {
+                        nameInput.value = decodedToken.name;
+                    }
+                    if (emailInput && decodedToken.email) {
+                        emailInput.value = decodedToken.email;
+                    }
                 }
             }
-        };
-
-        const legalModalOverlay = document.getElementById('legalModalOverlay');
-        const legalModalTitle = document.getElementById('legalModalTitle');
-        const legalModalContent = document.getElementById('legalModalContent');
-        const legalModalClose = document.getElementById('legalModalClose');
-
-        function showLegalModal(type, lang = 'sv') {
-            const data = legalTexts[lang]?.[type];
-            if (!data) return;
-            legalModalTitle.textContent = data.title;
-            legalModalContent.innerHTML = data.content;
-            legalModalOverlay.classList.add('active');
-            document.body.classList.add('modal-open');
         }
 
-        function hideLegalModal() {
-            legalModalOverlay.classList.remove('active');
-            document.body.classList.remove('modal-open');
-        }
+        window.nord.handleGoogleSignIn = function(formId) {
+            const googleClientId = "1020555710316-6f8tpke6kq8o35n6p2fvjasq8881758l.apps.googleusercontent.com";
+            
+            if (!googleClientId || googleClientId.startsWith("DITT_")) {
+                alert("Google Client ID är inte konfigurerat. Kontakta webbplatsadministratören.");
+                return;
+            }
 
-        document.querySelectorAll('a[data-policy]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const policyType = e.currentTarget.dataset.policy;
-                const lang = e.currentTarget.dataset.lang || 'sv';
-                showLegalModal(policyType, lang);
+            google.accounts.id.initialize({
+                client_id: googleClientId,
+                callback: (response) => handleCredentialResponse(response, formId)
             });
-        });
-
-        legalModalClose.addEventListener('click', hideLegalModal);
-        legalModalOverlay.addEventListener('click', (e) => {
-            if (e.target === legalModalOverlay) {
-                hideLegalModal();
-            }
-        });
+            google.accounts.id.prompt();
+        }
 
         // --- GLOBAL FUNCTIONS & PAGE LOGIC ---
-        window.nord.showPage = function(pageIdToShow) {
-             document.querySelectorAll('main > section').forEach(section => {
-                section.style.display = 'none';
-            });
-
-            if (pageIdToShow === 'hero') {
-                document.getElementById('hero').style.display = 'flex';
-                document.getElementById('home-diagram-section').style.display = 'flex';
-                document.getElementById('atom-gallery-section').style.display = 'flex';
-                document.getElementById('home-contact-section').style.display = 'flex';
-            } else {
-                const sectionToShow = document.getElementById(pageIdToShow);
-                if (sectionToShow) {
-                    sectionToShow.style.display = 'flex';
-                }
-            }
-
-            window.nord.updateActiveLink(pageIdToShow);
-            window.scrollTo(0, 0); 
-            window.nord.closeMobileMenu();
-        };
-
-        window.nord.handleBokaMoteClick = function(event) {
-            event.preventDefault();
-            window.nord.showPage('hero');
-            setTimeout(() => {
-                const contactSection = document.getElementById('home-contact-anchor');
-                if(contactSection) {
-                        contactSection.scrollIntoView({ behavior: 'smooth' });
-                }
-            }, 100);
-            window.nord.closeMobileMenu();
-        };
-
         window.nord.toggleTeamCard = (cardElement) => {
              const wasExpanded = cardElement.classList.contains('expanded');
              document.querySelectorAll('.team-card.expandable-card').forEach(c => c.classList.remove('expanded'));
@@ -2395,7 +2373,11 @@
                 'boka-samtal-intro': 'hero',
                 'atom-gallery-section': 'hero',
                 'home-diagram-section': 'hero',
-                'home-contact-section': 'hero'
+                'home-contact-section': 'hero',
+                'integritetspolicy': 'none',
+                'anvandarvillkor': 'none',
+                'privacy-policy': 'none',
+                'terms-of-service': 'none'
             };
             let activePage = pageMap[currentPageId] || currentPageId;
             
@@ -2486,9 +2468,71 @@
             });
         }
         
-        // --- INITIALIZATION ---
-        const mobileMenuTrigger = document.getElementById('mobile-menu-trigger');
+        // --- INITIALIZATION & NAVIGATION ---
+        const allPages = document.querySelectorAll('main > section');
+        const homePageSections = ['hero', 'home-diagram-section', 'atom-gallery-section', 'home-contact-section'];
+
+        function handleNavigation() {
+            const hash = window.location.hash.substring(1);
+            const pageIdToShow = hash || 'hero';
+
+            allPages.forEach(section => {
+                section.style.display = 'none';
+            });
+
+            if (homePageSections.includes(pageIdToShow)) {
+                homePageSections.forEach(id => {
+                    const section = document.getElementById(id);
+                    if(section) section.style.display = 'flex';
+                });
+            } else {
+                const sectionToShow = document.getElementById(pageIdToShow);
+                if (sectionToShow) {
+                    sectionToShow.style.display = 'flex';
+                } else {
+                    // Fallback to hero if hash is invalid
+                     homePageSections.forEach(id => {
+                        const section = document.getElementById(id);
+                        if(section) section.style.display = 'flex';
+                    });
+                }
+            }
+            
+            // Only scroll to top if not a smooth scroll anchor
+            if (!pageIdToShow.startsWith('home-contact')) {
+                window.scrollTo(0, 0);
+            }
+
+            window.nord.updateActiveLink(pageIdToShow);
+            window.nord.closeMobileMenu();
+        }
+
+        // Handle clicks on all hash links to ensure SPA behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                
+                // Special handling for smooth scroll
+                if (targetId === '#home-contact-section') {
+                    window.location.hash = targetId; // Set hash for correct active link
+                    const contactSection = document.getElementById('home-contact-anchor');
+                    if(contactSection) {
+                        contactSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                } else {
+                    window.location.hash = targetId;
+                }
+            });
+        });
+
+        // Listen for hash changes to navigate
+        window.addEventListener('hashchange', handleNavigation);
         
+        // Initial page load navigation
+        handleNavigation();
+
+        const mobileMenuTrigger = document.getElementById('mobile-menu-trigger');
         function toggleMobileMenu() {
             const mobileMenu = document.getElementById('mobile-menu');
             mobileMenu.classList.toggle('hidden');
@@ -2499,14 +2543,13 @@
                 mobileMenuTrigger.style.animation = '';
             }
         }
-
         if (mobileMenuTrigger) {
             mobileMenuTrigger.addEventListener('click', toggleMobileMenu);
         }
 
         const interactiveTerminal = document.querySelector('.code-terminal-card.interactive');
         if (interactiveTerminal) {
-            const handleInteraction = () => { window.nord.showPage('karriar'); };
+            const handleInteraction = () => { window.location.hash = '#karriar'; };
             const codeElement = interactiveTerminal.querySelector('code');
             interactiveTerminal.addEventListener('click', () => { if (codeElement) codeElement.focus(); handleInteraction(); });
             if (codeElement) { codeElement.addEventListener('keydown', (e) => { e.preventDefault(); handleInteraction(); }); }
@@ -2526,8 +2569,6 @@
             }
         }
         document.querySelectorAll('.stars-background').forEach(bg => createStars(bg));
-
-        window.nord.showPage('hero');
         
         function setupCareerFormLogic() {
             const interestSelect = document.getElementById('applicant-ai-interest');
@@ -2549,35 +2590,68 @@
         const galleryWrapper = document.getElementById('galleryWrapper');
         const nextBtn = document.getElementById('galleryNext');
         const prevBtn = document.getElementById('galleryPrev');
+
         if (galleryWrapper && nextBtn && prevBtn) {
             let currentIndex = 0;
-            const totalCards = galleryWrapper.querySelectorAll('.case-study-card').length;
-            
+            const cards = galleryWrapper.querySelectorAll('.case-study-card');
+            const totalCards = cards.length;
+
             function updateGallery() {
-                // This function should only apply transforms on desktop
-                if (window.innerWidth > 768) {
-                     galleryWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+                const isMobile = window.innerWidth <= 768;
+                
+                if (!isMobile) {
+                    galleryWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
                 } else {
-                    // On mobile, remove any transform to allow native scrolling
-                    galleryWrapper.style.transform = 'none';
+                    const cardWidth = cards[0].offsetWidth;
+                    galleryWrapper.scrollTo({
+                        left: currentIndex * cardWidth,
+                        behavior: 'smooth'
+                    });
                 }
                 prevBtn.classList.toggle('disabled', currentIndex === 0);
-                nextBtn.classList.toggle('disabled', currentIndex === totalCards - 1);
+                nextBtn.classList.toggle('disabled', currentIndex >= totalCards - 1);
             }
 
-            nextBtn.addEventListener('click', () => { if (currentIndex < totalCards - 1) { currentIndex++; updateGallery(); } });
-            prevBtn.addEventListener('click', () => { if (currentIndex > 0) { currentIndex--; updateGallery(); } });
+            nextBtn.addEventListener('click', () => {
+                if (currentIndex < totalCards - 1) {
+                    currentIndex++;
+                    updateGallery();
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateGallery();
+                }
+            });
             
-            // Ensure the gallery is correctly set on resize
+            let scrollTimeout;
+            galleryWrapper.addEventListener('scroll', () => {
+                if (window.innerWidth <= 768) {
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        const cardWidth = cards[0].offsetWidth;
+                        const newIndex = Math.round(galleryWrapper.scrollLeft / cardWidth);
+                        if (newIndex !== currentIndex) {
+                            currentIndex = newIndex;
+                            prevBtn.classList.toggle('disabled', currentIndex === 0);
+                            nextBtn.classList.toggle('disabled', currentIndex >= totalCards - 1);
+                        }
+                    }, 150);
+                }
+            });
+
             window.addEventListener('resize', updateGallery);
-            
-            // Initial setup
             updateGallery();
         }
 
         document.querySelectorAll('.btn-primary, .btn-secondary-on-dark, .btn-intro-cta').forEach(btn => {
-            btn.addEventListener('click', () => {
-                trackEvent('cta_click', { button_text: btn.textContent.trim(), page_section: btn.closest('section')?.id || 'unknown' });
+            btn.addEventListener('click', (e) => {
+                const href = e.currentTarget.getAttribute('href');
+                if (!href || !href.startsWith('#')) {
+                     trackEvent('cta_click', { button_text: e.currentTarget.textContent.trim(), page_section: e.currentTarget.closest('section')?.id || 'unknown' });
+                }
             });
         });
         
