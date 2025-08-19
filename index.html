@@ -728,10 +728,10 @@
             text-align: center; max-width: 500px; padding: 2rem;
             color: var(--nord-sym-text-light);
         }
-        .onboarding-content h3 { font-family: 'Comfortaa', sans-serif; font-size: 1.75rem; margin-bottom: 1rem; }
-        .onboarding-content p { color: var(--nord-sym-text-medium); line-height: 1.6; margin-bottom: 0.5rem; }
+        .onboarding-content h3 { font-family: 'Comfortaa', sans-serif; font-size: 2rem; margin-bottom: 1rem; }
+        .onboarding-content p { color: var(--nord-sym-text-medium); line-height: 1.6; }
         .onboarding-content .esc-hint {
-            margin-top: 1rem; font-size: 0.875rem; color: var(--nord-sym-cyan);
+            margin-top: 1.5rem; font-size: 0.875rem; color: var(--nord-sym-cyan);
             animation: pulse 2s infinite ease-in-out;
         }
         @keyframes pulse { 50% { opacity: 0.6; } }
@@ -1003,13 +1003,14 @@
             </div>
             <div id="workshop-onboarding">
                 <div class="onboarding-content">
-                    <h3>Stig in i Ritbordet</h3>
-                    <p>Detta är en levande dialog mellan er vision och vår arkitektur. Tillsammans formar vi grunden för ert framtida system.</p>
-                    <p class="font-semibold text-sky-200">
-                        <b>Transformera</b> geometrin för att utforska olika möjligheter.<br/>
-                        <b>Rotera</b> för att se dem från nya perspektiv.
-                    </p>
-                    <p class="mt-4 text-xs text-sky-400 esc-hint">(Lämna ritbordet via ESC eller knappen uppe till höger)</p>
+                    <h3>Välkommen till Ritbordet</h3>
+                    <p class="text-lg">Här visualiserar vi hur era processer kan transformeras till intelligenta system. Varje form representerar en unik lösningsarkitektur.</p>
+                    <div class="my-4 text-left max-w-xs mx-auto space-y-2">
+                        <p><strong class="nord-accent-text">Transformera:</strong> Upptäck olika lösningsvägar</p>
+                        <p><strong class="nord-accent-text">Rotera:</strong> Se möjligheter från nya vinklar</p>
+                    </div>
+                    <p class="font-semibold text-sky-200 italic">Systemtänkande i realtid.</p>
+                    <p class="mt-4 text-xs text-sky-400 esc-hint">(Återvänd med ESC eller X)</p>
                 </div>
             </div>
         </section>
@@ -1624,8 +1625,9 @@
                 }
                 onboarding.classList.add('visible');
                 const hide = () => { this.hideOnboarding(); window.removeEventListener('wheel', hide); window.removeEventListener('click', hide); };
-                setTimeout(() => { window.addEventListener('wheel', hide, { once: true }); window.removeEventListener('click', hide, { once: true }); }, 500);
-                setTimeout(hide, 8000);
+                setTimeout(() => { window.addEventListener('wheel', hide, { once: true }); window.addEventListener('click', hide, { once: true }); }, 500);
+                // KALIBRERING: Tidsgräns för onboarding reducerad.
+                setTimeout(hide, 5000);
             }
 
             hideOnboarding() { document.getElementById('workshop-onboarding')?.classList.remove('visible'); }
@@ -1916,7 +1918,7 @@
             ];
             this.valueCardsData = [
                  { type: 'success-story', metric: '75%', title: 'Tidsbesparing på 6 veckor', description: 'Se hur vi transformerade en ledande cateringaktör från 30k investering till exponentiell effektivitet.', buttonText: 'Läs Caset →', page: 'atom-gallery-section' },
-                 { type: 'default', icon: 'ph-atom', title: 'Kärnkomponenter', description: 'Under huven: Multi-LLM Integration, Skalbara n8n-flöden, och vår interna Synk-Nod.', buttonText: 'Utforska Arkitekturen', page: 'om-oss', tooltip: 'Vår motor för sömlös synkronisering av intelligens.' },
+                 { type: 'default', icon: 'ph-atom', title: 'Kärnkomponenter', description: 'Under huven: Multi-LLM Integration, Skalbara n8n-flöden, och vår interna Synk-Nod.', buttonText: 'Utforska Arkitekturen', page: 'system', tooltip: 'Vår motor för sömlös synkronisering av intelligens.' },
                  { type: 'pricing-preview', title: 'Transparent Prissättning', price: '75k - 500k+', description: 'Betala för transformation, inte timmar.', buttonText: 'Se Paket →', page: 'system' }
             ];
         }
