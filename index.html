@@ -678,23 +678,7 @@
             color: var(--nord-sym-cyan);
         }
         #desktop-exit-btn {
-            position: fixed;
-            top: 140px; /* Below header */
-            right: 40px;
-            z-index: 10003;
-            display: none; /* Hidden by default */
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
-            padding: 0.6rem 1.25rem;
-            font-size: 0.875rem;
-        }
-        @media (min-width: 769px) {
-            body.labb-active #desktop-exit-btn {
-                display: inline-flex;
-                opacity: 1;
-                transform: translateY(0);
-            }
+            display: none; /* FÖRINTAD */
         }
 
         @media (max-width: 768px) { 
@@ -948,7 +932,7 @@
                         </div>
                         <div class="price-display text-center">250k <span class="price-period">SEK</span></div>
                          <ul>
-                            <li><i class="ph-check-circle"></i> 3-5 sammankopplade automationsflöden</li>
+                            <li><i class="ph-check-circle"></i> Ett ekosystem av agenter</li>
                             <li><i class="ph-check-circle"></i> Byggd på beprövad arkitektur</li>
                             <li><i class="ph-check-circle"></i> Transformerar en hel avdelning eller process</li>
                             <li><i class="ph-check-circle"></i> Inkluderar ofta ett skräddarsytt gränssnitt</li>
@@ -982,7 +966,6 @@
         </section>
 
         <section id="ritbordet" class="space-background-section" style="display: none;">
-            <button id="desktop-exit-btn" class="btn-base btn-secondary-on-dark" onclick="if(window.UnifiedGeometryManager) window.UnifiedGeometryManager.exitBuilderMode()">Tillbaka till lobbyn</button>
             <div id="ritbordet-lobby" class="section-content-wrapper">
                 <div class="max-w-5xl mx-auto">
                     <!-- Desktop Layout -->
@@ -1610,19 +1593,6 @@
 
             showOnboarding() {
                 const onboarding = document.getElementById('workshop-onboarding'); if (!onboarding) return;
-                const isMobile = window.matchMedia('(max-width: 768px)').matches;
-                const instructionEl = onboarding.querySelector('p.font-semibold');
-                const hintEl = onboarding.querySelector('.esc-hint');
-                
-                if (instructionEl) {
-                    if (isMobile) {
-                        instructionEl.innerHTML = 'Håll nere båda portalerna för att skapa.<br/>Vänster: Rotera. Höger: Transformera & Zooma.';
-                        if(hintEl) hintEl.textContent = '(Lämna ritbordet via portalen)';
-                    } else {
-                        instructionEl.innerHTML = '<b>Transformera</b> geometrin för att utforska olika möjligheter.<br/><b>Rotera</b> för att se dem från nya perspektiv.';
-                        if(hintEl) hintEl.textContent = '(Lämna ritbordet via ESC eller knappen uppe till höger)';
-                    }
-                }
                 onboarding.classList.add('visible');
                 const hide = () => { this.hideOnboarding(); window.removeEventListener('wheel', hide); window.removeEventListener('click', hide); };
                 setTimeout(() => { window.addEventListener('wheel', hide, { once: true }); window.addEventListener('click', hide, { once: true }); }, 500);
