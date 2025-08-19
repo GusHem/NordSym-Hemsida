@@ -1265,7 +1265,24 @@
         organic: { material: 'organic', forms: [{ name: 'seed_of_life' }, { name: 'flower_of_life' }, { name: 'metatrons_cube' }, { name: 'torus' }, { name: 'trinity_knot' }], currentIndex: 0 },
         crystal: { material: 'crystal', forms: [{ name: 'diamond_brilliant' }, { name: 'quartz_point' }, { name: 'bismuth_spiral' }, { name: 'geode' }, { name: 'prism_triangular' }], currentIndex: 0 },
         quantum: { material: 'quantum', forms: [{ name: 'tesseract' }, { name: 'klein_bottle' }, { name: 'mobius_strip' }, { name: 'hopf_fibration' }, { name: 'calabi_yau' }], currentIndex: 0 },
-        cosmic: { material: 'nebula', forms: [{ name: 'galaxy_spiral' }, { name: 'fibonacci_spiral' }, { name: 'fibonacci_sphere' }, { name: 'galactic_arm' }, { name: 'merkaba' }, { name: 'tetrahedron_grid_64' }, { name: 'nebula_cloud' }], currentIndex: 0 },
+        cosmic: { 
+            material: 'nebula', 
+            forms: [
+                { name: 'galaxy_spiral' }, 
+                { name: 'galactic_arm' }, 
+                { name: 'cosmic_web' }, 
+                { name: 'supernova_remnant' }, 
+                { name: 'accretion_disk' }, 
+                { name: 'stellated_dodecahedron' }, 
+                { name: 'merkaba' }, 
+                { name: 'atomic_orbitals' }, 
+                { name: 'fibonacci_sphere' }, 
+                { name: 'fibonacci_spiral' },
+                { name: 'tetrahedron_grid_64' }, 
+                { name: 'nebula_cloud' }
+            ], 
+            currentIndex: 0 
+        },
         fractal_reference: { material: 'nebula', forms: [{ name: 'fractal_fibonacci' }] }
     };
 
@@ -1343,7 +1360,7 @@
                 this.states = {
                     HERO: { zoom: 15, y: 0, opacity: 0.15, rotSpeed: 0.1 },
                     PAGE: { zoom: 35, y: 10, opacity: 0.3, rotSpeed: 0.05 },
-                    WORKSHOP: { zoom: 18, y: 0, opacity: 1.0, rotSpeed: 0.2 },
+                    WORKSHOP: { zoom: 22, y: 0, opacity: 1.0, rotSpeed: 0.2 }, // KALIBRERING: Zoom justerad
                     HIDDEN: { zoom: 50, y: 20, opacity: 0.0, rotSpeed: 0.02 }
                 };
                 this.currentState = 'HIDDEN';
@@ -1707,23 +1724,29 @@
                     nebula_cloud: new THREE.SphereGeometry(5, 64, 64), 
                     fractal_fibonacci: this.createFractalGeometry(),
                     fibonacci_sphere: this.createFibonacciSphereGeometry(),
-                    galactic_arm: this.createGalacticArmGeometry()
+                    galactic_arm: this.createGalacticArmGeometry(),
+                    // --- NYA MANIFESTATIONER ---
+                    accretion_disk: this.createAccretionDiskGeometry(),
+                    cosmic_web: this.createCosmicWebGeometry(),
+                    stellated_dodecahedron: this.createStellatedDodecahedronGeometry(),
+                    atomic_orbitals: this.createAtomicOrbitalsGeometry(),
+                    supernova_remnant: this.createSupernovaRemnantGeometry()
                 };
                 this.geometry = this.geometries.seed_of_life.clone(); this.geometry.computeVertexNormals();
             }
-            createFractalGeometry() {
+            createFractalGeometry(count = 10000) {
                 const points = []; let x = 0.1, y = 0, z = 0; const a = 10, b = 28, c = 8.0 / 3.0; const dt = 0.01;
-                for (let i = 0; i < 10000; i++) { const dx = a * (y - x) * dt; const dy = (x * (b - z) - y) * dt; const dz = (x * y - c * z) * dt; x += dx; y += dy; z += dz; if (i > 100) points.push(x * 0.2, y * 0.2, z * 0.2); }
+                for (let i = 0; i < count; i++) { const dx = a * (y - x) * dt; const dy = (x * (b - z) - y) * dt; const dz = (x * y - c * z) * dt; x += dx; y += dy; z += dz; if (i > 100) points.push(x * 0.2, y * 0.2, z * 0.2); }
                 const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3)); return geometry;
             }
-            createFibonacciSphereGeometry(samples = 2000, radius = 5) {
+            createFibonacciSphereGeometry(count = 2000, radius = 5) {
                 const points = []; const phi = Math.PI * (3. - Math.sqrt(5.)); 
-                for (let i = 0; i < samples; i++) { const y = 1 - (i / (samples - 1)) * 2; const r = Math.sqrt(1 - y * y); const theta = phi * i; const x = Math.cos(theta) * r; const z = Math.sin(theta) * r; points.push(x * radius, y * radius, z * radius); }
+                for (let i = 0; i < count; i++) { const y = 1 - (i / (count - 1)) * 2; const r = Math.sqrt(1 - y * y); const theta = phi * i; const x = Math.cos(theta) * r; const z = Math.sin(theta) * r; points.push(x * radius, y * radius, z * radius); }
                 const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3)); return geometry;
             }
-            createGalacticArmGeometry(samples = 3000, radius = 6) {
+            createGalacticArmGeometry(count = 3000, radius = 6) {
                 const points = []; const armCount = 2; const spread = 1.5;
-                for (let i = 0; i < samples; i++) {
+                for (let i = 0; i < count; i++) {
                     const r = Math.sqrt(Math.random()) * radius;
                     const angle = Math.random() * 2 * Math.PI + (r / radius) * 5;
                     const arm = Math.floor(Math.random() * armCount);
@@ -1731,6 +1754,80 @@
                     const x = Math.cos(angle + armAngle) * r + (Math.random() - 0.5) * spread;
                     const y = (Math.random() - 0.5) * (spread / 2) * (1 - r / radius);
                     const z = Math.sin(angle + armAngle) * r + (Math.random() - 0.5) * spread;
+                    points.push(x, y, z);
+                }
+                const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3)); return geometry;
+            }
+            createAccretionDiskGeometry(count = 15000) {
+                const points = [];
+                for (let i = 0; i < count; i++) {
+                    const r = Math.pow(Math.random(), 2) * 8;
+                    const angle = Math.random() * Math.PI * 10;
+                    const x = Math.cos(angle) * r;
+                    const z = Math.sin(angle) * r;
+                    const y = (Math.random() - 0.5) * 0.2 * (1 - r/8);
+                    points.push(x, y, z);
+                }
+                const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3)); return geometry;
+            }
+            createCosmicWebGeometry(count = 15000) {
+                const points = [];
+                const nodes = [];
+                for(let i = 0; i < 20; i++) { nodes.push(new THREE.Vector3((Math.random() - 0.5) * 30, (Math.random() - 0.5) * 30, (Math.random() - 0.5) * 30)); }
+                for (let i = 0; i < count; i++) {
+                    const p1 = nodes[Math.floor(Math.random() * nodes.length)];
+                    const p2 = nodes[Math.floor(Math.random() * nodes.length)];
+                    const point = new THREE.Vector3().lerpVectors(p1, p2, Math.random());
+                    point.x += (Math.random() - 0.5) * 0.5;
+                    point.y += (Math.random() - 0.5) * 0.5;
+                    point.z += (Math.random() - 0.5) * 0.5;
+                    points.push(point.x, point.y, point.z);
+                }
+                const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3)); return geometry;
+            }
+            createStellatedDodecahedronGeometry() {
+                const baseGeo = new THREE.DodecahedronGeometry(5, 0);
+                const vertices = [];
+                const basePositions = baseGeo.attributes.position;
+                for (let i = 0; i < basePositions.count; i += 3) {
+                    const v1 = new THREE.Vector3().fromBufferAttribute(basePositions, i);
+                    const v2 = new THREE.Vector3().fromBufferAttribute(basePositions, i + 1);
+                    const v3 = new THREE.Vector3().fromBufferAttribute(basePositions, i + 2);
+                    const center = new THREE.Vector3().add(v1).add(v2).add(v3).divideScalar(3);
+                    const stellatedPoint = center.clone().normalize().multiplyScalar(8);
+                    vertices.push(v1.x, v1.y, v1.z, v2.x, v2.y, v2.z, stellatedPoint.x, stellatedPoint.y, stellatedPoint.z);
+                    vertices.push(v2.x, v2.y, v2.z, v3.x, v3.y, v3.z, stellatedPoint.x, stellatedPoint.y, stellatedPoint.z);
+                    vertices.push(v3.x, v3.y, v3.z, v1.x, v1.y, v1.z, stellatedPoint.x, stellatedPoint.y, stellatedPoint.z);
+                }
+                const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3)); return geometry;
+            }
+            createAtomicOrbitalsGeometry(count = 15000) {
+                const points = [];
+                const radii = [3, 6, 9];
+                for (let i = 0; i < count; i++) {
+                    const r = radii[Math.floor(Math.random() * radii.length)];
+                    const u = Math.random();
+                    const v = Math.random();
+                    const theta = 2 * Math.PI * u;
+                    const phi = Math.acos(2 * v - 1);
+                    const x = r * Math.sin(phi) * Math.cos(theta);
+                    const y = r * Math.sin(phi) * Math.sin(theta);
+                    const z = r * Math.cos(phi);
+                    points.push(x, y, z);
+                }
+                const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3)); return geometry;
+            }
+            createSupernovaRemnantGeometry(count = 15000) {
+                const points = [];
+                for (let i = 0; i < count; i++) {
+                    const r = 5 + Math.random() * 5;
+                    const u = Math.random();
+                    const v = Math.random();
+                    const theta = 2 * Math.PI * u;
+                    const phi = Math.acos(2 * v - 1);
+                    const x = r * Math.sin(phi) * Math.cos(theta);
+                    const y = r * Math.sin(phi) * Math.sin(theta);
+                    const z = r * Math.cos(phi);
                     points.push(x, y, z);
                 }
                 const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3)); return geometry;
@@ -1746,7 +1843,7 @@
                     neural: new THREE.MeshBasicMaterial({ color: 0x00ffff, wireframe: true, transparent: true, opacity: 0.5 }),
                     organic: new THREE.ShaderMaterial({ uniforms: { time: { value: 0 }, opacity: { value: 1.0 } }, vertexShader: `uniform float time; varying vec3 vNormal; void main() { vNormal = normal; float displacement = sin(position.y * 2.0 + time * 3.0) * 0.2 + cos(position.x * 2.0 + time * 2.0) * 0.2; vec3 newPosition = position + normal * displacement; gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0); }`, fragmentShader: `varying vec3 vNormal; uniform float opacity; void main() { float intensity = pow(0.7 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.0); gl_FragColor = vec4(vec3(0.5, 0.8, 1.0) * intensity, opacity); }`, wireframe: true, transparent: true }),
                     crystal: new THREE.ShaderMaterial({ uniforms: { time: { value: 0 }, opacity: { value: 1.0 } }, vertexShader: `varying vec3 vNormal; varying vec3 vViewPosition; void main() { vNormal = normalize(normalMatrix * normal); vec4 mvPosition = modelViewMatrix * vec4(position, 1.0); vViewPosition = -mvPosition.xyz; gl_Position = projectionMatrix * mvPosition; }`, fragmentShader: `varying vec3 vNormal; varying vec3 vViewPosition; uniform float opacity; void main() { vec3 viewDir = normalize(vViewPosition); float fresnel = 1.0 - dot(viewDir, vNormal); fresnel = pow(fresnel, 2.0); vec3 iceColor = vec3(0.9, 0.95, 1.0); vec3 shadowColor = vec3(0.7, 0.85, 1.0); vec3 color = mix(shadowColor, iceColor, fresnel); float frost = sin(vNormal.y * 10.0) * 0.05 + 0.95; gl_FragColor = vec4(color * frost, (0.9 + fresnel * 0.1) * opacity); }`, transparent: true, side: THREE.DoubleSide }),
-                    quantum: new THREE.ShaderMaterial({ uniforms: { time: { value: 0 }, opacity: { value: 1.0 } }, vertexShader: `varying vec3 vNormal; varying vec3 vViewPosition; void main() { vNormal = normalize(normalMatrix * normal); vec4 mvPosition = modelViewMatrix * vec4(position, 1.0); vViewPosition = -mvPosition.xyz; gl_Position = projectionMatrix * mvPosition; }`, fragmentShader: `uniform float time; varying vec3 vNormal; varying vec3 vViewPosition; uniform float opacity; void main() { vec3 viewDir = normalize(vViewPosition); float fresnel = 1.0 - dot(viewDir, vNormal); fresnel = pow(fresnel, 8.0); vec3 baseColor = vec3(0.05, 0.1, 0.25); vec3 rimColor = vec3(0.5, 0.8, 1.0); vec3 color = mix(baseColor, rimColor, fresnel); gl_FragColor = vec4(color, (fresnel * 0.6 + 0.2) * opacity); }`, transparent: true, blending: THREE.AdditiveBlending }),
+                    quantum: new THREE.ShaderMaterial({ uniforms: { time: { value: 0 }, opacity: { value: 1.0 } }, vertexShader: `varying vec3 vNormal; varying vec3 vViewPosition; void main() { vNormal = normalize(normalMatrix * normal); vec4 mvPosition = modelViewMatrix * vec4(position, 1.0); vViewPosition = -mvPosition.xyz; gl_Position = projectionMatrix * mvPosition; }`, fragmentShader: `uniform float time; varying vec3 vNormal; varying vec3 vViewPosition; uniform float opacity; void main() { vec3 viewDir = normalize(vViewPosition); float fresnel = 1.0 - dot(viewDir, vNormal); fresnel = pow(fresnel, 4.0); float flicker = 0.8 + sin(vNormal.x * 10.0 + time * 2.0) * 0.2; vec3 baseColor = vec3(0.1, 0.15, 0.3) * flicker; vec3 rimColor = vec3(0.6, 0.8, 1.0); vec3 color = mix(baseColor, rimColor, fresnel); gl_FragColor = vec4(color, (fresnel * 0.5 + 0.3) * opacity); }`, transparent: true, blending: THREE.AdditiveBlending }),
                     nebula: new THREE.ShaderMaterial(nebulaShader)
                 };
             }
