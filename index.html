@@ -906,7 +906,7 @@
                 <div class="text-center mb-20">
                      <span class="inline-block bg-sky-800/50 text-sky-200 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">System</span>
                     <h3 class="text-3xl md:text-4xl font-bold text-white mt-4">En Transformation i Tre Steg</h3>
-                     <p class="text-lg text-content-dark-bg max-w-3xl mx-auto mt-4">Vi erbjuder inte produkter, vi erbjuder evolution. Välj den startpunkt som passar er ambition.</p>
+                     <p class="text-lg text-content-dark-bg max-w-3xl mx-auto mt-4">Vår arsenal av beprövade system är er startpunkt. Härifrån bygger vi er unika evolution.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
                     <div class="pricing-card card-base">
@@ -1320,10 +1320,12 @@
                 
                 // KALIBRERING: Säkerställ att vyn är vid toppen vid sidbyte, förutom vid återgång från ritbordet.
                 if (window.UnifiedGeometryManager && window.UnifiedGeometryManager.lastState !== 'WORKSHOP') {
-                    window.scrollTo(0, 0);
+                    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
                 }
 
-                gsap.to(main, { opacity: 1, duration: 0.6, ease: 'power2.out', delay: 0.1 });
+                requestAnimationFrame(() => {
+                    gsap.to(main, { opacity: 1, duration: 0.6, ease: 'power2.out' });
+                });
             }});
             
             if (window.UnifiedGeometryManager && !window.UnifiedGeometryManager.initializationFailed) {
