@@ -793,7 +793,7 @@
                         Vi bygger system som bygger sig själva
                     </h1>
                     <p class="text-lg md:text-xl text-sky-100 max-w-3xl mx-auto drop-shadow-sm text-center">
-                        Från kaos till klarhet. Vi bygger intelligenta system som lär sig, anpassar sig och växer med er verksamhet.
+                        Där er unika process möter vår AI-arkitektur uppstår synergi. Vi orkestrerar system som inte bara arbetar för er – de tänker med er.
                     </p>
                     <div class="flex flex-col items-center gap-6">
                         <div class="flex flex-col md:flex-row items-center gap-4 md:gap-6">
@@ -849,7 +849,7 @@
                     <button aria-label="Nästa system i galleriet" id="galleryNext" class="gallery-nav next"><i class="ph-caret-right-bold"></i></button>
                 </div>
                 <div class="text-center mt-12 max-w-2xl mx-auto">
-                    <p class="text-sky-300 italic">Varje system du ser är en manifestation av hundratals beprövade automationsarketyper, formade direkt för er digitala verklighet.</p>
+                    <p class="text-sky-300 italic">Varje system du ser är en gestaltning av hundratals beprövade automationsarketyper, formade direkt för er digitala verklighet.</p>
                 </div>
             </div>
         </section>
@@ -911,7 +911,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
                     <div class="pricing-card card-base">
                         <div class="pricing-card-header text-center">
-                            <h3>SPARK</h3>
+                            <h3>GRUND</h3>
                              <p class="text-sm text-sky-300 mt-2">En fokuserad transformation. Mätbart resultat.</p>
                         </div>
                         <div class="price-display text-center">75k <span class="price-period">SEK</span></div>
@@ -922,12 +922,12 @@
                             <li><i class="ph-check-circle"></i> Mer än ett flöde – det är den första, fullt integrerade komponenten i ert framtida ekosystem, inklusive all nödvändig arkitektur för att växa.</li>
                         </ul>
                         <div class="mt-auto">
-                            <a href="#" onclick="window.nord.showPage('boka-samtal-skraddarsydd'); return false;" class="btn-base btn-secondary-on-dark w-full">Starta med en gnista</a>
+                            <a href="#" onclick="window.nord.showPage('boka-samtal-skraddarsydd'); return false;" class="btn-base btn-secondary-on-dark w-full">Starta med Grunden</a>
                         </div>
                     </div>
                     <div class="pricing-card card-base ignite-package">
                          <div class="pricing-card-header text-center">
-                            <h3>IGNITE</h3>
+                            <h3>STRUKTUR</h3>
                              <p class="text-sm text-sky-300 mt-2">Sammankopplade system. Exponentiell effekt.</p>
                         </div>
                         <div class="price-display text-center">250k <span class="price-period">SEK</span></div>
@@ -938,12 +938,12 @@
                             <li><i class="ph-check-circle"></i> Inkluderar ofta ett skräddarsytt gränssnitt</li>
                         </ul>
                          <div class="mt-auto">
-                            <a href="#" onclick="window.nord.showPage('boka-samtal-skraddarsydd'); return false;" class="btn-base btn-cta-revised w-full">Tänd elden</a>
+                            <a href="#" onclick="window.nord.showPage('boka-samtal-skraddarsydd'); return false;" class="btn-base btn-cta-revised w-full">Forma er Struktur</a>
                         </div>
                     </div>
                     <div class="pricing-card card-base">
                          <div class="pricing-card-header text-center">
-                            <h3>QUANTUM</h3>
+                            <h3>SYNERGI</h3>
                              <p class="text-sm text-sky-300 mt-2">Fullständig systemarkitektur. För de som tänker långsiktigt.</p>
                         </div>
                         <div class="price-display text-center">500k+ <span class="price-period">SEK</span></div>
@@ -954,7 +954,7 @@
                             <li><i class="ph-check-circle"></i> För de som definierar sin bransch</li>
                         </ul>
                          <div class="mt-auto">
-                            <a href="#" onclick="window.nord.showPage('boka-samtal-skraddarsydd'); return false;" class="btn-base btn-secondary-on-dark w-full">Ta kvantsprånget</a>
+                            <a href="#" onclick="window.nord.showPage('boka-samtal-skraddarsydd'); return false;" class="btn-base btn-secondary-on-dark w-full">Uppnå Synergi</a>
                         </div>
                     </div>
                 </div>
@@ -1707,6 +1707,23 @@
                 this.renderer = renderer; this.SPRING_STRENGTH = 0.04; this.DAMPING = 0.88; this.velocityThreshold = 0.0001; this.isParticleSystem = false; this.activeMorph = null;
                 this.initGeometry(); this.initPhysics(); this.initMaterials(); this.initVisuals();
             }
+            
+            _addColorAttribute(geometry) {
+                if (geometry.attributes.color) return;
+                const count = geometry.attributes.position.count;
+                const colors = new Float32Array(count * 3);
+                const color1 = new THREE.Color(0x00D4FF); // NordSym Cyan
+                const color2 = new THREE.Color(0x9370DB); // NordSym Purple
+                const tempColor = new THREE.Color();
+                for (let i = 0; i < count; i++) {
+                    tempColor.copy(color1).lerp(color2, Math.random());
+                    colors[i * 3] = tempColor.r;
+                    colors[i * 3 + 1] = tempColor.g;
+                    colors[i * 3 + 2] = tempColor.b;
+                }
+                geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            }
+
             initGeometry() {
                 this.geometries = {
                     tetrahedron: new THREE.TetrahedronGeometry(5, 1), cube: new THREE.BoxGeometry(7, 7, 7),
@@ -1725,13 +1742,15 @@
                     fractal_fibonacci: this.createFractalGeometry(),
                     fibonacci_sphere: this.createFibonacciSphereGeometry(),
                     galactic_arm: this.createGalacticArmGeometry(),
-                    // --- NYA MANIFESTATIONER ---
                     accretion_disk: this.createAccretionDiskGeometry(),
                     cosmic_web: this.createCosmicWebGeometry(),
                     stellated_dodecahedron: this.createStellatedDodecahedronGeometry(),
                     atomic_orbitals: this.createAtomicOrbitalsGeometry(),
                     supernova_remnant: this.createSupernovaRemnantGeometry()
                 };
+                
+                Object.values(this.geometries).forEach(geo => this._addColorAttribute(geo));
+
                 this.geometry = this.geometries.seed_of_life.clone(); this.geometry.computeVertexNormals();
             }
             createFractalGeometry(count = 10000) {
@@ -1873,7 +1892,6 @@
             }
             nudge() { 
                 if (this.isParticleSystem) { 
-                    // KALIBRERING: Partikelsystemet pulserar nu vid interaktion.
                     gsap.to(this.mesh.material.uniforms.pulseIntensity, { value: 2.5, duration: 0.3, yoyo: true, repeat: 1, ease: 'power2.inOut' });
                 } else {
                     for (let i = 0; i < this.velocities.length; i++) { this.velocities[i].add(new THREE.Vector3(Math.random()-0.5, Math.random()-0.5, Math.random()-0.5).multiplyScalar(0.1)); }
@@ -1883,20 +1901,33 @@
                 const targetGeo = this.geometries[shapeKey.toLowerCase()]; if (!targetGeo || !targetGeo.attributes.position) return; if (this.activeMorph) this.activeMorph.kill();
                 const targetPositions = new Float32Array(this.originalPositions.length); const vertexCount = this.originalPositions.length / 3;
                 for (let i = 0; i < vertexCount; i++) { const targetIndex = i % targetGeo.attributes.position.count; targetPositions[i*3] = targetGeo.attributes.position.array[targetIndex*3] * scale; targetPositions[i*3+1] = targetGeo.attributes.position.array[targetIndex*3+1] * scale; targetPositions[i*3+2] = targetGeo.attributes.position.array[targetIndex*3+2] * scale; }
-                if (this.isParticleSystem) { this.geometry.setAttribute('position', new THREE.BufferAttribute(targetPositions, 3)); this.geometry.attributes.position.needsUpdate = true; } else { this.activeMorph = gsap.to(this.originalPositions, { endArray: targetPositions, duration: 2.0, ease: "power3.inOut" }); }
+                if (this.isParticleSystem) { 
+                    this.geometry.setAttribute('position', new THREE.BufferAttribute(targetPositions, 3)); 
+                    this.geometry.setAttribute('color', targetGeo.attributes.color.clone());
+                    this.geometry.attributes.position.needsUpdate = true; 
+                    this.geometry.attributes.color.needsUpdate = true;
+                } else { this.activeMorph = gsap.to(this.originalPositions, { endArray: targetPositions, duration: 2.0, ease: "power3.inOut" }); }
             }
             setMorph(fromKey, toKey, progress) {
                 const fromGeo = this.geometries[fromKey.toLowerCase()]; const toGeo = this.geometries[toKey.toLowerCase()]; if (!fromGeo || !toGeo) return;
                 const fromPos = fromGeo.attributes.position.array; const toPos = toGeo.attributes.position.array; const vertexCount = this.originalPositions.length / 3;
                 if (this.isParticleSystem) {
                     if (!this.geometry.attributes.morphTarget) { this.geometry.setAttribute('morphTarget', new THREE.BufferAttribute(new Float32Array(vertexCount * 3), 3)); }
+                    if (!this.geometry.attributes.color) { this.geometry.setAttribute('color', new THREE.BufferAttribute(new Float32Array(vertexCount * 3), 3)); }
                     const startArray = this.geometry.attributes.position.array; const targetArray = this.geometry.attributes.morphTarget.array;
+                    const colorArray = this.geometry.attributes.color.array;
+                    const fromColors = fromGeo.attributes.color.array;
                     for (let i = 0; i < vertexCount; i++) {
                         const fromIndex = (i % fromGeo.attributes.position.count) * 3; const toIndex = (i % toGeo.attributes.position.count) * 3;
                         startArray[i*3] = fromPos[fromIndex]; startArray[i*3+1] = fromPos[fromIndex+1]; startArray[i*3+2] = fromPos[fromIndex+2];
                         targetArray[i*3] = toPos[toIndex]; targetArray[i*3+1] = toPos[toIndex+1]; targetArray[i*3+2] = toPos[toIndex+2];
+                        const fromColorIndex = (i % fromGeo.attributes.color.count) * 3;
+                        colorArray[i*3] = fromColors[fromColorIndex];
+                        colorArray[i*3+1] = fromColors[fromColorIndex+1];
+                        colorArray[i*3+2] = fromColors[fromColorIndex+2];
                     }
                     this.geometry.attributes.position.needsUpdate = true; this.geometry.attributes.morphTarget.needsUpdate = true;
+                    this.geometry.attributes.color.needsUpdate = true;
                     this.mesh.material.uniforms.morphProgress.value = progress;
                 } else {
                     for (let i = 0; i < vertexCount; i++) {
