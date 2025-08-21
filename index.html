@@ -771,12 +771,12 @@
             </div>
         </div>
         <div id="mobile-menu" class="md:hidden bg-nord-sym-deep-space-blue/95 backdrop-blur-sm shadow-lg rounded-b-xl absolute w-full left-0 top-full">
-            <a href="#" onclick="window.nord.showPage('hero'); return false;" data-nav="hero" class="block px-6 py-4 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">Hem</a>
-            <a href="#" onclick="window.nord.showPage('om-oss'); return false;" data-nav="om-oss" class="block px-6 py-4 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">Om Oss</a>
-            <a href="#" onclick="window.nord.showPage('system'); return false;" data-nav="system" class="block px-6 py-4 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">System</a>
-            <a href="#" onclick="window.nord.showPage('ritbordet'); return false;" data-nav="ritbordet" class="block px-6 py-4 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">Ritbordet</a>
-            <a href="#" onclick="window.nord.showPage('karriar'); return false;" data-nav="karriar" class="block px-6 py-4 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">Gör din del</a>
-            <div class="px-6 py-4">
+            <a href="#" onclick="window.nord.showPage('hero'); return false;" data-nav="hero" class="block px-6 py-5 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">Hem</a>
+            <a href="#" onclick="window.nord.showPage('om-oss'); return false;" data-nav="om-oss" class="block px-6 py-5 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">Om Oss</a>
+            <a href="#" onclick="window.nord.showPage('system'); return false;" data-nav="system" class="block px-6 py-5 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">System</a>
+            <a href="#" onclick="window.nord.showPage('ritbordet'); return false;" data-nav="ritbordet" class="block px-6 py-5 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">Ritbordet</a>
+            <a href="#" onclick="window.nord.showPage('karriar'); return false;" data-nav="karriar" class="block px-6 py-5 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">Gör din del</a>
+            <div class="px-6 py-5">
                 <a href="#" onclick="window.nord.showPage('boka-samtal-skraddarsydd'); return false;" data-nav="kontakt" class="btn-base btn-cta-revised w-full">Definiera er arkitektur</a>
             </div>
         </div>
@@ -1707,7 +1707,7 @@
                 this.renderer = renderer; this.SPRING_STRENGTH = 0.04; this.DAMPING = 0.88; this.velocityThreshold = 0.0001; this.isParticleSystem = false; this.activeMorph = null;
                 this.initGeometry(); this.initPhysics(); this.initMaterials(); this.initVisuals();
             }
-            
+
             _addColorAttribute(geometry) {
                 if (geometry.attributes.color) return;
                 const count = geometry.attributes.position.count;
@@ -2103,6 +2103,7 @@
 
     class GalleryManager {
         constructor() {
+            this.isInitialMobileLoad = true; // HARMONI-FIX: Flagga för att förhindra initial scroll.
             this.galleryData = [
                 {
                     status: 'active',
@@ -2179,8 +2180,13 @@
                 if (window.innerWidth > 768) {
                     galleryWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
                 } else {
-                    const card = galleryWrapper.children[currentIndex];
-                    if(card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+                    // HARMONI-FIX: Kör bara scrollIntoView om det inte är den första laddningen.
+                    if (!this.isInitialMobileLoad) {
+                        const card = galleryWrapper.children[currentIndex];
+                        if(card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+                    }
+                    // Vänd flaggan efter den första körningen.
+                    this.isInitialMobileLoad = false;
                 }
                 prevBtn.classList.toggle('disabled', currentIndex === 0);
                 nextBtn.classList.toggle('disabled', currentIndex === totalCards - 1);
@@ -2271,7 +2277,7 @@
 
         prevStep() {
             if (this.currentStep > 0) {
-                this.changeStep(this.currentStep - 1);
+                this.changeStep(this.currentStep + 1);
             }
         }
 
