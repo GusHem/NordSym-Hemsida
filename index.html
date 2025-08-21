@@ -1635,7 +1635,8 @@
             toggleFractalMode() {
                 this.isFractalMode = !this.isFractalMode; const theme = SACRED_GEOMETRY_LIBRARY[this.activeTheme];
                 const materialKey = this.isFractalMode ? 'nebula' : theme.material;
-                this.elasticGeometry.setMaterial(materialKey); this.elasticGeometry.morphToShape(this.activeShape);
+                this.elasticGeometry.setMaterial(materialKey); 
+                this.elasticGeometry.morphToShape(this.activeShape); // Apply the change immediately
             }
             
             displayFormName(name) {
@@ -1724,30 +1725,117 @@
                 geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
             }
 
+            // MANIFESTATION: Ny funktion för att intelligent distribuera punkter
+            distributePointsOnGeometry(geometry, pointCount) {
+                const positions = [];
+                const faces = [];
+                const faceAreas = [];
+                let totalArea = 0;
+                const vA = new THREE.Vector3(), vB = new THREE.Vector3(), vC = new THREE.Vector3();
+                
+                const pos = geometry.attributes.position;
+                const index = geometry.index;
+
+                for (let i = 0; i < index.count; i += 3) {
+                    const a = index.getX(i);
+                    const b = index.getX(i + 1);
+                    const c = index.getX(i + 2);
+                    vA.fromBufferAttribute(pos, a);
+                    vB.fromBufferAttribute(pos, b);
+                    vC.fromBufferAttribute(pos, c);
+                    const face = [vA.clone(), vB.clone(), vC.clone()];
+                    faces.push(face);
+                    
+                    // HARMONI-FIX: Använd icke-destruktiva beräkningar
+                    const edge1 = new THREE.Vector3().subVectors(vB, vA);
+                    const edge2 = new THREE.Vector3().subVectors(vC, vA);
+                    const area = new THREE.Vector3().crossVectors(edge1, edge2).length() / 2;
+
+                    faceAreas.push(area);
+                    totalArea += area;
+                }
+
+                for (let i = 0; i < pointCount; i++) {
+                    let r = Math.random() * totalArea;
+                    let faceIndex = 0;
+                    for (let j = 0; j < faceAreas.length; j++) {
+                        if (r < faceAreas[j]) {
+                            faceIndex = j;
+                            break;
+                        }
+                        r -= faceAreas[j];
+                    }
+
+                    const face = faces[faceIndex];
+                    let r1 = Math.random();
+                    let r2 = Math.random();
+                    if (r1 + r2 > 1) {
+                        r1 = 1 - r1;
+                        r2 = 1 - r2;
+                    }
+                    const a = 1 - r1 - r2;
+                    const b = r1;
+                    const c = r2;
+
+                    const point = new THREE.Vector3()
+                        .addScaledVector(face[0], a)
+                        .addScaledVector(face[1], b)
+                        .addScaledVector(face[2], c);
+                    
+                    positions.push(point.x, point.y, point.z);
+                }
+
+                const newGeo = new THREE.BufferGeometry();
+                newGeo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+                return newGeo;
+            }
+
             initGeometry() {
+                const PARTICLE_COUNT = 15000;
                 this.geometries = {
-                    tetrahedron: new THREE.TetrahedronGeometry(5, 1), cube: new THREE.BoxGeometry(7, 7, 7),
-                    octahedron: new THREE.OctahedronGeometry(5, 1), dodecahedron: new THREE.DodecahedronGeometry(5, 1),
-                    icosahedron: new THREE.IcosahedronGeometry(5, 2), seed_of_life: new THREE.SphereGeometry(4.5, 64, 64),
-                    flower_of_life: new THREE.TorusGeometry(4, 1.5, 8, 50), metatrons_cube: new THREE.IcosahedronGeometry(5, 1),
-                    torus: new THREE.TorusGeometry(4, 1.5, 16, 100), trinity_knot: new THREE.TorusKnotGeometry(3.5, 0.8, 128, 16, 2, 3),
-                    diamond_brilliant: new THREE.OctahedronGeometry(5, 0), quartz_point: new THREE.CylinderGeometry(0, 3, 8, 6),
-                    bismuth_spiral: new THREE.BoxGeometry(6,6,6), geode: new THREE.SphereGeometry(4.5, 32, 32),
-                    prism_triangular: new THREE.CylinderGeometry(4, 4, 6, 3), tesseract: new THREE.BoxGeometry(7, 7, 7),
-                    klein_bottle: new THREE.TorusKnotGeometry(3.5, 1, 64, 8, 1, 3), mobius_strip: new THREE.TorusGeometry(4, 0.5, 8, 50),
-                    hopf_fibration: new THREE.TorusKnotGeometry(3.5, 0.8, 128, 16, 2, 3), calabi_yau: new THREE.TorusKnotGeometry(3.5, 1.2, 128, 16, 3, 7),
-                    fibonacci_spiral: new THREE.TorusGeometry(4, 0.2, 16, 100), galaxy_spiral: new THREE.SphereGeometry(5, 64, 64),
-                    merkaba: new THREE.TetrahedronGeometry(5, 0), tetrahedron_grid_64: new THREE.IcosahedronGeometry(5, 2),
+                    tetrahedron: new THREE.TetrahedronGeometry(5, 0),
+                    cube: new THREE.BoxGeometry(7, 7, 7),
+                    octahedron: new THREE.OctahedronGeometry(5, 0),
+                    dodecahedron: new THREE.DodecahedronGeometry(5, 0),
+                    icosahedron: new THREE.IcosahedronGeometry(5, 0),
+                    seed_of_life: new THREE.SphereGeometry(4.5, 64, 64),
+                    flower_of_life: new THREE.TorusGeometry(4, 1.5, 8, 50),
+                    metatrons_cube: new THREE.IcosahedronGeometry(5, 1),
+                    torus: new THREE.TorusGeometry(4, 1.5, 16, 100),
+                    trinity_knot: new THREE.TorusKnotGeometry(3.5, 0.8, 128, 16, 2, 3),
+                    diamond_brilliant: new THREE.OctahedronGeometry(5, 0),
+                    quartz_point: new THREE.CylinderGeometry(0, 3, 8, 6),
+                    bismuth_spiral: new THREE.BoxGeometry(6,6,6),
+                    geode: new THREE.SphereGeometry(4.5, 32, 32),
+                    prism_triangular: new THREE.CylinderGeometry(4, 4, 6, 3),
+                    tesseract: new THREE.BoxGeometry(7, 7, 7),
+                    klein_bottle: new THREE.TorusKnotGeometry(3.5, 1, 64, 8, 1, 3),
+                    mobius_strip: new THREE.TorusGeometry(4, 0.5, 8, 50),
+                    hopf_fibration: new THREE.TorusKnotGeometry(3.5, 0.8, 128, 16, 2, 3),
+                    calabi_yau: new THREE.TorusKnotGeometry(3.5, 1.2, 128, 16, 3, 7),
+                    fibonacci_spiral: new THREE.TorusGeometry(4, 0.2, 16, 100),
+                    galaxy_spiral: new THREE.SphereGeometry(5, 64, 64),
+                    merkaba: new THREE.TetrahedronGeometry(5, 0),
+                    tetrahedron_grid_64: new THREE.IcosahedronGeometry(5, 2),
                     nebula_cloud: new THREE.SphereGeometry(5, 64, 64), 
                     fractal_fibonacci: this.createFractalGeometry(),
-                    fibonacci_sphere: this.createFibonacciSphereGeometry(),
-                    galactic_arm: this.createGalacticArmGeometry(),
-                    accretion_disk: this.createAccretionDiskGeometry(),
-                    cosmic_web: this.createCosmicWebGeometry(),
+                    fibonacci_sphere: this.createFibonacciSphereGeometry(PARTICLE_COUNT),
+                    galactic_arm: this.createGalacticArmGeometry(PARTICLE_COUNT),
+                    accretion_disk: this.createAccretionDiskGeometry(PARTICLE_COUNT),
+                    cosmic_web: this.createCosmicWebGeometry(PARTICLE_COUNT),
                     stellated_dodecahedron: this.createStellatedDodecahedronGeometry(),
-                    atomic_orbitals: this.createAtomicOrbitalsGeometry(),
-                    supernova_remnant: this.createSupernovaRemnantGeometry()
+                    atomic_orbitals: this.createAtomicOrbitalsGeometry(PARTICLE_COUNT),
+                    supernova_remnant: this.createSupernovaRemnantGeometry(PARTICLE_COUNT)
                 };
+
+                // MANIFESTATION: Förberäkna partikelversioner av enkla geometrier
+                const simpleGeometries = ['tetrahedron', 'cube', 'octahedron', 'dodecahedron', 'icosahedron', 'diamond_brilliant', 'quartz_point', 'prism_triangular', 'bismuth_spiral', 'tesseract', 'merkaba'];
+                simpleGeometries.forEach(key => {
+                    const baseGeo = this.geometries[key];
+                    if (baseGeo.index) {
+                         this.geometries[`${key}_particles`] = this.distributePointsOnGeometry(baseGeo, PARTICLE_COUNT);
+                    }
+                });
                 
                 Object.values(this.geometries).forEach(geo => this._addColorAttribute(geo));
 
@@ -1898,18 +1986,47 @@
                 }
             }
             morphToShape(shapeKey, scale = 1.0) {
-                const targetGeo = this.geometries[shapeKey.toLowerCase()]; if (!targetGeo || !targetGeo.attributes.position) return; if (this.activeMorph) this.activeMorph.kill();
-                const targetPositions = new Float32Array(this.originalPositions.length); const vertexCount = this.originalPositions.length / 3;
-                for (let i = 0; i < vertexCount; i++) { const targetIndex = i % targetGeo.attributes.position.count; targetPositions[i*3] = targetGeo.attributes.position.array[targetIndex*3] * scale; targetPositions[i*3+1] = targetGeo.attributes.position.array[targetIndex*3+1] * scale; targetPositions[i*3+2] = targetGeo.attributes.position.array[targetIndex*3+2] * scale; }
+                // MANIFESTATION: Uppgraderad logik för att hantera partikelsystem intelligent
+                const particleShapeKey = `${shapeKey.toLowerCase()}_particles`;
+                let targetGeo;
+
+                if (this.isParticleSystem && this.geometries[particleShapeKey]) {
+                    targetGeo = this.geometries[particleShapeKey];
+                } else {
+                    targetGeo = this.geometries[shapeKey.toLowerCase()];
+                }
+
+                if (!targetGeo || !targetGeo.attributes.position) return; 
+                if (this.activeMorph) this.activeMorph.kill();
+                
+                const targetPositions = new Float32Array(this.originalPositions.length); 
+                const vertexCount = this.originalPositions.length / 3;
+                
+                for (let i = 0; i < vertexCount; i++) { 
+                    const targetIndex = i % targetGeo.attributes.position.count; 
+                    targetPositions[i*3] = targetGeo.attributes.position.array[targetIndex*3] * scale; 
+                    targetPositions[i*3+1] = targetGeo.attributes.position.array[targetIndex*3+1] * scale; 
+                    targetPositions[i*3+2] = targetGeo.attributes.position.array[targetIndex*3+2] * scale; 
+                }
+                
                 if (this.isParticleSystem) { 
                     this.geometry.setAttribute('position', new THREE.BufferAttribute(targetPositions, 3)); 
                     this.geometry.setAttribute('color', targetGeo.attributes.color.clone());
                     this.geometry.attributes.position.needsUpdate = true; 
                     this.geometry.attributes.color.needsUpdate = true;
-                } else { this.activeMorph = gsap.to(this.originalPositions, { endArray: targetPositions, duration: 2.0, ease: "power3.inOut" }); }
+                } else { 
+                    this.activeMorph = gsap.to(this.originalPositions, { endArray: targetPositions, duration: 2.0, ease: "power3.inOut" }); 
+                }
             }
             setMorph(fromKey, toKey, progress) {
-                const fromGeo = this.geometries[fromKey.toLowerCase()]; const toGeo = this.geometries[toKey.toLowerCase()]; if (!fromGeo || !toGeo) return;
+                // MANIFESTATION: Uppgraderad logik för att hantera partikelsystem intelligent
+                const fromParticleKey = `${fromKey.toLowerCase()}_particles`;
+                const toParticleKey = `${toKey.toLowerCase()}_particles`;
+                
+                let fromGeo = (this.isParticleSystem && this.geometries[fromParticleKey]) ? this.geometries[fromParticleKey] : this.geometries[fromKey.toLowerCase()];
+                let toGeo = (this.isParticleSystem && this.geometries[toParticleKey]) ? this.geometries[toParticleKey] : this.geometries[toKey.toLowerCase()];
+
+                if (!fromGeo || !toGeo) return;
                 const fromPos = fromGeo.attributes.position.array; const toPos = toGeo.attributes.position.array; const vertexCount = this.originalPositions.length / 3;
                 if (this.isParticleSystem) {
                     if (!this.geometry.attributes.morphTarget) { this.geometry.setAttribute('morphTarget', new THREE.BufferAttribute(new Float32Array(vertexCount * 3), 3)); }
@@ -2277,7 +2394,7 @@
 
         prevStep() {
             if (this.currentStep > 0) {
-                this.changeStep(this.currentStep + 1);
+                this.changeStep(this.currentStep - 1);
             }
         }
 
