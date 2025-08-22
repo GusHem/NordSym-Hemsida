@@ -743,6 +743,39 @@
             opacity: 1;
         }
 
+        /* NEW STYLES FOR ARKITEKTUR PAGE */
+        #om-oss .arkitektur-grid {
+            display: grid;
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+        @media (min-width: 1024px) {
+            #om-oss .arkitektur-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 4rem;
+                align-items: start;
+            }
+        }
+        #om-oss .arkitektur-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 1.5rem;
+        }
+        #om-oss .arkitektur-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+            color: var(--nord-sym-text-medium);
+        }
+        #om-oss .arkitektur-list i {
+            color: var(--nord-sym-cyan);
+            font-size: 1.5rem;
+            margin-top: 0.2rem;
+            flex-shrink: 0;
+        }
+
 
     </style>
 </head>
@@ -759,7 +792,7 @@
                 </button>
                 <nav aria-label="Huvudnavigation" class="hidden md:flex flex-grow justify-center space-x-5 items-center header-nav">
                     <a href="#" onclick="window.nord.showPage('hero'); return false;" data-nav="hero" class="nav-link transition-colors font-medium">Hem</a>
-                    <a href="#" onclick="window.nord.showPage('om-oss'); return false;" data-nav="om-oss" class="nav-link transition-colors font-medium">Om Oss</a>
+                    <a href="#" onclick="window.nord.showPage('om-oss'); return false;" data-nav="om-oss" class="nav-link transition-colors font-medium">Arkitektur</a>
                     <a href="#" onclick="window.nord.showPage('system'); return false;" data-nav="system" class="nav-link transition-colors font-medium">System</a>
                     <a href="#" onclick="window.nord.showPage('ritbordet'); return false;" data-nav="ritbordet" class="nav-link transition-colors font-medium">Ritbordet</a>
                     <a href="#" onclick="window.nord.showPage('karriar'); return false;" data-nav="karriar" class="nav-link transition-colors font-medium">Gör din del</a>
@@ -772,7 +805,7 @@
         </div>
         <div id="mobile-menu" class="md:hidden bg-nord-sym-deep-space-blue/95 backdrop-blur-sm shadow-lg rounded-b-xl absolute w-full left-0 top-full">
             <a href="#" onclick="window.nord.showPage('hero'); return false;" data-nav="hero" class="block px-6 py-5 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">Hem</a>
-            <a href="#" onclick="window.nord.showPage('om-oss'); return false;" data-nav="om-oss" class="block px-6 py-5 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">Om Oss</a>
+            <a href="#" onclick="window.nord.showPage('om-oss'); return false;" data-nav="om-oss" class="block px-6 py-5 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">Arkitektur</a>
             <a href="#" onclick="window.nord.showPage('system'); return false;" data-nav="system" class="block px-6 py-5 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">System</a>
             <a href="#" onclick="window.nord.showPage('ritbordet'); return false;" data-nav="ritbordet" class="block px-6 py-5 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">Ritbordet</a>
             <a href="#" onclick="window.nord.showPage('karriar'); return false;" data-nav="karriar" class="block px-6 py-5 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">Gör din del</a>
@@ -866,36 +899,42 @@
         </section>
 
         <section id="om-oss" class="space-background-section page-content-padding" style="display: none;">
-            <div class="section-content-wrapper" id="vilka-ar-vi-content">
-                <div class="text-center mb-16 lg:mb-20">
-                    <h2 class="section-title text-4xl md:text-5xl mb-4">Om <span class="section-title-accent relative">NordSym</span></h2>
-                </div>
-                <div class="intro-box max-w-4xl mx-auto">
-                    <p class="text-lg md:text-xl text-center text-sky-100 leading-relaxed drop-shadow-sm">
-                        Vi bygger system som förstår er verksamhet på djupet. Varje lösning är unik, byggd från beprövade komponenter, designad för att växa med er.
+            <div class="section-content-wrapper max-w-5xl mx-auto text-lg text-sky-100 leading-relaxed">
+                <div class="text-center mb-16">
+                    <h2 class="section-title text-4xl md:text-5xl">Vi bygger system för morgondagen.</h2>
+                    <p class="mt-6 max-w-3xl mx-auto">
+                        I en värld av snabba teknologiskiften designar NordSym intelligenta system byggda för att bestå. Vår grundfilosofi är enkel: sann teknologisk frihet uppnås genom modulär arkitektur som växer och anpassar sig med ert företag – inte låser in det.
                     </p>
                 </div>
-                <div class="text-center mb-20 lg:mb-28">
-                    <h3 class="section-title text-3xl md:text-4xl mb-12">Systemarkitekter</h3>
-                    <div class="team-grid team-members max-w-4xl mx-auto">
-                        <div class="team-card card-base">
-                            <div class="team-card-content">
-                                <i class="ph-rocket-launch team-member-icon"></i>
-                                <h4 class="text-xl font-semibold text-heading-dark-bg mb-1">Gustav Hemmingsson</h4>
-                                <p class="text-white font-semibold text-sm mb-2">Grundare & Systemarkitekt</p>
-                                <p class="text-content-dark-bg">Gustav bygger broar mellan affärsbehov och banbrytande AI-potential, med en unik förmåga att förenkla det komplicerade och göra teknologins möjligheter konkreta och värdeskapande.</p>
-                                <a href="mailto:gustav@nordsym.com" class="nord-accent-text font-medium mt-4 block text-sm hover:underline">gustav@nordsym.com</a>
-                            </div>
-                        </div>
-                        <div class="team-card card-base">
-                            <div class="team-card-content">
-                                <i class="ph-atom team-member-icon"></i>
-                                <h4 class="text-xl font-semibold text-heading-dark-bg mb-1">Mariana Malihniolzakerani</h4>
-                                <p class="text-white font-semibold text-sm mb-2">Lead AI Engineer</p>
-                                <p class="text-content-dark-bg">Med en gedigen akademisk bakgrund inom tillämpad AI, bidrar Mariana med den teoretiska skärpa och systematiska förståelse som är avgörande för att bygga robusta och skalbara AI-system.</p>
-                                <a href="mailto:mariana@nordsym.com" class="nord-accent-text font-medium mt-4 block text-sm hover:underline">mariana@nordsym.com</a>
-                            </div>
-                        </div>
+
+                <div class="text-center my-16 py-10 border-y border-sky-800/50">
+                     <h3 class="section-title text-3xl md:text-4xl">Frihet över inlåsning.</h3>
+                     <p class="mt-6 max-w-3xl mx-auto">
+                        Vi använder dagens bästa och mest kraftfulla AI-verktyg för att ge er ett omedelbart försprång. Men vi bygger alltid för morgondagens frihet. Våra system designas med 'exit-ramps' – en medveten arkitektur som säkerställer att ni aldrig blir permanent beroende av en enskild teknikleverantör. När en bättre, snabbare eller mer kostnadseffektiv AI-modell dyker upp, är era system redo att växla. Vi prioriterar <strong>portabilitet</strong> över <strong>vendor lock-in</strong>, eftersom er framtid är viktigare än vår kortsiktiga bekvämlighet.
+                     </p>
+                </div>
+                
+                <div class="text-center mb-16">
+                    <h3 class="section-title text-3xl md:text-4xl">Teknologi som tjänar människan.</h3>
+                    <p class="mt-6 max-w-3xl mx-auto">
+                        Vårt mål är inte snabba exits eller att bli uppköpta. Vi bygger för att bestå och för att skapa långsiktiga partnerskap. Vi tror på teknologi som stärker företag och de familjer som driver dem, som skapar stabilitet och möjliggör fokus på det som verkligen betyder något. För oss är den mest avancerade teknologin den som sömlöst tjänar er, inte tvärtom.
+                    </p>
+                </div>
+
+                <div class="arkitektur-grid content-card-transparent card-base p-8 md:p-12">
+                    <div>
+                        <h4 class="section-title text-2xl md:text-3xl mb-4">Grundaren</h4>
+                        <p>
+                            <strong>Gustav Hemmingsson</strong> grundade NordSym med en tydlig vision: att företag och familjer ska äga sin teknologi, inte bli ägda av den. Med en bakgrund som sträcker sig över både avancerad systemarkitektur och strategisk affärsutveckling, förstår han att den bästa tekniken är den som bara fungerar – och ger er friheten att fokusera på er kärnverksamhet.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="section-title text-2xl md:text-3xl mb-4">Ett fundament att lita på</h4>
+                        <ul class="arkitektur-list">
+                            <li><i class="ph-leaf"></i> <div><strong>Organisk Tillväxt:</strong> Byggt på förtroende och resultat, fritt från yttre investerarkrav.</div></li>
+                            <li><i class="ph-stack"></i> <div><strong>Beprövad Teknologi:</strong> En kärna av n8n-automation, flexibel AI-integration och nordisk precision i varje detalj.</div></li>
+                            <li><i class="ph-target"></i> <div><strong>Kundcentrerad Optimering:</strong> Vi är inte bundna till en specifik teknik; vi är bundna till att bygga den bästa, mest hållbara lösningen för er.</div></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -1157,7 +1196,7 @@
                 <div class="md:col-span-1 text-center md:text-left">
                     <p class="font-semibold text-nord-sym-text-light mb-2">Snabblänkar</p>
                     <div class="footer-quicklinks">
-                        <a href="#" onclick="window.nord.showPage('om-oss'); return false;" class="footer-link">Om Oss</a>
+                        <a href="#" onclick="window.nord.showPage('om-oss'); return false;" class="footer-link">Arkitektur</a>
                         <a href="#" onclick="window.nord.showPage('system'); return false;" class="footer-link">System</a>
                         <a href="#" onclick="window.nord.showPage('ritbordet'); return false;" class="footer-link">Ritbordet</a>
                         <a href="#" onclick="window.nord.showPage('karriar'); return false;" class="footer-link">Gör din del</a>
