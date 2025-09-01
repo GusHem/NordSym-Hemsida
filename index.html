@@ -253,6 +253,13 @@
             background: rgba(12, 20, 39, 0.3);
             backdrop-filter: blur(20px);
         }
+        /* FÖRINTAD: Tidigare regel som felaktigt dolde header i lobbyn.
+        body.ritbordet-visible:not(.labb-active) #header {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        */
         #header.scrolled { 
             background-color: rgba(12, 20, 39, 0.85); 
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -441,6 +448,9 @@
             border: 1px solid rgba(0, 191, 255, 0.3);
             box-shadow: 0 0 10px rgba(0, 191, 255, 0.1);
         }
+        body.labb-active #main-footer {
+            display: none !important; /* Total immersion i verkstaden. */
+        }
         .footer-quicklinks { display: flex; flex-direction: column; gap: 0.25rem; align-items: center; }
         @media (min-width: 768px) { .footer-quicklinks { align-items: flex-start; } }
         .footer-link { color: var(--nord-sym-text-medium); transition: color 0.3s ease; padding: 0.1rem 0; }
@@ -484,6 +494,11 @@
             cursor: grabbing;
         }
         
+        body.ritbordet-visible:not(.labb-active) #unified-geometry-canvas {
+            cursor: pointer;
+            pointer-events: auto;
+        }
+
         /* RITBORDET STYLES */
         #ritbordet {
             position: relative;
@@ -527,10 +542,65 @@
         .ritbordet-card.success-story .metric { font-size: 2rem; font-weight: bold; color: var(--nord-sym-light-accent); display: block; margin-bottom: 0.5rem; }
         .ritbordet-card.pricing-preview .price-range { font-size: 1.5rem; font-weight: bold; color: var(--nord-sym-light-accent); margin: 0.5rem 0; }
 
-        .portal-btn-placeholder {
-            display: flex; align-items: center; justify-content: center;
-            width: 280px; height: 70px;
+        @keyframes cta-glow {
+            0%, 100% {
+                box-shadow: 0 0 15px rgba(var(--nord-sym-cyan-rgb), 0.4), 0 0 25px rgba(var(--nord-sym-cyan-rgb), 0.3);
+            }
+            50% {
+                box-shadow: 0 0 25px rgba(var(--nord-sym-cyan-rgb), 0.6), 0 0 40px rgba(var(--nord-sym-cyan-rgb), 0.4);
+            }
+        }
+
+        #geometry-cta {
+            color: var(--nord-sym-light-accent);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
             margin: 2.5rem 0;
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            width: 72px;
+            height: 72px;
+            padding: 0;
+            border-radius: 50%;
+            background: rgba(var(--nord-sym-cyan-rgb), 0.1);
+            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.4);
+            animation: cta-glow 3s infinite ease-in-out;
+        }
+
+        #geometry-cta i {
+            font-size: 2.5rem;
+            transition: transform 0.4s ease;
+        }
+
+        #geometry-cta .cta-text {
+            font-family: 'Comfortaa', sans-serif;
+            font-size: 1.25rem;
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            transition: max-width 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease-in-out 0.1s, margin-left 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            margin-left: 0;
+        }
+
+        #geometry-cta:hover {
+            width: 330px;
+            border-radius: 9999px;
+            padding: 0 2rem;
+            animation-play-state: paused;
+            box-shadow: 0 0 30px rgba(var(--nord-sym-cyan-rgb), 0.7), 0 0 50px rgba(var(--nord-sym-cyan-rgb), 0.5);
+            color: var(--nord-sym-cyan);
+        }
+
+        #geometry-cta:hover i {
+            transform: rotate(-15deg);
+        }
+
+        #geometry-cta:hover .cta-text {
+            max-width: 300px;
+            opacity: 1;
+            margin-left: 0.75rem;
         }
 
         /* MOBILE LOBBY STYLES */
@@ -550,9 +620,31 @@
                 margin-bottom: 1rem;
                 color: var(--nord-sym-light-accent);
                 border-bottom: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.2);
-                padding-bottom: 0.5rem;
             }
-             #mobile-lobby-content h3:first-child { margin-top: 0; }
+        }
+        #mobile-enter-workshop-btn {
+            position: fixed;
+            width: 60px; height: 60px;
+            bottom: 30px; right: 30px;
+            z-index: 10002;
+            display: none;
+            align-items: center; justify-content: center;
+            background: rgba(12, 20, 39, 0.5);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 50%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            color: var(--nord-sym-text-light);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+        #mobile-enter-workshop-btn:active {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: rgba(0, 212, 255, 0.8);
+            color: var(--nord-sym-cyan);
+            transform: scale(1.1);
         }
 
         /* --- JOYSTICK PORTAL CONTROLS --- */
@@ -568,7 +660,6 @@
             transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
             display: none; /* Hidden by default */
             align-items: center; justify-content: center;
-            overflow: hidden;
             -webkit-tap-highlight-color: transparent;
         }
         .joystick-portal:hover {
@@ -584,43 +675,78 @@
         .joystick-portal i {
             position: absolute; font-size: 2rem; color: var(--nord-sym-cyan);
             transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
+            top: 50%; left: 50%;
         }
         
         /* Mobile-specific Joystick visibility */
         @media (max-width: 768px) {
+            body.ritbordet-visible:not(.labb-active) #mobile-enter-workshop-btn { display: flex; }
+
             body.labb-active #joystick-portal-left { display: flex; }
-            body.ritbordet-visible #joystick-portal-right { display: flex; }
+            body.labb-active #joystick-portal-right { display: flex; }
+
             #joystick-portal-left { bottom: 30px; left: 30px; }
             #joystick-portal-right { bottom: 30px; right: 30px; }
         }
 
-        /* Desktop & non-workshop Universal Atom logic */
+        /* Desktop & non-workshop Universal Atom logic - Alchemical Portal */
         @media (min-width: 769px) {
             body:not(.labb-active).ritbordet-visible #joystick-portal-right {
-                display: flex;
-                position: absolute;
-                top: 50%; left: 50%; bottom: auto; right: auto;
-                transform: translate(-50%, -50%);
-                width: 80px; height: 80px;
+                display: none; /* FÖRINTAD från lobby, lever kvar i workshop */
             }
-             body:not(.labb-active).ritbordet-visible #joystick-portal-right:hover {
-                 transform: translate(-50%, -50%) scale(1.1);
+            
+            body.labb-active #joystick-portal-right {
+                display: none; /* BUG FIX: Hide joystick in desktop workshop mode */
+                position: fixed; /* Återställ till fixed i workshop-läge */
+                top: auto; left: auto; bottom: 30px; right: 30px;
+                transform: none;
+                width: 60px; 
+                height: 60px;
+                background: rgba(12, 20, 39, 0.6);
+                border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.3);
+                backdrop-filter: blur(15px);
             }
-             body:not(.labb-active).ritbordet-visible #joystick-portal-right i {
-                font-size: 2.5rem;
+            body.labb-active #joystick-portal-right:hover {
+                 transform: scale(1.1);
             }
+            
+            body:not(.labb-active).ritbordet-visible #joystick-portal-right .portal-ring {
+                opacity: 0; /* Dölj ringar när knappen inte syns */
+            }
+
+            body.labb-active #joystick-portal-right .portal-ring {
+                display: none; /* Ringarna behövs inte i workshop-läget, endast ikonerna. */
+            }
+            
+            body.labb-active #joystick-portal-right i {
+                transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
+            }
+
+             body.labb-active #joystick-portal-right i.portal-icon-enter {
+                font-size: 2rem;
+                animation: none;
+            }
+             body.labb-active #joystick-portal-right i.portal-icon-exit {
+                 font-size: 2rem;
+            }
+
+            /* Hover effects are handled by the generic .joystick-portal:hover now */
         }
 
+        .portal-icon-enter {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
         .portal-icon-exit {
-            transform: rotate(-180deg) scale(0);
+            transform: translate(-50%, -50%) rotate(-180deg) scale(0);
             opacity: 0;
         }
         body.labb-active #joystick-portal-right .portal-icon-enter {
-            transform: rotate(180deg) scale(0);
+            transform: translate(-50%, -50%) rotate(180deg) scale(0);
             opacity: 0;
         }
         body.labb-active #joystick-portal-right .portal-icon-exit {
-            transform: rotate(0deg) scale(1);
+            transform: translate(-50%, -50%) rotate(0deg) scale(1);
             opacity: 1;
         }
 
@@ -1012,8 +1138,11 @@
                         <div class="ritbordet-grid" id="ritbordet-grid-process">
                             <!-- Process cards injected by JS -->
                         </div>
-                        <div class="portal-btn-placeholder relative">
-                            <!-- Universal Portal Atom will be positioned here via CSS on desktop -->
+                        <div class="portal-btn-placeholder flex justify-center items-center">
+                            <div id="geometry-cta" onclick="window.UnifiedGeometryManager.enterBuilderMode()">
+                                <i class="ph ph-cube"></i>
+                                <span class="cta-text">Forma er Arkitektur</span>
+                            </div>
                         </div>
                         <div class="ritbordet-grid" id="ritbordet-grid-value">
                             <!-- Value cards injected by JS -->
@@ -1021,18 +1150,6 @@
                     </div>
                     <!-- Mobile Layout -->
                     <div id="mobile-lobby-content"></div>
-                </div>
-            </div>
-            <div id="workshop-onboarding">
-                <div class="onboarding-content">
-                    <h3>Välkommen till Ritbordet</h3>
-                    <p class="text-lg">Här visualiserar vi hur era processer kan transformeras till intelligenta system. Varje form representerar en unik lösningsarkitektur.</p>
-                    <div class="my-4 text-left max-w-xs mx-auto space-y-2">
-                        <p><strong class="nord-accent-text">Transformera:</strong> Upptäck olika lösningsvägar</p>
-                        <p><strong class="nord-accent-text">Rotera:</strong> Se möjligheter från nya vinklar</p>
-                    </div>
-                    <p class="font-semibold text-sky-200 italic">Systemtänkande i realtid.</p>
-                    <p class="mt-4 text-xs text-sky-400 esc-hint">(Återvänd med ESC eller X)</p>
                 </div>
             </div>
         </section>
@@ -1219,10 +1336,29 @@
         </div>
     </footer>
     
+    <!-- === UI OVERLAYS & FIXED CONTROLS (ARKITEKTONISK SEPARATION) === -->
+    <div id="workshop-onboarding">
+        <div class="onboarding-content">
+            <h3>Välkommen till Ritbordet</h3>
+            <p class="text-lg">Här visualiserar vi hur era processer kan transformeras till intelligenta system. Varje form representerar en unik lösningsarkitektur.</p>
+            <div class="my-4 text-left max-w-xs mx-auto space-y-2">
+                <p><strong class="nord-accent-text">Transformera:</strong> Upptäck olika lösningsvägar</p>
+                <p><strong class="nord-accent-text">Rotera:</strong> Se möjligheter från nya vinklar</p>
+            </div>
+            <p class="font-semibold text-sky-200 italic">Systemtänkande i realtid.</p>
+            <p class="mt-4 text-xs text-sky-400 esc-hint">(Återvänd med ESC eller X)</p>
+        </div>
+    </div>
+
+    <button id="mobile-enter-workshop-btn" onclick="window.UnifiedGeometryManager.enterBuilderMode()">
+        <i class="ph ph-cube"></i>
+    </button>
     <button id="joystick-portal-left" class="joystick-portal" title="Rotationskontroll">
         <i class="ph-arrows-out-cardinal"></i>
     </button>
-    <button id="joystick-portal-right" class="joystick-portal" title="Gå in i / Lämna Ritbordet & Transformationskontroll">
+    <button id="joystick-portal-right" class="joystick-portal">
+        <div class="portal-ring portal-ring-outer"></div>
+        <div class="portal-ring portal-ring-inner"></div>
         <i class="ph-atom portal-icon-enter"></i>
         <i class="ph-x portal-icon-exit"></i>
     </button>
@@ -1343,7 +1479,7 @@
             'hero': { isMultiPart: true, parts: ['hero', 'home-diagram-section', 'atom-gallery-section', 'home-contact-section'], display: 'flex', hasFooter: true, navAlias: 'hero' },
             'om-oss': { display: 'flex', hasFooter: true, navAlias: 'om-oss' },
             'system': { display: 'flex', hasFooter: true, navAlias: 'system' },
-            'ritbordet': { display: 'flex', hasFooter: false, navAlias: 'ritbordet' },
+            'ritbordet': { display: 'flex', hasFooter: true, navAlias: 'ritbordet' },
             'karriar': { display: 'flex', hasFooter: false, navAlias: 'karriar' },
             'vilka-ar-vi': { display: 'flex', hasFooter: false, navAlias: 'karriar' },
             'boka-samtal-skraddarsydd': { display: 'flex', hasFooter: true, navAlias: 'system' },
@@ -1488,6 +1624,13 @@
                 const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
                 const joystickLeft = document.getElementById('joystick-portal-left');
                 const joystickRight = document.getElementById('joystick-portal-right');
+
+                // Canvas click för desktop lobby
+                this.canvas.addEventListener('click', () => {
+                    if (document.body.classList.contains('ritbordet-visible') && !document.body.classList.contains('labb-active')) {
+                        this.enterBuilderMode();
+                    }
+                });
 
                 if (isTouchDevice && joystickLeft && joystickRight) {
                     joystickLeft.addEventListener('touchstart', (e) => this.boundJoystickTouchStart(e, 'left'), { passive: false });
@@ -2379,3 +2522,13 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
