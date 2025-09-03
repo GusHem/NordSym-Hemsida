@@ -1355,11 +1355,11 @@
     <div id="elastic-toolbar">
         <div class="glass-control-group">
             <button class="glass-btn" data-theme="fundamental" title="Grundläggande">◎</button>
-            <button class="glass-btn" data-theme="neural" title="Platonska Solider">◉</button>
-            <button class="glass-btn" data-theme="organic" title="Helig Geometri">◊</button>
-            <button class="glass-btn" data-theme="crystal" title="Kristaller">Ψ</button>
-            <button class="glass-btn" data-theme="quantum" title="Kvantum">∞</button>
-            <button class="glass-btn" data-theme="cosmic" title="Kosmisk">⟠</button>
+            <button class="glass-btn" data-theme="struktur" title="Struktur">◉</button>
+            <button class="glass-btn" data-theme="flode" title="Flöde">◊</button>
+            <button class="glass-btn" data-theme="precision" title="Precision">Ψ</button>
+            <button class="glass-btn" data-theme="paradigm" title="Paradigm">∞</button>
+            <button class="glass-btn" data-theme="ekosystem" title="Ekosystem">⟠</button>
             <button class="glass-btn" id="fractal-mode-toggle" title="Partikel-manifestation">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 C 17 7, 7 17, 2 12 C 7 7, 17 17, 22 12 C 17 7, 7 7, 12 2"></path></svg>
             </button>
@@ -1427,7 +1427,7 @@
 
     const SACRED_GEOMETRY_LIBRARY = {
         fundamental: {
-            material: 'neural',
+            material: 'nebula', // Harmoni-fix: Använder partikel-rendering för en luftigare, klarare känsla.
             forms: [
                 { name: 'potential', displayName: 'Potential' },
                 { name: 'relation', displayName: 'Relation' },
@@ -1437,7 +1437,7 @@
             ],
             currentIndex: 0
         },
-        neural: { 
+        struktur: { 
             material: 'neural', 
             forms: [
                 { name: 'tetrahedron', displayName: 'Tetrahedron' }, 
@@ -1448,18 +1448,18 @@
             ], 
             currentIndex: 0 
         },
-        organic: { 
+        flode: { 
             material: 'organic', 
             forms: [
-                { name: 'seed_of_life', displayName: 'Livets Frö' }, 
-                { name: 'flower_of_life', displayName: 'Livets Blomma' }, 
-                { name: 'metatrons_cube', displayName: 'Metatrons Kub' }, 
+                { name: 'seed_of_life', displayName: 'Kärna' }, 
+                { name: 'flower_of_life', displayName: 'Nätverk' }, 
+                { name: 'metatrons_cube', displayName: 'Matris' }, 
                 { name: 'torus', displayName: 'Torus' }, 
                 { name: 'trinity_knot', displayName: 'Treenighetsknut' }
             ], 
             currentIndex: 0 
         },
-        crystal: { 
+        precision: { 
             material: 'crystal', 
             forms: [
                 { name: 'diamond_brilliant', displayName: 'Briljant' }, 
@@ -1470,7 +1470,7 @@
             ], 
             currentIndex: 0 
         },
-        quantum: { 
+        paradigm: { 
             material: 'quantum', 
             forms: [
                 { name: 'tesseract', displayName: 'Tesserakt' }, 
@@ -1481,8 +1481,8 @@
             ], 
             currentIndex: 0 
         },
-        cosmic: { 
-            material: 'nebula', // Harmoni-fix: Återställer kosmisk tema till partiklar som standard.
+        ekosystem: { 
+            material: 'nebula',
             forms: [
                 { name: 'galaxy_spiral', displayName: 'Galaxspiral' }, 
                 { name: 'galactic_arm', displayName: 'Galaktisk Arm' }, 
@@ -1833,7 +1833,7 @@
                     if (now - this.lastThemeSwitchTime < this.themeSwitchCooldown) return;
 
                     const themeKeys = Object.keys(SACRED_GEOMETRY_LIBRARY);
-                    const currentIndex = themeKeys.indexOf(this.activeThemeKey || 'fundamental');
+                    const currentIndex = themeKeys.indexOf(this.activeThemeKey || 'struktur');
                     let nextIndex;
                     if (e.deltaY > 0) { // Scrolla ner
                         nextIndex = (currentIndex + 1) % themeKeys.length;
@@ -2213,7 +2213,7 @@
                 for (let i = 0; i < count; i++) { const dx = a * (y - x) * dt; const dy = (x * (b - z) - y) * dt; const dz = (x * y - c * z) * dt; x += dx; y += dy; z += dz; if (i > 100) points.push(x * 0.2, y * 0.2, z * 0.2); }
                 const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3)); return geometry;
             }
-             createPotentialGeometry(count = 15000, radius = 5) {
+             createPotentialGeometry(count = 2000, radius = 5) { // Harmoni-fix: Minskat antalet punkter för en klarare, mer "potentiell" känsla.
                 const points = []; 
                 for (let i = 0; i < count; i++) { 
                     const u = Math.random();
@@ -2230,7 +2230,7 @@
                 geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3)); 
                 return geometry;
             }
-            createRelationGeometry(nodes = 50, connectionsPerNode = 3, radius = 8) {
+            createRelationGeometry(nodes = 50, connectionsPerNode = 1, radius = 8) { // Harmoni-fix: Minskat antalet kopplingar för en tydligare, mindre trasslig struktur.
                 const geometry = new THREE.BufferGeometry();
                 const nodePoints = [];
                 for(let i = 0; i < nodes; i++) { 
@@ -3079,6 +3079,8 @@
     </script>
 </body>
 </html>
+
+
 
 
 
