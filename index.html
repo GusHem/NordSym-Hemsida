@@ -69,7 +69,9 @@
     <style>
         html, body {
             height: 100%; margin: 0; padding: 0;
-            scroll-behavior: smooth; overflow-x: hidden; 
+            /* Harmoni-fix: Använder 'clip' istället för 'hidden' för att förhindra att den globala regeln
+               blockerar avsiktlig horisontell scrollning inuti specifika element, som galleriet på mobilen. */
+            scroll-behavior: smooth; overflow-x: clip; 
         }
         body {
             font-family: 'Inter', sans-serif; color: #E2E8F0; 
@@ -1882,17 +1884,25 @@
             }
             
             transitionTo(targetStateKey) {
-                const state = this.states[targetStateKey];
-                if (!state) return;
+                const baseState = this.states[targetStateKey];
+                if (!baseState) return;
                 this.lastState = this.currentState;
                 this.currentState = targetStateKey;
-                this.targetState = state;
-                gsap.to(this.interaction, { targetZoom: state.zoom, targetY: state.y, duration: 2.5, ease: 'power3.inOut' });
+                
+                // Harmoni-fix: Omskriven logik för att undvika syntaxfel. Skapar en kopia
+                // av state-objektet och justerar zoomen för mobil om det behövs.
+                let finalState = { ...baseState }; 
+                if (targetStateKey === 'PAGE' && window.innerWidth < 768) {
+                    finalState.zoom = 45; // Zooma ut lite (större siffra = längre bort)
+                }
+                
+                this.targetState = finalState;
+                gsap.to(this.interaction, { targetZoom: finalState.zoom, targetY: finalState.y, duration: 2.5, ease: 'power3.inOut' });
                 const mat = this.elasticGeometry.mesh.material;
                 const uniforms = mat.uniforms;
-                gsap.to(uniforms?.opacity || mat, { value: state.opacity, duration: 1.5, ease: 'power2.inOut' });
+                gsap.to(uniforms?.opacity || mat, { value: finalState.opacity, duration: 1.5, ease: 'power2.inOut' });
                 const starMat = this.stars.material.uniforms.opacity;
-                gsap.to(starMat, { value: state.opacity > 0 ? 1 : 0, duration: 1.5, ease: 'power2.inOut' });
+                gsap.to(starMat, { value: finalState.opacity > 0 ? 1 : 0, duration: 1.5, ease: 'power2.inOut' });
             }
 
             handleThemeClick(themeKey) {
@@ -2878,6 +2888,8 @@
     </script>
 </body>
 </html>
+
+
 
 
 
