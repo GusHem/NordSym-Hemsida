@@ -1664,7 +1664,8 @@
                     targetRotationX: 0.5, targetRotationY: 0,
                     actualRotationX: 0.5, actualRotationY: 0,
                     targetZoom: this.states.HIDDEN.zoom, actualZoom: this.states.HIDDEN.zoom,
-                    targetY: this.states.HIDDEN.y, actualY: this.states.HIDDEN.y
+                    targetY: this.states.HIDDEN.y, 
+                    actualY: window.innerWidth < 768 ? -10 : this.states.HIDDEN.y // Harmoni-fix: Startar animationen lägre på mobil för en mer "sexig" och dynamisk ingång.
                 };
                 
                 this.joystick = {
@@ -1868,7 +1869,11 @@
             }
 
             handleJoystickTouchMove(e) {
-                // Harmoni-fix: e.preventDefault() anropas nu endast villkorligt, inuti logiken
+                // Harmoni-fix: En "skyddsvakt" säkerställer att joystick-logiken ENDAST körs
+                // när verkstaden är aktiv. Detta frigör scroll-funktionen på alla andra sidor.
+                if (!this.isWorkshopBuilderActive) return;
+
+                // e.preventDefault() anropas nu endast villkorligt, inuti logiken
                 // för varje aktiv joystick. Detta säkerställer att vi bara blockerar scrollning
                 // när användaren aktivt manipulerar en kontroll, inte annars.
                 for (let i = 0; i < e.changedTouches.length; i++) {
@@ -3048,6 +3053,7 @@
     </script>
 </body>
 </html>
+
 
 
 
