@@ -251,22 +251,24 @@
         }
         body.labb-active #header {
             background: rgba(12, 20, 39, 0.3);
-            backdrop-filter: blur(20px);
         }
-        /* FÖRINTAD: Tidigare regel som felaktigt dolde header i lobbyn.
-        body.ritbordet-visible:not(.labb-active) #header {
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
+        #header .container {
+            position: relative; /* Harmoni-fix för absolut centrering */
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
         }
-        */
-        #header.scrolled { 
-            background-color: rgba(12, 20, 39, 0.85); 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        #header-logo-link { grid-column: 1; justify-self: start; }
+        .header-nav { grid-column: 2; }
+        .header-cta { grid-column: 3; justify-self: end; } /* Harmoni-fix för position */
+        @media (max-width: 767px) {
+            #header .container {
+                grid-template-columns: 1fr 1fr;
+                justify-content: space-between;
+            }
+            #mobile-menu-trigger { grid-column: 1; justify-self: start; position: relative; left: 0; top: 0; transform: none; }
+            .header-nav, .header-cta, #header-logo-link { display: none; }
         }
-        #header .nav-link { color: var(--nord-sym-text-light); }
-        #header .nav-link:hover { color: var(--nord-sym-cyan); }
-        #header .nav-link.active { color: var(--nord-sym-cyan); font-weight: 700;}
         #mobile-menu { 
             z-index: 40;
             transform: translateX(-100%);
@@ -364,64 +366,123 @@
          @media (min-width: 1024px) { .gallery-container { max-width: 700px; } }
         .gallery-viewport { overflow: hidden; padding-top: 1rem; margin-top: -1rem; }
         .gallery-wrapper { display: flex; transition: transform 0.5s ease-in-out; }
-        .gallery-wrapper .case-study-card { flex: 0 0 100%; margin: 0; }
+        .gallery-wrapper .archetype-card { flex: 0 0 100%; margin: 0; }
         @media (max-width: 768px) {
             .gallery-wrapper { scroll-snap-type: x mandatory; overflow-x: auto; scroll-behavior: smooth; }
-            .gallery-wrapper .case-study-card { scroll-snap-align: start; min-width: 100%; }
+            .gallery-wrapper .archetype-card { scroll-snap-align: start; min-width: 100%; }
         }
-        .case-study-card {
+        .archetype-card {
             background-color: rgba(var(--nord-sym-deep-space-blue), 0.7);
-            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.3); backdrop-filter: blur(8px);
-            border-radius: 1.5rem; padding: 2rem; display: flex; flex-direction: column;
+            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.3);
+            backdrop-filter: blur(8px);
+            border-radius: 1.5rem;
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+            min-height: 420px; /* Ensure consistent height */
         }
-        .case-study-card:hover {
+         .archetype-card:hover {
             box-shadow: 0 0 25px rgba(var(--nord-sym-cyan-rgb), 0.4), 0 4px 15px rgba(0,0,0,0.3);
             border-color: var(--nord-sym-cyan);
+            transform: translateY(-5px);
         }
-        .case-study-card.frosted {
-            backdrop-filter: blur(4px);
-            opacity: 0.8;
-            pointer-events: none;
+        .archetype-card > i { /* Direct child selector for main icon */
+            font-size: 2.75rem;
+            color: var(--nord-sym-cyan);
+            margin-bottom: 1.25rem;
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+        .archetype-card:hover > i {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 10px rgba(var(--nord-sym-cyan-rgb), 0.7));
+        }
+        .archetype-card h4 {
+            font-family: 'Comfortaa', sans-serif;
+            color: var(--nord-sym-light-accent);
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+        .archetype-card .description {
+            color: var(--nord-sym-text-medium);
+            line-height: 1.6;
+            font-size: 0.9rem;
+            flex-grow: 1;
+            margin-bottom: 1.25rem;
+        }
+        .tech-signature-container {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            width: 100%;
+        }
+        .tech-signature-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        .tech-signature-item i {
+            font-size: 1.5rem;
+            color: var(--nord-sym-text-medium);
+        }
+        .tech-signature-item span {
+            font-size: 0.75rem;
+            color: var(--nord-sym-text-medium);
+            font-weight: 500;
+        }
+        .archetype-cta {
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 1.25rem;
+            font-size: 0.875rem;
+            background: transparent;
+            border: 1px solid var(--nord-sym-text-medium);
+            color: var(--nord-sym-text-medium);
+            box-shadow: none;
+        }
+        .archetype-cta:hover {
+            background: rgba(var(--nord-sym-cyan-rgb), 0.1);
+            border-color: var(--nord-sym-cyan);
+            color: var(--nord-sym-cyan);
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(var(--nord-sym-cyan-rgb), 0.3);
+        }
+        .archetype-card .indicator {
+            font-size: 0.8rem;
+            color: var(--nord-sym-text-medium);
+            border-top: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.2);
+            padding-top: 1rem;
+            width: 100%;
+            margin-top: auto;
+            font-style: italic;
+        }
+        .archetype-card.teaser {
             position: relative;
-        }
-        .case-study-card.frosted-heavy {
-            backdrop-filter: blur(8px);
-            opacity: 0.6;
+            overflow: hidden;
+            cursor: not-allowed;
             pointer-events: none;
-            position: relative;
         }
-        .case-study-card.frosted::after, .case-study-card.frosted-heavy::after {
+        .archetype-card.teaser > * {
+            filter: blur(4px);
+            opacity: 0.5;
+        }
+        .archetype-card.teaser::after {
             content: 'UNDER UTVECKLING';
             position: absolute;
-            top: 50%; left: 50%;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%) rotate(-15deg);
+            font-size: 2.5rem;
+            font-weight: 700;
             font-family: 'Comfortaa', sans-serif;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: rgba(255,255,255,0.5);
-            border: 2px solid rgba(255,255,255,0.5);
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            text-transform: uppercase;
+            color: rgba(var(--nord-sym-light-accent-rgb), 0.15);
+            z-index: 1;
             letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
         }
-
-        @media (min-width: 1024px) {
-            .case-study-card { grid-template-columns: 1fr 1.5fr; gap: 2rem; display: grid; min-height: auto; padding: 2.5rem; }
-        }
-        .case-study-sidebar { display: flex; flex-direction: column; gap: 1rem; }
-        .case-study-sidebar-item { display: flex; align-items: flex-start; gap: .75rem; }
-        .case-study-sidebar-item i { font-size: 1.25rem; color: var(--nord-sym-cyan); margin-top: .1rem; flex-shrink: 0; }
-        .case-study-sidebar-item h5 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: .05em; color: var(--nord-sym-text-medium); margin-bottom: 0; }
-        .case-study-sidebar-item p { font-weight: 500; color: var(--nord-sym-text-light); font-size: .875rem; }
-        .case-study-main { display: flex; flex-direction: column; }
-        .case-study-main h4 { font-family: 'Comfortaa', sans-serif; color: var(--nord-sym-light-accent); font-size: 1.25rem; margin-bottom: .5rem; }
-        .case-study-main p { color: var(--nord-sym-text-medium); line-height: 1.6; margin-bottom: 1rem; font-size: .9rem; flex-grow: 1; }
-        .case-study-results-grid { display: grid; gap: 1rem; border-top: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.2); padding-top: 1rem; grid-template-columns: repeat(3, 1fr); }
-        .case-study-result-item { text-align: center; }
-        .case-study-result-item i { font-size: 1.5rem; color: var(--nord-sym-cyan); margin-bottom: .25rem; }
-        .case-study-result-item .value { font-size: 1.1rem; font-weight: 700; color: var(--nord-sym-text-light); }
-        .case-study-result-item .label { font-size: 0.7rem; color: var(--nord-sym-text-medium); }
         .gallery-nav {
             position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
             background-color: rgba(var(--nord-sym-deep-space-blue), 0.5); backdrop-filter: blur(5px);
@@ -478,13 +539,276 @@
         .hero-headline-glow { animation: hero-glow-animation 5s ease-in-out infinite; }
         @keyframes hero-glow-animation { 50% { text-shadow: 0 0 12px rgba(220, 240, 255, 0.6), 0 0 24px rgba(56, 189, 248, 0.4); } }
         
+        /* --- RITBORDET LOBBY & WORKSHOP RE-ARCHITECTING --- */
+        #ritbordet {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 116px - 100px); /* Full height minus header/footer estimate */
+            padding-top: 4rem;
+            padding-bottom: 4rem;
+        }
+
+        #ritbordet-lobby {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            transform: scale(1);
+        }
+        body.labb-active #ritbordet-lobby {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.95);
+        }
+
+        #ritbordet-lobby .desktop-layout { display: none; }
+        @media (min-width: 1024px) {
+            #ritbordet-lobby .desktop-layout {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 2.5rem;
+                max-width: 1200px;
+                width: 100%;
+            }
+        }
+        #ritbordet-lobby .mobile-layout { display: block; }
+        @media (min-width: 1024px) { #ritbordet-lobby .mobile-layout { display: none; } }
+
+        .ritbordet-grid {
+            display: grid;
+            gap: 1.5rem;
+            width: 100%;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+        @media (min-width: 1024px) {
+            .ritbordet-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        .ritbordet-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.15);
+            padding: 1.5rem;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+        }
+        .ritbordet-card i { font-size: 1.75rem; color: var(--nord-sym-cyan); margin-bottom: 0.75rem; }
+        .ritbordet-card h4 { font-family: 'Comfortaa', sans-serif; font-size: 1rem; color: var(--nord-sym-text-light); margin-bottom: 0.5rem; }
+        .ritbordet-card p { font-size: 0.875rem; color: var(--nord-sym-text-medium); flex-grow: 1; margin-bottom: 1rem; }
+        .ritbordet-card button { margin-top: auto; }
+
+        .portal-btn-placeholder { /* Harmoni-fix: Egen klass för centrering */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 1rem 0;
+        }
+        
+        #geometry-cta {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(var(--nord-sym-cyan-rgb), 0.15) 0%, rgba(var(--nord-sym-deep-space-blue), 0) 70%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border: 1px solid transparent;
+        }
+        #geometry-cta:hover {
+            transform: scale(1.05);
+            background: radial-gradient(circle, rgba(var(--nord-sym-cyan-rgb), 0.25) 0%, rgba(var(--nord-sym-deep-space-blue), 0) 70%);
+            border-color: rgba(var(--nord-sym-cyan-rgb), 0.3);
+            box-shadow: 0 0 30px rgba(var(--nord-sym-cyan-rgb), 0.2);
+        }
+        #geometry-cta i { font-size: 3rem; color: var(--nord-sym-cyan); transition: all 0.3s ease; }
+        #geometry-cta .cta-text { font-weight: 600; color: var(--nord-sym-text-light); margin-top: 0.5rem; transition: all 0.3s ease; }
+        #geometry-cta:hover i { transform: rotate(45deg) scale(1.1); }
+        #geometry-cta:hover .cta-text { color: var(--nord-sym-cyan); }
+        
+        #mobile-enter-workshop-btn {
+            display: none; /* Hidden by default, shown by JS for mobile lobby */
+        }
+        body.ritbordet-visible #mobile-enter-workshop-btn {
+            display: flex;
+            position: fixed;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 64px; height: 64px;
+            background: rgba(var(--nord-sym-cyan-rgb), 0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--nord-sym-cyan);
+            border-radius: 50%;
+            align-items: center; justify-content: center;
+            z-index: 999;
+            color: var(--nord-sym-cyan);
+            font-size: 2rem;
+            box-shadow: 0 0 20px rgba(var(--nord-sym-cyan-rgb), 0.3);
+        }
+        body.labb-active #mobile-enter-workshop-btn {
+            display: none !important;
+        }
+        @media (min-width: 1024px) { body.ritbordet-visible #mobile-enter-workshop-btn { display: none; } }
+        
+        #workshop-onboarding {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(12, 20, 39, 0.8); backdrop-filter: blur(10px);
+            display: flex; justify-content: center; align-items: center; text-align: center;
+            z-index: 2000;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        #workshop-onboarding.visible { opacity: 1; pointer-events: auto; }
+        .onboarding-content {
+            background: rgba(12, 20, 39, 0.7); border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.2);
+            padding: 3rem; border-radius: 1.5rem; max-width: 500px;
+        }
+        .onboarding-content h3 { font-family: 'Comfortaa', sans-serif; font-size: 2rem; color: var(--nord-sym-text-light); }
+        .esc-hint {
+            position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+        }
+
+        .joystick-portal {
+            position: fixed;
+            bottom: -100px;
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            z-index: 2006; /* Harmoni-fix: Högsta prioritet för att säkerställa att de alltid är klickbara. */
+            display: flex; align-items: center; justify-content: center;
+            transition: bottom 0.5s ease, opacity 0.3s ease;
+            background: rgba(12, 20, 39, 0.5);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(var(--nord-sym-text-medium), 0.3);
+            color: var(--nord-sym-text-medium);
+        }
+        .joystick-portal.faded {
+            opacity: 0.2;
+        }
+        .joystick-portal.active { border-color: var(--nord-sym-cyan); color: var(--nord-sym-cyan); }
+        .joystick-portal i { font-size: 2rem; }
+        #joystick-portal-left { left: 2rem; }
+        #joystick-portal-right { right: 2rem; }
+        
+        /* Harmoni-fix: Separata positioner för mobil och desktop för att undvika överlappning. */
+        @media (max-width: 767px) {
+            body.labb-active .joystick-portal { bottom: 1.5rem; }
+            
+            /* Harmoni-fix: Denna regel togs bort för att undvika konflikt med det nya vertikala verktygsfältet. */
+        }
+        
+        /* --- MOBIL VERKSTAD UI-HARMONISERING --- */
+        #toolbar-toggle {
+            display: none; /* Dold som standard */
+            position: fixed;
+            left: 1rem;
+            top: 10rem; /* Harmoni-fix: Flyttad högre upp för att inte störa joysticken. */
+            transform: translateY(-50%);
+            z-index: 2005;
+            background: rgba(12, 20, 39, 0.5);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(var(--nord-sym-text-medium), 0.3);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            width: 44px; height: 44px; /* Harmoni-fix: Matchar de andra knapparna */
+            font-size: 1.25rem; /* Harmoni-fix: Ikonstorlek */
+        }
+        #toolbar-close {
+            display: none; /* Dold som standard, visas bara i mobil-verktygsfältet */
+        }
+        @media (max-width: 767px) {
+             /* Åsidosätt den gamla topp-placeringen */
+            body.labb-active #elastic-toolbar {
+                top: 50%;
+                left: -200px; /* Börja utanför skärmen */
+                bottom: auto;
+                transform: translateY(-50%);
+                transition: left 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+                width: auto; /* Harmoni-fix: Låt innehållet bestämma bredden. */
+            }
+            body.labb-active.toolbar-open #elastic-toolbar {
+                left: 1rem; /* Glid in */
+            }
+            body.labb-active #elastic-toolbar .glass-control-group {
+                flex-direction: column;
+                padding: 0.75rem;
+                border-radius: 1rem; /* Harmoni-fix: Ger verktygsfältet en mjukare form. */
+            }
+            body.labb-active #toolbar-close {
+                display: flex;
+                margin-bottom: 0.5rem; /* Avstånd till de andra knapparna */
+            }
+
+            body.labb-active #toolbar-toggle {
+                display: flex; /* Visa bara i verkstadsläge på mobil */
+            }
+            body.labb-active.toolbar-open #toolbar-toggle {
+                opacity: 0;
+                pointer-events: none;
+                transform: translateY(-50%) scale(0.8);
+            }
+
+            /* Harmoni-fix: Dölj vänster joystick när verktygsfältet är öppet för att ge det andrum. */
+            body.labb-active.toolbar-open #joystick-portal-left {
+                opacity: 0;
+                pointer-events: none;
+            }
+        }
+        
+        #joystick-portal-right .portal-ring {
+            position: absolute; border-radius: 50%; border: 2px solid var(--nord-sym-cyan);
+            opacity: 0; transition: all 0.4s ease;
+        }
+        #joystick-portal-right.active .portal-ring { opacity: 1; }
+        .portal-ring-outer { width: 100%; height: 100%; }
+        .portal-ring-inner { width: 80%; height: 80%; }
+        #joystick-portal-right.active .portal-ring-outer { transform: scale(1.2); }
+        #joystick-portal-right.active .portal-ring-inner { transform: scale(0.9); }
+        #joystick-portal-right .portal-icon-exit { display: none; }
+        body.labb-active #joystick-portal-right .portal-icon-exit { display: block; }
+        body.labb-active #joystick-portal-right .portal-icon-enter { display: none; }
+
+        #elastic-toolbar {
+            position: fixed; 
+            bottom: -100px; 
+            left: 50%; 
+            transform: translateX(-50%);
+            z-index: 2002;
+            transition: all 0.5s ease; /* Harmoni-fix: Ändrat till 'all' för att hantera både 'top' och 'bottom'. */
+        }
+        body.labb-active #elastic-toolbar { bottom: 2rem; }
+        .glass-control-group {
+            display: flex; gap: 0.5rem;
+            background: rgba(12, 20, 39, 0.5); backdrop-filter: blur(10px);
+            padding: 0.75rem; border-radius: 99px;
+            border: 1px solid rgba(var(--nord-sym-text-light), 0.2);
+        }
+        .glass-btn {
+            width: 44px; height: 44px;
+            border-radius: 50%; border: none; background: transparent; color: var(--nord-sym-text-light);
+            display: flex; justify-content: center; align-items: center; font-size: 1.25rem;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .glass-btn:hover { background: rgba(var(--nord-sym-cyan-rgb), 0.1); color: var(--nord-sym-cyan); }
+        .glass-btn.active { background: var(--nord-sym-cyan); color: var(--nord-sym-deep-space-blue); font-weight: bold; }
+        .glass-btn svg { width: 24px; height: 24px; }
+        #fractal-mode-toggle.glow {
+            box-shadow: 0 0 15px rgba(var(--nord-sym-cyan-rgb), 0.7), inset 0 0 5px rgba(var(--nord-sym-cyan-rgb), 0.5);
+            color: var(--nord-sym-cyan);
+        }
+        
         /* --- UNIFIED CANVAS STYLES --- */
         #unified-geometry-canvas {
-            position: fixed; top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            z-index: -5;
-            pointer-events: none;
-            transition: opacity 0.5s ease-in-out;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            z-index: -5 !important;
+            pointer-events: none !important;
         }
         #unified-geometry-canvas.interactive {
             cursor: grab;
@@ -494,364 +818,14 @@
             cursor: grabbing;
         }
         
-        body.ritbordet-visible:not(.labb-active) #unified-geometry-canvas {
-            cursor: pointer;
-            pointer-events: auto;
-        }
-
-        /* RITBORDET STYLES */
-        #ritbordet {
-            position: relative;
-            height: 100%;
-            overflow-y: auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 140px 2rem 4rem 2rem;
-        }
-        #ritbordet-lobby {
-            position: relative; z-index: 10;
-            display: flex; flex-direction: column; align-items: center;
-            width: 100%; text-align: center;
-            transition: opacity 0.5s ease;
-        }
-        .ritbordet-grid {
-            display: grid; gap: 1.5rem; width: 100%; max-width: 1100px;
-        }
-        @media (min-width: 768px) { .ritbordet-grid { grid-template-columns: repeat(3, 1fr); } }
-        
-        .ritbordet-card {
-            background: rgba(var(--nord-sym-deep-space-blue), 0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.2);
-            padding: 2rem 1.5rem;
-            display: flex; flex-direction: column;
-            text-align: center; align-items: center;
-            border-radius: 1rem; transition: all 0.3s ease;
-            position: relative; z-index: 10;
-        }
-        .ritbordet-card:hover {
-            transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 0 25px rgba(var(--nord-sym-light-accent-rgb), 0.3);
-            border-color: var(--nord-sym-light-accent);
-        }
-        .ritbordet-card i { font-size: 2.5rem; margin-bottom: 1rem; color: var(--nord-sym-cyan); }
-        .ritbordet-card h4 { font-family: 'Comfortaa', sans-serif; font-size: 1.25rem; margin-bottom: 0.5rem; }
-        .ritbordet-card p { font-size: 0.875rem; color: var(--nord-sym-text-medium); flex-grow: 1; }
-        .ritbordet-card button { margin-top: 1.5rem; }
-        .ritbordet-card.success-story .metric { font-size: 2rem; font-weight: bold; color: var(--nord-sym-light-accent); display: block; margin-bottom: 0.5rem; }
-        .ritbordet-card.pricing-preview .price-range { font-size: 1.5rem; font-weight: bold; color: var(--nord-sym-light-accent); margin: 0.5rem 0; }
-
-        @keyframes cta-glow {
-            0%, 100% {
-                box-shadow: 0 0 15px rgba(var(--nord-sym-cyan-rgb), 0.4), 0 0 25px rgba(var(--nord-sym-cyan-rgb), 0.3);
-            }
-            50% {
-                box-shadow: 0 0 25px rgba(var(--nord-sym-cyan-rgb), 0.6), 0 0 40px rgba(var(--nord-sym-cyan-rgb), 0.4);
-            }
-        }
-
-        #geometry-cta {
-            color: var(--nord-sym-light-accent);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            margin: 2.5rem 0;
-            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-            width: 72px;
-            height: 72px;
-            padding: 0;
-            border-radius: 50%;
-            background: rgba(var(--nord-sym-cyan-rgb), 0.1);
-            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.4);
-            animation: cta-glow 3s infinite ease-in-out;
-        }
-
-        #geometry-cta i {
-            font-size: 2.5rem;
-            transition: transform 0.4s ease;
-        }
-
-        #geometry-cta .cta-text {
-            font-family: 'Comfortaa', sans-serif;
-            font-size: 1.25rem;
-            max-width: 0;
-            opacity: 0;
-            overflow: hidden;
-            white-space: nowrap;
-            transition: max-width 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease-in-out 0.1s, margin-left 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-            margin-left: 0;
-        }
-
-        #geometry-cta:hover {
-            width: 330px;
-            border-radius: 9999px;
-            padding: 0 2rem;
-            animation-play-state: paused;
-            box-shadow: 0 0 30px rgba(var(--nord-sym-cyan-rgb), 0.7), 0 0 50px rgba(var(--nord-sym-cyan-rgb), 0.5);
-            color: var(--nord-sym-cyan);
-        }
-
-        #geometry-cta:hover i {
-            transform: rotate(-15deg);
-        }
-
-        #geometry-cta:hover .cta-text {
-            max-width: 300px;
-            opacity: 1;
-            margin-left: 0.75rem;
-        }
-
-        /* MOBILE LOBBY STYLES */
-        #mobile-lobby-content { display: none; }
-
-        @media (max-width: 767px) {
-            #ritbordet-lobby .desktop-layout { display: none; }
-            #mobile-lobby-content {
-                display: block;
-                width: 100%;
-                padding-bottom: 120px; /* Space for floating button */
-            }
-            #mobile-lobby-content h3 {
-                font-family: 'Comfortaa', sans-serif;
-                font-size: 1.5rem;
-                margin-top: 2rem;
-                margin-bottom: 1rem;
-                color: var(--nord-sym-light-accent);
-                border-bottom: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.2);
-            }
-        }
-        #mobile-enter-workshop-btn {
-            position: fixed;
-            width: 60px; height: 60px;
-            bottom: 30px; right: 30px;
-            z-index: 10002;
-            display: none;
-            align-items: center; justify-content: center;
-            background: rgba(12, 20, 39, 0.5);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(0, 212, 255, 0.2);
-            border-radius: 50%;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            color: var(--nord-sym-text-light);
-            font-size: 2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            -webkit-tap-highlight-color: transparent;
-        }
-        #mobile-enter-workshop-btn:active {
-            background: rgba(0, 212, 255, 0.2);
-            border-color: rgba(0, 212, 255, 0.8);
-            color: var(--nord-sym-cyan);
-            transform: scale(1.1);
-        }
-
-        /* --- JOYSTICK PORTAL CONTROLS --- */
-        .joystick-portal {
-            position: fixed;
-            width: 60px; height: 60px;
-            background: rgba(12, 20, 39, 0.6);
-            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.3);
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border-radius: 50%;
-            z-index: 10002;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-            display: none; /* Hidden by default */
-            align-items: center; justify-content: center;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .joystick-portal:hover {
-            background: rgba(var(--nord-sym-cyan-rgb), 0.1);
-            border-color: var(--nord-sym-cyan);
-            transform: scale(1.1);
-        }
-        .joystick-portal.active {
-            background: rgba(var(--nord-sym-cyan-rgb), 0.2);
-            border-color: var(--nord-sym-cyan);
-            transform: scale(1.2);
-        }
-        .joystick-portal i {
-            position: absolute; font-size: 2rem; color: var(--nord-sym-cyan);
-            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
-            top: 50%; left: 50%;
-        }
-        
-        /* Mobile-specific Joystick visibility */
-        @media (max-width: 768px) {
-            body.ritbordet-visible:not(.labb-active) #mobile-enter-workshop-btn { display: flex; }
-
-            body.labb-active #joystick-portal-left { display: flex; }
-            body.labb-active #joystick-portal-right { display: flex; }
-
-            #joystick-portal-left { bottom: 30px; left: 30px; }
-            #joystick-portal-right { bottom: 30px; right: 30px; }
-        }
-
-        /* Desktop & non-workshop Universal Atom logic - Alchemical Portal */
-        @media (min-width: 769px) {
-            body:not(.labb-active).ritbordet-visible #joystick-portal-right {
-                display: none; /* FÖRINTAD från lobby, lever kvar i workshop */
-            }
-            
-            body.labb-active #joystick-portal-right {
-                display: none; /* BUG FIX: Hide joystick in desktop workshop mode */
-                position: fixed; /* Återställ till fixed i workshop-läge */
-                top: auto; left: auto; bottom: 30px; right: 30px;
-                transform: none;
-                width: 60px; 
-                height: 60px;
-                background: rgba(12, 20, 39, 0.6);
-                border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.3);
-                backdrop-filter: blur(15px);
-            }
-            body.labb-active #joystick-portal-right:hover {
-                 transform: scale(1.1);
-            }
-            
-            body:not(.labb-active).ritbordet-visible #joystick-portal-right .portal-ring {
-                opacity: 0; /* Dölj ringar när knappen inte syns */
-            }
-
-            body.labb-active #joystick-portal-right .portal-ring {
-                display: none; /* Ringarna behövs inte i workshop-läget, endast ikonerna. */
-            }
-            
-            body.labb-active #joystick-portal-right i {
-                transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
-            }
-
-             body.labb-active #joystick-portal-right i.portal-icon-enter {
-                font-size: 2rem;
-                animation: none;
-            }
-             body.labb-active #joystick-portal-right i.portal-icon-exit {
-                 font-size: 2rem;
-            }
-
-            /* Hover effects are handled by the generic .joystick-portal:hover now */
-        }
-
-        .portal-icon-enter {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 1;
-        }
-        .portal-icon-exit {
-            transform: translate(-50%, -50%) rotate(-180deg) scale(0);
-            opacity: 0;
-        }
-        body.labb-active #joystick-portal-right .portal-icon-enter {
-            transform: translate(-50%, -50%) rotate(180deg) scale(0);
-            opacity: 0;
-        }
-        body.labb-active #joystick-portal-right .portal-icon-exit {
-            transform: translate(-50%, -50%) rotate(0deg) scale(1);
-            opacity: 1;
-        }
-
-        /* Creator Mode Active State */
-        body.creator-mode-active #elastic-toolbar {
-            opacity: 0.1 !important;
-            pointer-events: none;
-        }
-
-        /* GLASS TOOLBAR STYLES */
-        #elastic-toolbar {
-            position: fixed; left: 50%; top: auto; bottom: 30px;
-            transform: translateX(-50%) translateY(120%);
-            z-index: 10001; display: flex; flex-direction: column; gap: 1rem;
-            opacity: 0; pointer-events: none;
-            transition: opacity 0.5s ease 0.5s, transform 0.5s ease 0.5s;
-            width: max-content;
-        }
-        #elastic-toolbar.visible {
-            opacity: 1; pointer-events: auto;
-            transform: translateX(-50%) translateY(0);
-        }
-        #elastic-toolbar.interaction-active {
-            opacity: 0 !important;
-            pointer-events: none;
-        }
-        .glass-control-group {
-            background: rgba(12, 20, 39, 0.5);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(0, 212, 255, 0.2);
-            border-radius: 16px; padding: 0.75rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            display: flex; gap: 0.5rem; align-items: center;
-            transition: opacity 0.3s ease;
-        }
-        .glass-btn {
-            width: 48px; height: 48px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(0, 212, 255, 0.3);
-            border-radius: 12px;
-            color: var(--nord-sym-text-light); font-size: 1.5rem; font-weight: bold;
-            cursor: pointer; transition: all 0.3s ease;
-            position: relative; overflow: hidden;
-            display: inline-flex; align-items: center; justify-content: center;
-        }
-        .glass-btn svg { width: 24px; height: 24px; }
-        .glass-btn:hover {
-            background: rgba(0, 212, 255, 0.1);
-            border-color: rgba(0, 212, 255, 0.6);
-            color: var(--nord-sym-cyan);
-        }
-        .glass-btn.active {
-            background: rgba(0, 212, 255, 0.2);
-            border-color: rgba(0, 212, 255, 0.8);
-            color: var(--nord-sym-cyan);
-        }
-        #desktop-exit-btn {
-            display: none; /* FÖRINTAD */
-        }
-
-        @media (max-width: 768px) { 
-            #elastic-toolbar {
-                left: 20px; top: auto; bottom: 110px; /* Position above joysticks */
-                transform: translateY(120%);
-                flex-direction: row;
-                width: calc(100% - 40px);
-            }
-            #elastic-toolbar.visible { transform: translateY(0); }
-            .glass-control-group { 
-                flex-wrap: wrap; 
-                justify-content: center;
-                opacity: 0.3;
-                transition: opacity 0.4s ease;
-            }
-            #elastic-toolbar.visible .glass-control-group:hover {
-                opacity: 1;
-            }
-        }
-        
-        /* WORKSHOP ONBOARDING STYLES */
-        #workshop-onboarding {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 10005; display: flex; align-items: center; justify-content: center;
-            background: rgba(12, 20, 39, 0.7); backdrop-filter: blur(10px);
-            opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
-        }
-        #workshop-onboarding.visible { opacity: 1; pointer-events: auto; }
-        .onboarding-content {
-            text-align: center; max-width: 500px; padding: 2rem;
-            color: var(--nord-sym-text-light);
-        }
-        .onboarding-content h3 { font-family: 'Comfortaa', sans-serif; font-size: 2rem; margin-bottom: 1rem; }
-        .onboarding-content p { color: var(--nord-sym-text-medium); line-height: 1.6; }
-        .onboarding-content .esc-hint {
-            margin-top: 1.5rem; font-size: 0.875rem; color: var(--nord-sym-cyan);
-            animation: pulse 2s infinite ease-in-out;
-        }
-        @keyframes pulse { 50% { opacity: 0.6; } }
-        
         /* FORM NAME DISPLAY in Header */
         #form-name-display {
-            position: absolute;
-            top: 10px;
+            position: absolute; /* Harmoni-fix för perfekt centrering */
+            top: 70%; /* Harmoni-fix: Flyttad ned för att undvika överlappning */
             left: 50%;
-            transform: translateX(-50%);
+            transform: translate(-50%, -50%);
+            width: max-content;
+            max-width: calc(100% - 200px); /* Undviker överlappning */
             z-index: 1;
             padding: 0.25rem 1rem;
             background: rgba(12, 20, 39, 0);
@@ -863,7 +837,11 @@
             transition: opacity 0.5s ease;
             text-transform: capitalize;
             text-align: center;
-            width: 100%;
+        }
+        @media (max-width: 767px) {
+            #form-name-display {
+                max-width: calc(100% - 120px);
+            }
         }
         body.labb-active #form-name-display.visible {
             opacity: 1;
@@ -907,27 +885,25 @@
 </head>
 <body class="antialiased">
     <header id="header" class="fixed w-full top-0 left-0 right-0">
-        <div class="container mx-auto px-4 md:px-6 py-4 relative"> 
-            <div id="form-name-display"></div>
-            <div class="flex items-center justify-between">
-                <a href="#" id="header-logo-link" onclick="window.nord.showPage('hero'); return false;" class="hidden md:block flex-shrink-0">
-                    <img src="https://raw.githubusercontent.com/GusHem/Logga-utan-text/refs/heads/main/Final%20logo%20no%20text.svg" alt="NordSym Logotyp" class="h-24 transition-all duration-300">
-                </a>
-                <button id="mobile-menu-trigger" class="md:hidden absolute left-4 top-1/2 -translate-y-1/2 z-50">
-                    <img src="https://raw.githubusercontent.com/GusHem/Logga-utan-text/refs/heads/main/Final%20logo%20no%20text.svg" alt="NordSym Meny" class="h-16 transition-transform duration-300 ease-in-out">
-                </button>
-                <nav aria-label="Huvudnavigation" class="hidden md:flex flex-grow justify-center space-x-5 items-center header-nav">
-                    <a href="#" onclick="window.nord.showPage('hero'); return false;" data-nav="hero" class="nav-link transition-colors font-medium">Hem</a>
-                    <a href="#" onclick="window.nord.showPage('om-oss'); return false;" data-nav="om-oss" class="nav-link transition-colors font-medium">Arkitektur</a>
-                    <a href="#" onclick="window.nord.showPage('system'); return false;" data-nav="system" class="nav-link transition-colors font-medium">System</a>
-                    <a href="#" onclick="window.nord.showPage('ritbordet'); return false;" data-nav="ritbordet" class="nav-link transition-colors font-medium">Ritbordet</a>
-                    <a href="#" onclick="window.nord.showPage('karriar'); return false;" data-nav="karriar" class="nav-link transition-colors font-medium">Gör din del</a>
-                </nav>
-                <div class="hidden md:block flex-shrink-0 header-cta"> 
-                    <a href="#" onclick="window.nord.showPage('boka-samtal-skraddarsydd'); return false;" class="btn-base btn-cta-revised text-sm">Framtidsförsäkra er verksamhet</a>
-                </div>
-                 <div class="md:hidden w-16 h-16"></div> 
+        <div class="container mx-auto px-4 md:px-6 py-4"> 
+            <a href="#" id="header-logo-link" onclick="window.nord.showPage('hero'); return false;" class="flex-shrink-0">
+                <img src="https://raw.githubusercontent.com/GusHem/Logga-utan-text/refs/heads/main/Final%20logo%20no%20text.svg" alt="NordSym Logotyp" class="h-24 transition-all duration-300">
+            </a>
+            <button id="mobile-menu-trigger" class="md:hidden z-50">
+                <img src="https://raw.githubusercontent.com/GusHem/Logga-utan-text/refs/heads/main/Final%20logo%20no%20text.svg" alt="NordSym Meny" class="h-16 transition-transform duration-300 ease-in-out">
+            </button>
+            <nav aria-label="Huvudnavigation" class="hidden md:flex flex-grow justify-center space-x-5 items-center header-nav">
+                <a href="#" onclick="window.nord.showPage('hero'); return false;" data-nav="hero" class="nav-link transition-colors font-medium">Hem</a>
+                <a href="#" onclick="window.nord.showPage('om-oss'); return false;" data-nav="om-oss" class="nav-link transition-colors font-medium">Arkitektur</a>
+                <a href="#" onclick="window.nord.showPage('system'); return false;" data-nav="system" class="nav-link transition-colors font-medium">System</a>
+                <a href="#" onclick="window.nord.showPage('ritbordet'); return false;" data-nav="ritbordet" class="nav-link transition-colors font-medium">Ritbordet</a>
+                <a href="#" onclick="window.nord.showPage('karriar'); return false;" data-nav="karriar" class="nav-link transition-colors font-medium">Gör din del</a>
+            </nav>
+            <div class="hidden md:flex flex-shrink-0 header-cta"> 
+                <a href="#" onclick="window.nord.showPage('boka-samtal-skraddarsydd'); return false;" class="btn-base btn-cta-revised text-sm">Framtidsförsäkra er verksamhet</a>
             </div>
+            <!-- Form Name Display flyttad utanför grid-flödet för absolut centrering -->
+            <div id="form-name-display"></div>
         </div>
         <div id="mobile-menu" class="md:hidden bg-nord-sym-deep-space-blue/95 backdrop-blur-sm shadow-lg rounded-b-xl absolute w-full left-0 top-full">
             <a href="#" onclick="window.nord.showPage('hero'); return false;" data-nav="hero" class="block px-6 py-5 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">Hem</a>
@@ -992,10 +968,10 @@
         <section id="atom-gallery-section" class="space-background-section py-20 lg:py-28">
             <div class="section-content-wrapper">
                 <div class="text-center mb-16">
-                    <span class="inline-block bg-sky-800/50 text-sky-200 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Från Vision till Verklighet</span>
-                    <h3 class="text-3xl md:text-4xl font-bold text-white mt-4">Vårt Galleri av System</h3>
-                    <p class="text-center text-sky-200 max-w-2xl mx-auto mt-4 mb-8">
-                        Ett urval av färdiga system och komponenter under utveckling som visar bredden av vår kapacitet.
+                    <span class="inline-block bg-sky-800/50 text-sky-200 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Vår Arkitektur</span>
+                    <h3 class="text-3xl md:text-4xl font-bold text-white mt-4">Våra Byggstenar</h3>
+                    <p class="text-center text-sky-200 max-w-3xl mx-auto mt-4 mb-8">
+                        Dessa är de beprövade grundelementen i vår arkitektur. Från denna palett av intelligens komponerar vi allt från fokuserade Micro-SaaS-lösningar till kompletta, självgående ekosystem. <a href='#home-contact-anchor' onclick='event.preventDefault(); document.getElementById("home-contact-anchor").scrollIntoView({ behavior: "smooth" });' class='text-nord-sym-cyan hover:underline font-semibold whitespace-nowrap'>Se hur de kan kombineras för er.</a>
                     </p>
                 </div>
                 <div class="gallery-container">
@@ -1006,9 +982,6 @@
                     </div>
                     <button aria-label="Föregående system i galleriet" id="galleryPrev" class="gallery-nav prev"><i class="ph-caret-left-bold"></i></button>
                     <button aria-label="Nästa system i galleriet" id="galleryNext" class="gallery-nav next"><i class="ph-caret-right-bold"></i></button>
-                </div>
-                <div class="text-center mt-12 max-w-2xl mx-auto">
-                    <p class="text-sky-300 italic">Varje system du ser är en gestaltning av hundratals beprövade automationsarketyper, formade direkt för er digitala verklighet.</p>
                 </div>
             </div>
         </section>
@@ -1132,24 +1105,26 @@
 
         <section id="ritbordet" class="space-background-section" style="display: none;">
             <div id="ritbordet-lobby" class="section-content-wrapper">
-                <div class="max-w-5xl mx-auto">
+                <div class="max-w-5xl mx-auto w-full">
                     <!-- Desktop Layout -->
                     <div class="desktop-layout">
-                        <div class="ritbordet-grid" id="ritbordet-grid-process">
+                        <div class="ritbordet-grid" id="ritbordet-grid-top">
                             <!-- Process cards injected by JS -->
                         </div>
-                        <div class="portal-btn-placeholder flex justify-center items-center">
+                        <div class="portal-btn-placeholder">
                             <div id="geometry-cta" onclick="window.UnifiedGeometryManager.enterBuilderMode()">
                                 <i class="ph ph-cube"></i>
                                 <span class="cta-text">Forma er Arkitektur</span>
                             </div>
                         </div>
-                        <div class="ritbordet-grid" id="ritbordet-grid-value">
+                        <div class="ritbordet-grid" id="ritbordet-grid-bottom">
                             <!-- Value cards injected by JS -->
                         </div>
                     </div>
                     <!-- Mobile Layout -->
-                    <div id="mobile-lobby-content"></div>
+                    <div class="mobile-layout" id="mobile-lobby-content">
+                         <!-- Mobile cards injected by JS -->
+                    </div>
                 </div>
             </div>
         </section>
@@ -1353,10 +1328,13 @@
     <button id="mobile-enter-workshop-btn" onclick="window.UnifiedGeometryManager.enterBuilderMode()">
         <i class="ph ph-cube"></i>
     </button>
-    <button id="joystick-portal-left" class="joystick-portal" title="Rotationskontroll">
-        <i class="ph-arrows-out-cardinal"></i>
+    <button id="toolbar-toggle" class="glass-btn" title="Visa verktyg">
+        <i class="ph ph-list"></i>
     </button>
-    <button id="joystick-portal-right" class="joystick-portal">
+    <button id="joystick-portal-left" class="joystick-portal" title="Rotationskontroll">
+        <i class="ph ph-arrows-out-cardinal"></i>
+    </button>
+    <button id="joystick-portal-right" class="joystick-portal" title="Gå in/ut ur verkstad">
         <div class="portal-ring portal-ring-outer"></div>
         <div class="portal-ring portal-ring-inner"></div>
         <i class="ph-atom portal-icon-enter"></i>
@@ -1365,6 +1343,7 @@
 
     <div id="elastic-toolbar">
         <div class="glass-control-group">
+            <button class="glass-btn" id="toolbar-close" title="Dölj verktyg"><i class="ph-x"></i></button>
             <button class="glass-btn" data-theme="neural" title="Platonska Solider">◉</button>
             <button class="glass-btn" data-theme="organic" title="Helig Geometri">◊</button>
             <button class="glass-btn" data-theme="crystal" title="Kristaller">Ψ</button>
@@ -1375,7 +1354,7 @@
             </button>
         </div>
     </div>
-
+    
     <script id="simplex-noise-glsl" type="x-shader/x-fragment">
         // Simplex Noise GLSL implementation
         vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
@@ -1436,29 +1415,68 @@
     window.UnifiedGeometryManager = null;
 
     const SACRED_GEOMETRY_LIBRARY = {
-        neural: { material: 'neural', forms: [{ name: 'tetrahedron' }, { name: 'cube' }, { name: 'octahedron' }, { name: 'dodecahedron' }, { name: 'icosahedron' }], currentIndex: 0 },
-        organic: { material: 'organic', forms: [{ name: 'seed_of_life' }, { name: 'flower_of_life' }, { name: 'metatrons_cube' }, { name: 'torus' }, { name: 'trinity_knot' }], currentIndex: 0 },
-        crystal: { material: 'crystal', forms: [{ name: 'diamond_brilliant' }, { name: 'quartz_point' }, { name: 'bismuth_spiral' }, { name: 'geode' }, { name: 'prism_triangular' }], currentIndex: 0 },
-        quantum: { material: 'quantum', forms: [{ name: 'tesseract' }, { name: 'klein_bottle' }, { name: 'mobius_strip' }, { name: 'hopf_fibration' }, { name: 'calabi_yau' }], currentIndex: 0 },
-        cosmic: { 
-            material: 'nebula', 
+        neural: { 
+            material: 'neural', 
             forms: [
-                { name: 'galaxy_spiral' }, 
-                { name: 'galactic_arm' }, 
-                { name: 'cosmic_web' }, 
-                { name: 'supernova_remnant' }, 
-                { name: 'accretion_disk' }, 
-                { name: 'stellated_dodecahedron' }, 
-                { name: 'merkaba' }, 
-                { name: 'atomic_orbitals' }, 
-                { name: 'fibonacci_sphere' }, 
-                { name: 'fibonacci_spiral' },
-                { name: 'tetrahedron_grid_64' }, 
-                { name: 'nebula_cloud' }
+                { name: 'tetrahedron', displayName: 'Tetrahedron' }, 
+                { name: 'cube', displayName: 'Kub' }, 
+                { name: 'octahedron', displayName: 'Oktahedron' }, 
+                { name: 'dodecahedron', displayName: 'Dodekahedron' }, 
+                { name: 'icosahedron', displayName: 'Ikosahedron' }
             ], 
             currentIndex: 0 
         },
-        fractal_reference: { material: 'nebula', forms: [{ name: 'fractal_fibonacci' }] }
+        organic: { 
+            material: 'organic', 
+            forms: [
+                { name: 'seed_of_life', displayName: 'Livets Frö' }, 
+                { name: 'flower_of_life', displayName: 'Livets Blomma' }, 
+                { name: 'metatrons_cube', displayName: 'Metatrons Kub' }, 
+                { name: 'torus', displayName: 'Torus' }, 
+                { name: 'trinity_knot', displayName: 'Treenighetsknut' }
+            ], 
+            currentIndex: 0 
+        },
+        crystal: { 
+            material: 'crystal', 
+            forms: [
+                { name: 'diamond_brilliant', displayName: 'Briljant' }, 
+                { name: 'quartz_point', displayName: 'Bergkristall' }, 
+                { name: 'bismuth_spiral', displayName: 'Vismutkristall' }, 
+                { name: 'geode', displayName: 'Geod' }, 
+                { name: 'prism_triangular', displayName: 'Prisma' }
+            ], 
+            currentIndex: 0 
+        },
+        quantum: { 
+            material: 'quantum', 
+            forms: [
+                { name: 'tesseract', displayName: 'Tesserakt' }, 
+                { name: 'klein_bottle', displayName: 'Kleinflaska' }, 
+                { name: 'mobius_strip', displayName: 'Möbiusband' }, 
+                { name: 'hopf_fibration', displayName: 'Hopf-fibrering' }, 
+                { name: 'calabi_yau', displayName: 'Calabi-Yau-rum' }
+            ], 
+            currentIndex: 0 
+        },
+        cosmic: { 
+            material: 'nebula', // Harmoni-fix: Återställer kosmisk tema till partiklar som standard.
+            forms: [
+                { name: 'galaxy_spiral', displayName: 'Galaxspiral' }, 
+                { name: 'galactic_arm', displayName: 'Galaktisk Arm' }, 
+                { name: 'cosmic_web', displayName: 'Kosmiskt Nät' }, 
+                { name: 'supernova_remnant', displayName: 'Supernova-rest' }, 
+                { name: 'accretion_disk', displayName: 'Ackretionsskiva' }, 
+                { name: 'stellated_dodecahedron', displayName: 'Stjärndodekaeder' }, 
+                { name: 'merkaba', displayName: 'Merkaba' }, 
+                { name: 'atomic_orbitals', displayName: 'Atomorbitaler' }, 
+                { name: 'fibonacci_sphere', displayName: 'Fibonacci-sfär' }, 
+                { name: 'fibonacci_spiral', displayName: 'Fibonaccispiral' },
+                { name: 'tetrahedron_grid_64', displayName: 'Vakuumgeometri' }, 
+                { name: 'nebula_cloud', displayName: 'Nebulosa' }
+            ], 
+            currentIndex: 0 
+        }
     };
 
     // --- ANTI-FRAGILE CORE ---
@@ -1490,6 +1508,18 @@
         window.nord.showPage = function(pageId, isPoppingState = false) {
             const config = pageConfig[pageId];
             if (!config) return;
+            
+            // Harmoni-fix: Säkerställ att verkstaden och dess kontroller stängs när man navigerar bort.
+            if (pageId !== 'ritbordet' && document.body.classList.contains('labb-active')) {
+                if (window.UnifiedGeometryManager) {
+                    window.UnifiedGeometryManager.exitBuilderMode();
+                }
+            } else if (pageId === 'ritbordet') {
+                // Harmoni-fix: Tvinga systemet att återställa till lobbyn om den redan är i verkstadsläge.
+                if (document.body.classList.contains('labb-active') && window.UnifiedGeometryManager) {
+                    window.UnifiedGeometryManager.exitBuilderMode();
+                }
+            }
 
             document.body.classList.toggle('ritbordet-visible', pageId === 'ritbordet');
 
@@ -1527,33 +1557,95 @@
             window.nord.closeMobileMenu();
         };
 
+        class GlobalStarfield {
+            constructor(scene) {
+                this.scene = scene;
+                this.createStars();
+            }
+            createStars() {
+                const starsGeometry = new THREE.BufferGeometry();
+                const starsVertices = [];
+                const starsColors = [];
+                const color = new THREE.Color();
+
+                for (let i = 0; i < 25000; i++) { // Harmoni-fix: Ökat antalet stjärnor för ett rikare universum.
+                    const x = (Math.random() - 0.5) * 2000;
+                    const y = (Math.random() - 0.5) * 2000;
+                    const z = (Math.random() - 0.5) * 2000;
+                    starsVertices.push(x, y, z);
+                    
+                    color.setHSL(0.6, 0.9, 0.5 + Math.random() * 0.4);
+                    starsColors.push(color.r, color.g, color.b);
+                }
+
+                starsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starsVertices, 3));
+                starsGeometry.setAttribute('color', new THREE.Float32BufferAttribute(starsColors, 3));
+
+                const starsMaterial = new THREE.ShaderMaterial({
+                    uniforms: {
+                        time: { value: 0.0 },
+                        opacity: { value: 1.0 }
+                    },
+                    vertexShader: `
+                        varying vec3 vColor;
+                        void main() {
+                            vColor = color;
+                            vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+                            gl_PointSize = 1.5 * ( 300.0 / -mvPosition.z );
+                            gl_Position = projectionMatrix * mvPosition;
+                        }
+                    `,
+                    fragmentShader: `
+                        uniform float time;
+                        uniform float opacity;
+                        varying vec3 vColor;
+                        void main() {
+                            if (length(gl_PointCoord - vec2(0.5, 0.5)) > 0.475) discard;
+                            float twinkle = 0.6 + 0.4 * sin(time * 5.0 + vColor.r * 10.0);
+                            gl_FragColor = vec4(vColor * twinkle, opacity);
+                        }
+                    `,
+                    transparent: true,
+                    vertexColors: true,
+                    blending: THREE.AdditiveBlending,
+                    depthWrite: false
+                });
+
+                this.stars = new THREE.Points(starsGeometry, starsMaterial);
+                this.scene.add(this.stars);
+                this.material = starsMaterial;
+            }
+        }
+
         class UnifiedGeometryManager {
             constructor() {
                 this.isInitialized = false;
                 this.initializationFailed = false;
                 this.composer = null;
                 this.states = {
-                    HERO: { zoom: 15, y: 0, opacity: 0.15, rotSpeed: 0.1 },
-                    PAGE: { zoom: 35, y: 10, opacity: 0.3, rotSpeed: 0.05 },
-                    WORKSHOP: { zoom: 22, y: 0, opacity: 1.0, rotSpeed: 0.2 }, // KALIBRERING: Zoom justerad
-                    HIDDEN: { zoom: 50, y: 20, opacity: 0.0, rotSpeed: 0.02 }
-                };
-                this.currentState = 'HIDDEN';
-                this.lastState = 'HIDDEN';
-                this.targetState = this.states.HIDDEN;
-                
-                this.activeTheme = 'cosmic';
-                this.activeShape = 'galaxy_spiral';
-                
-                this.isMorphing = false;
-                this.currentMorphProgress = 0;
-                this.isFractalMode = false;
-                this.isWorkshopBuilderActive = false;
-                
-                this.morphVelocity = 0;
+                HERO: { zoom: 15, y: 0, opacity: 0.15, rotSpeed: 0.1 },
+                PAGE: { zoom: 35, y: 10, opacity: 0.3, rotSpeed: 0.05 },
+                WORKSHOP: { zoom: 22, y: 0, opacity: 1.0, rotSpeed: 0.2 },
+                HIDDEN: { zoom: 60, y: 0, opacity: 0.0, rotSpeed: 0.02 } // Harmoni-fix: Mjukare, horisontell ingångsanimation.
+            };
+            this.currentState = 'HIDDEN';
+            this.lastState = 'HIDDEN';
+            this.targetState = this.states.HIDDEN;
+            
+            // State Management Refactor
+            this.activeThemeKey = 'cosmic';
+            this.isParticleModeActive = false;
+            this.attractorParams = { a: 10, b: 28, c: 8.0 / 3.0, dt: 0.01 };
+            
+            this.isMorphing = false;
+            this.currentMorphProgress = 0;
+            this.isWorkshopBuilderActive = false;
+            
+            this.morphVelocity = 0;
                 this.dampingFactor = 0.90;
                 this.forceFactor = 0.0015;
                 this.MAX_INPUT_FORCE = 0.035;
+                this.onboardingTimeout = null;
 
                 this.interaction = {
                     targetRotationX: 0.5, targetRotationY: 0,
@@ -1573,6 +1665,30 @@
                 this.boundJoystickTouchStart = this.handleJoystickTouchStart.bind(this);
                 this.boundJoystickTouchMove = this.handleJoystickTouchMove.bind(this);
                 this.boundJoystickTouchEnd = this.handleJoystickTouchEnd.bind(this);
+                this.boundHideOnboarding = null;
+                this.clock = new THREE.Clock();
+                this.activeThemeKey = 'cosmic';
+            }
+
+            setTheme(themeKey) {
+                this.activeThemeKey = themeKey;
+                if (this.elasticGeometry) {
+                    const theme = SACRED_GEOMETRY_LIBRARY[this.activeThemeKey];
+                    this.elasticGeometry.setMaterial(theme?.material || 'organic');
+                }
+            }
+
+            get activeTheme() {
+                return this.activeThemeKey || 'cosmic';
+            }
+
+            handleResize() {
+                this.camera.aspect = window.innerWidth / window.innerHeight;
+                this.camera.updateProjectionMatrix();
+                this.renderer.setSize(window.innerWidth, window.innerHeight);
+                if (this.composer) {
+                    this.composer.setSize(window.innerWidth, window.innerHeight);
+                }
             }
 
             init() {
@@ -1625,14 +1741,9 @@
                 const joystickLeft = document.getElementById('joystick-portal-left');
                 const joystickRight = document.getElementById('joystick-portal-right');
 
-                // Canvas click för desktop lobby
-                this.canvas.addEventListener('click', () => {
-                    if (document.body.classList.contains('ritbordet-visible') && !document.body.classList.contains('labb-active')) {
-                        this.enterBuilderMode();
-                    }
-                });
-
+                // Harmoni-fix: Separerar logiken för touch-enheter och desktop för att säkerställa att rätt kontroller alltid laddas.
                 if (isTouchDevice && joystickLeft && joystickRight) {
+                    // Specifika listeners för mobil (touch)
                     joystickLeft.addEventListener('touchstart', (e) => this.boundJoystickTouchStart(e, 'left'), { passive: false });
                     joystickRight.addEventListener('touchstart', (e) => this.boundJoystickTouchStart(e, 'right'), { passive: false });
                     
@@ -1640,36 +1751,53 @@
                     window.addEventListener('touchend', this.boundJoystickTouchEnd, { passive: false });
                     window.addEventListener('touchcancel', this.boundJoystickTouchEnd, { passive: false });
                 } else {
+                    // Specifika listeners för desktop (mus & hjul)
                     window.addEventListener('wheel', this.boundWheelHandler, { passive: false });
                     if (joystickRight) {
                         joystickRight.addEventListener('click', () => {
-                             if (document.body.classList.contains('labb-active')) { this.exitBuilderMode(); }
-                             else { this.enterBuilderMode(); }
-                        });
-                    }
+                         if (document.body.classList.contains('labb-active')) { this.exitBuilderMode(); }
+                         else { this.enterBuilderMode(); }
+                    });
+                }
                 }
                 
+                // Gemensamma listeners för både mobil och desktop
                 document.querySelectorAll('.glass-btn[data-theme]').forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        this.setTheme(btn.dataset.theme);
-                        document.querySelectorAll('.glass-btn[data-theme]').forEach(b => b.classList.remove('active'));
-                        btn.classList.add('active');
-                    });
+                    btn.addEventListener('click', () => this.handleThemeClick(btn.dataset.theme));
                 });
 
-                document.getElementById('fractal-mode-toggle').addEventListener('click', (e) => {
-                    this.toggleFractalMode();
-                    e.currentTarget.classList.toggle('active', this.isFractalMode);
-                });
+                document.getElementById('fractal-mode-toggle').addEventListener('click', () => this.handleParticleClick());
 
                 window.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape' && this.isWorkshopBuilderActive) this.exitBuilderMode();
                 });
+
+                // Harmoni-fix: Dedikerad logik för det nya, hopfällbara verktygsfältet på mobil.
+                const toolbarToggle = document.getElementById('toolbar-toggle');
+                const toolbarClose = document.getElementById('toolbar-close');
+                const body = document.body;
+
+                if (toolbarToggle && toolbarClose) {
+                    toolbarToggle.addEventListener('click', () => {
+                        body.classList.add('toolbar-open');
+                    });
+                    toolbarClose.addEventListener('click', () => {
+                        body.classList.remove('toolbar-open');
+                    });
+                }
             }
 
             handleWheel(e) {
                 if (!this.isWorkshopBuilderActive) return;
                 e.preventDefault();
+
+                // Interaktion för Ursprunglig Attraktor
+                if (this.isParticleModeActive && !this.activeThemeKey) {
+                    this.attractorParams.b += e.deltaY * 0.01;
+                    this.elasticGeometry.regenerateAttractor(this.attractorParams);
+                    return;
+                }
+
                 const rawForce = e.deltaY * this.forceFactor;
                 const force = Math.max(-this.MAX_INPUT_FORCE, Math.min(this.MAX_INPUT_FORCE, rawForce));
                 this.morphVelocity += force;
@@ -1686,28 +1814,23 @@
                 this.joystick[side].currentX = touch.clientX;
                 this.joystick[side].currentY = touch.clientY;
                 e.currentTarget.classList.add('active');
-
-                if (this.joystick.left.active && this.joystick.right.active) {
-                    this.joystick.creatorMode = true;
-                    document.body.classList.add('creator-mode-active');
-                }
+                e.currentTarget.classList.add('faded');
 
                 if (side === 'right') {
                     clearTimeout(this.joystick.rightTapTimeout);
                     this.joystick.rightTapTimeout = setTimeout(() => {
-                        // If timeout fires, it's a hold, not a tap
                         this.joystick.rightTapTimeout = null;
                     }, 200);
                 }
             }
 
             handleJoystickTouchMove(e) {
-                if (!this.joystick.creatorMode) return;
-                e.preventDefault();
+                // Harmoni-fix: Avlägsnat beroendet av "creatorMode" för att tillåta oberoende joystick-kontroll.
+                e.preventDefault(); 
 
                 for (let i = 0; i < e.changedTouches.length; i++) {
                     const touch = e.changedTouches[i];
-                    if (touch.identifier === this.joystick.left.id) {
+                    if (touch.identifier === this.joystick.left.id && this.joystick.left.active) {
                         const deltaX = touch.clientX - this.joystick.left.currentX;
                         const deltaY = touch.clientY - this.joystick.left.currentY;
                         this.interaction.targetRotationY += deltaX * 0.008;
@@ -1715,185 +1838,222 @@
                         this.interaction.targetRotationX = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, this.interaction.targetRotationX));
                         this.joystick.left.currentX = touch.clientX;
                         this.joystick.left.currentY = touch.clientY;
-                    } else if (touch.identifier === this.joystick.right.id) {
-                        const deltaX = touch.clientX - this.joystick.right.currentX;
+                    } else if (touch.identifier === this.joystick.right.id && this.joystick.right.active) {
                         const deltaY = touch.clientY - this.joystick.right.currentY;
-                        
-                        // Vertical for Morph
-                        const rawForce = -deltaY * this.forceFactor * 3.0;
-                        const force = Math.max(-this.MAX_INPUT_FORCE, Math.min(this.MAX_INPUT_FORCE, rawForce));
-                        this.morphVelocity += force;
-                        this.isMorphing = true;
-
-                        // Horizontal for Zoom
-                        this.interaction.targetZoom = Math.max(10, Math.min(50, this.interaction.targetZoom - deltaX * 0.1));
-
+                        if (this.isParticleModeActive && !this.activeThemeKey) {
+                            this.attractorParams.b -= deltaY * 0.05;
+                            this.elasticGeometry.regenerateAttractor(this.attractorParams);
+                        } else if (this.activeThemeKey) {
+                            const rawForce = deltaY * this.forceFactor * 2;
+                            const force = Math.max(-this.MAX_INPUT_FORCE, Math.min(this.MAX_INPUT_FORCE, rawForce));
+                            this.morphVelocity -= force;
+                            this.isMorphing = true;
+                        }
                         this.joystick.right.currentX = touch.clientX;
                         this.joystick.right.currentY = touch.clientY;
                     }
                 }
             }
-
+            
             handleJoystickTouchEnd(e) {
                 for (let i = 0; i < e.changedTouches.length; i++) {
                     const touch = e.changedTouches[i];
                     if (touch.identifier === this.joystick.left.id) {
                         this.joystick.left.active = false;
-                        this.joystick.left.id = null;
-                        document.getElementById('joystick-portal-left').classList.remove('active');
+                        const joyLeft = document.getElementById('joystick-portal-left');
+                        joyLeft.classList.remove('active');
+                        joyLeft.classList.remove('faded');
                     } else if (touch.identifier === this.joystick.right.id) {
-                         if (this.joystick.rightTapTimeout) {
+                        if (this.joystick.rightTapTimeout) {
                             clearTimeout(this.joystick.rightTapTimeout);
-                            this.joystick.rightTapTimeout = null;
-                            if (this.isWorkshopBuilderActive) this.exitBuilderMode();
+                            if (document.body.classList.contains('labb-active')) this.exitBuilderMode();
                             else this.enterBuilderMode();
                         }
                         this.joystick.right.active = false;
-                        this.joystick.right.id = null;
-                        document.getElementById('joystick-portal-right').classList.remove('active');
+                        const joyRight = document.getElementById('joystick-portal-right');
+                        joyRight.classList.remove('active');
+                        joyRight.classList.remove('faded');
                     }
                 }
-
-                if (!this.joystick.left.active || !this.joystick.right.active) {
-                    if (this.joystick.creatorMode) {
-                        this.joystick.creatorMode = false;
-                        document.body.classList.remove('creator-mode-active');
-                    }
-                }
-            }
-
-            transitionTo(newStateKey, onComplete = () => {}) {
-                if (!this.states[newStateKey] || this.currentState === newStateKey) { if(onComplete) onComplete(); return; }
-                this.lastState = this.currentState; this.currentState = newStateKey; this.targetState = this.states[newStateKey];
-                const duration = 1.2;
-                gsap.to(this.interaction, { targetZoom: this.targetState.zoom, targetY: this.targetState.y, duration: duration, ease: "power2.inOut", onComplete: onComplete });
-                const material = this.elasticGeometry.mesh.material;
-                gsap.to(material.uniforms?.opacity || material, { value: this.targetState.opacity, duration: duration, ease: "power2.inOut" });
-                if (newStateKey !== 'WORKSHOP') this.exitBuilderMode(false);
             }
             
+            transitionTo(targetStateKey) {
+                const state = this.states[targetStateKey];
+                if (!state) return;
+                this.lastState = this.currentState;
+                this.currentState = targetStateKey;
+                this.targetState = state;
+                gsap.to(this.interaction, { targetZoom: state.zoom, targetY: state.y, duration: 2.5, ease: 'power3.inOut' });
+                const mat = this.elasticGeometry.mesh.material;
+                const uniforms = mat.uniforms;
+                gsap.to(uniforms?.opacity || mat, { value: state.opacity, duration: 1.5, ease: 'power2.inOut' });
+                const starMat = this.stars.material.uniforms.opacity;
+                gsap.to(starMat, { value: state.opacity > 0 ? 1 : 0, duration: 1.5, ease: 'power2.inOut' });
+            }
+
+            handleThemeClick(themeKey) {
+                if (this.activeThemeKey === themeKey) {
+                    this.activeThemeKey = null; // Deselect
+                } else {
+                    this.activeThemeKey = themeKey;
+                }
+                this.updateViewState();
+            }
+            
+            handleParticleClick() {
+                this.isParticleModeActive = !this.isParticleModeActive;
+                this.updateViewState();
+            }
+            
+            updateViewState() {
+                // Update button UI
+                document.querySelectorAll('.glass-btn[data-theme]').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.theme === this.activeThemeKey);
+                });
+                const fractalBtn = document.getElementById('fractal-mode-toggle');
+                fractalBtn.classList.toggle('active', this.isParticleModeActive);
+                fractalBtn.classList.toggle('glow', this.isParticleModeActive && !!this.activeThemeKey);
+
+                // Update geometry
+                this.elasticGeometry.setParticleMode(this.isParticleModeActive, this.activeThemeKey);
+                this.isMorphing = false;
+                this.currentMorphProgress = 0;
+                this.morphVelocity = 0;
+
+                if (this.isParticleModeActive || (SACRED_GEOMETRY_LIBRARY[this.activeThemeKey]?.material === 'nebula')) {
+                    if (this.activeThemeKey) {
+                        const theme = SACRED_GEOMETRY_LIBRARY[this.activeThemeKey];
+                        theme.currentIndex = 0; // Reset index on select
+                        this.activeShape = theme.forms[theme.currentIndex];
+                        this.elasticGeometry.morphToShape(this.activeShape.name);
+                        this.displayFormName(this.activeShape);
+                    } else {
+                        // Pure fractal mode: Ursprunglig Attraktor
+                        this.activeShape = { name: 'lorenz_attractor', displayName: 'Ursprunglig Attraktor' };
+                        this.elasticGeometry.morphToShape(this.activeShape.name);
+                        this.displayFormName(this.activeShape);
+                    }
+                } else {
+                    if (this.activeThemeKey) {
+                        const theme = SACRED_GEOMETRY_LIBRARY[this.activeThemeKey];
+                        theme.currentIndex = 0; // Reset index on select
+                        this.activeShape = theme.forms[theme.currentIndex];
+                        this.elasticGeometry.morphToShape(this.activeShape.name);
+                        this.displayFormName(this.activeShape);
+                    } else {
+                        // No theme, no fractal -> Fade out
+                        gsap.to(this.elasticGeometry.mesh.material.uniforms?.opacity || this.elasticGeometry.mesh.material, { value: 0.1, duration: 0.5 });
+                        this.hideFormName();
+                    }
+                }
+            }
+
             enterBuilderMode() {
                 this.isWorkshopBuilderActive = true;
                 document.body.classList.add('labb-active');
-                gsap.to('#ritbordet-lobby', { opacity: 0, duration: 0.5, onComplete: () => document.getElementById('ritbordet-lobby').style.pointerEvents = 'none' });
-                document.getElementById('elastic-toolbar').classList.add('visible');
-                this.canvas.classList.add('interactive');
-                this.showOnboarding();
-            }
+                this.transitionTo('WORKSHOP');
+                
+                const onboardingEl = document.getElementById('workshop-onboarding');
+                onboardingEl?.classList.add('visible');
+                
+                clearTimeout(this.onboardingTimeout);
+                this.onboardingTimeout = setTimeout(() => this.hideOnboarding(), 4000);
 
-            exitBuilderMode(animate = true) {
-                if (!this.isWorkshopBuilderActive) return;
+                // Harmoni-fix: Låt användaren klicka bort rutan.
+                if (onboardingEl && !this.boundHideOnboarding) {
+                    this.boundHideOnboarding = this.hideOnboarding.bind(this);
+                    onboardingEl.addEventListener('click', this.boundHideOnboarding);
+                }
+
+                // Set initial state for workshop
+                this.updateViewState();
+            }
+            
+            exitBuilderMode() {
+                clearTimeout(this.onboardingTimeout);
                 this.isWorkshopBuilderActive = false;
                 document.body.classList.remove('labb-active');
-                if (animate) gsap.to('#ritbordet-lobby', { opacity: 1, duration: 0.5, delay: 0.5, onStart: () => document.getElementById('ritbordet-lobby').style.pointerEvents = 'auto' });
-                else { document.getElementById('ritbordet-lobby').style.opacity = 1; document.getElementById('ritbordet-lobby').style.pointerEvents = 'auto'; }
-                document.getElementById('elastic-toolbar').classList.remove('visible');
-                this.canvas.classList.remove('interactive');
-                this.hideOnboarding(); this.hideFormName();
-            }
-
-            showOnboarding() {
-                const onboarding = document.getElementById('workshop-onboarding'); if (!onboarding) return;
-                onboarding.classList.add('visible');
-                const hide = () => { this.hideOnboarding(); window.removeEventListener('wheel', hide); window.removeEventListener('click', hide); };
-                setTimeout(() => { window.addEventListener('wheel', hide, { once: true }); window.addEventListener('click', hide, { once: true }); }, 500);
-                // KALIBRERING: Tidsgräns för onboarding reducerad.
-                setTimeout(hide, 5000);
-            }
-
-            hideOnboarding() { document.getElementById('workshop-onboarding')?.classList.remove('visible'); }
-            
-            setTheme(themeKey) {
-                if (!SACRED_GEOMETRY_LIBRARY[themeKey]) return;
-                this.activeTheme = themeKey; const theme = SACRED_GEOMETRY_LIBRARY[themeKey]; theme.currentIndex = 0;
-                this.isMorphing = false; this.currentMorphProgress = 0; this.morphVelocity = 0;
-                const materialKey = this.isFractalMode ? 'nebula' : theme.material;
-                this.elasticGeometry.setMaterial(materialKey);
-                this.activeShape = theme.forms[theme.currentIndex].name;
-                this.elasticGeometry.morphToShape(this.activeShape);
-                this.displayFormName(this.activeShape);
+                document.body.classList.remove('toolbar-open'); // Harmoni-fix: Säkerställ att verktygsfältet stängs.
+                this.transitionTo(this.lastState === 'HIDDEN' ? 'HERO' : this.lastState);
+                this.hideOnboarding();
+                this.hideFormName();
             }
             
-            toggleFractalMode() {
-                this.isFractalMode = !this.isFractalMode; const theme = SACRED_GEOMETRY_LIBRARY[this.activeTheme];
-                const materialKey = this.isFractalMode ? 'nebula' : theme.material;
-                this.elasticGeometry.setMaterial(materialKey); this.elasticGeometry.morphToShape(this.activeShape);
+            hideOnboarding() { 
+                const onboardingEl = document.getElementById('workshop-onboarding');
+                if(onboardingEl) {
+                    onboardingEl.classList.remove('visible'); 
+                    // Harmoni-fix: Rensa event listener för att förhindra minnesläckor.
+                    if (this.boundHideOnboarding) {
+                        onboardingEl.removeEventListener('click', this.boundHideOnboarding);
+                        this.boundHideOnboarding = null;
+                    }
+                }
             }
             
-            displayFormName(name) {
-                if (!this.isWorkshopBuilderActive) return;
+            displayFormName(shape) {
+                if (!this.isWorkshopBuilderActive || !shape) return;
                 const el = document.getElementById('form-name-display'); if (!el) return;
-                el.textContent = name.replace(/_/g, ' '); el.classList.add('visible');
+                const name = shape.displayName || shape.name.replace(/_/g, ' ');
+                el.textContent = name; 
+                el.classList.add('visible');
             }
             
             hideFormName() { document.getElementById('form-name-display')?.classList.remove('visible'); }
 
             animate() {
                 requestAnimationFrame(this.animate);
-                const time = Date.now() * 0.001;
+                const time = this.clock.getElapsedTime();
+                
                 this.interaction.actualRotationX += (this.interaction.targetRotationX - this.interaction.actualRotationX) * 0.1;
                 this.interaction.actualRotationY += (this.interaction.targetRotationY - this.interaction.actualRotationY) * 0.1;
                 this.interaction.actualZoom += (this.interaction.targetZoom - this.interaction.actualZoom) * 0.05;
                 this.interaction.actualY += (this.interaction.targetY - this.interaction.actualY) * 0.05;
                 
-                if (this.isWorkshopBuilderActive) {
+                if (this.isWorkshopBuilderActive && this.activeThemeKey) {
                     this.currentMorphProgress += this.morphVelocity; this.morphVelocity *= this.dampingFactor;
                     if (Math.abs(this.morphVelocity) < 0.0001) { this.morphVelocity = 0; if(this.isMorphing) this.isMorphing = false; }
-                    const theme = SACRED_GEOMETRY_LIBRARY[this.activeTheme];
-                    if (this.currentMorphProgress >= 1) { theme.currentIndex = (theme.currentIndex + 1) % theme.forms.length; this.activeShape = theme.forms[theme.currentIndex].name; this.currentMorphProgress -= 1.0; if ('vibrate' in navigator) navigator.vibrate(30); } 
-                    else if (this.currentMorphProgress < 0) { theme.currentIndex = (theme.currentIndex - 1 + theme.forms.length) % theme.forms.length; this.activeShape = theme.forms[theme.currentIndex].name; this.currentMorphProgress += 1.0; if ('vibrate' in navigator) navigator.vibrate(30); }
-                    const fromShape = theme.forms[theme.currentIndex].name, toShape = theme.forms[(theme.currentIndex + 1) % theme.forms.length].name;
-                    this.elasticGeometry.setMorph(fromShape, toShape, this.currentMorphProgress);
-                    this.displayFormName(this.isMorphing ? `${fromShape.replace(/_/g, ' ')} → ${toShape.replace(/_/g, ' ')}` : this.activeShape.replace(/_/g, ' '));
+                    const theme = SACRED_GEOMETRY_LIBRARY[this.activeThemeKey];
+                    if (this.currentMorphProgress >= 1) { theme.currentIndex = (theme.currentIndex + 1) % theme.forms.length; this.activeShape = theme.forms[theme.currentIndex]; this.currentMorphProgress -= 1.0; if ('vibrate' in navigator) navigator.vibrate(30); } 
+                    else if (this.currentMorphProgress < 0) { theme.currentIndex = (theme.currentIndex - 1 + theme.forms.length) % theme.forms.length; this.activeShape = theme.forms[theme.currentIndex]; this.currentMorphProgress += 1.0; if ('vibrate' in navigator) navigator.vibrate(30); }
+                    const fromShape = theme.forms[theme.currentIndex], toShape = theme.forms[(theme.currentIndex + 1) % theme.forms.length];
+                    this.elasticGeometry.setMorph(fromShape.name, toShape.name, this.currentMorphProgress);
+                    
+                    const fromName = fromShape.displayName || fromShape.name.replace(/_/g, ' ');
+                    const toName = toShape.displayName || toShape.name.replace(/_/g, ' ');
+
+                    this.displayFormName(this.isMorphing ? { displayName: `${fromName} → ${toName}` } : this.activeShape);
                 }
                 
                 const cameraX = Math.sin(this.interaction.actualRotationY) * Math.cos(this.interaction.actualRotationX) * this.interaction.actualZoom;
                 const cameraZ = Math.cos(this.interaction.actualRotationY) * Math.cos(this.interaction.actualRotationX) * this.interaction.actualZoom;
-                const cameraY = this.interaction.actualY + Math.sin(this.interaction.actualRotationX) * this.interaction.actualZoom;
-                this.camera.position.set(cameraX, cameraY, cameraZ);
-                this.camera.lookAt(this.scene.position);
-                this.elasticGeometry.mesh.rotation.y = time * this.targetState.rotSpeed;
-                this.stars.update(time); this.elasticGeometry.update(time);
-                if (this.composer) { this.composer.render(); } else { this.renderer.render(this.scene, this.camera); }
-            }
+                const cameraY = Math.sin(this.interaction.actualRotationX) * this.interaction.actualZoom + this.interaction.actualY;
 
-            handleResize() {
-                if (!this.renderer) return;
-                this.camera.aspect = window.innerWidth / window.innerHeight;
-                this.camera.updateProjectionMatrix();
-                this.renderer.setSize(window.innerWidth, window.innerHeight);
-                if (this.composer) this.composer.setSize(window.innerWidth, window.innerHeight);
-                this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                this.camera.position.set(cameraX, cameraY, cameraZ);
+                this.camera.lookAt(0, this.interaction.actualY, 0);
+                
+                this.stars.material.uniforms.time.value = time;
+                this.elasticGeometry.update(time);
+                
+                if (this.composer) {
+                    this.composer.render();
+                } else {
+                    this.renderer.render(this.scene, this.camera);
+                }
             }
         }
-        
-        class GlobalStarfield {
-            constructor(renderTarget) { this.renderTarget = renderTarget; this.initStars(); }
-            initStars() {
-                const geometry = new THREE.BufferGeometry(); const vertices = [], sizes = [];
-                for(let i = 0; i < 10000; i++) { vertices.push((Math.random() - 0.5) * 300, (Math.random() - 0.5) * 300, (Math.random() - 0.5) * 300); sizes.push(Math.random() * 2.5); }
-                geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3)); geometry.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
-                this.material = new THREE.ShaderMaterial({
-                    uniforms: { time: { value: 0 }, opacity: { value: 1.0 } },
-                    vertexShader: `attribute float size; varying float vSize; void main() { vSize = size; vec4 mvPosition = modelViewMatrix * vec4(position, 1.0); gl_PointSize = size * (300.0 / -mvPosition.z); gl_Position = projectionMatrix * mvPosition; }`,
-                    fragmentShader: `varying float vSize; uniform float time; uniform float opacity; void main() { float dist = length(gl_PointCoord - vec2(0.5)); if (dist > 0.5) discard; float a = smoothstep(0.5, 0.0, dist); a *= 0.6 + 0.4 * sin(time + vSize * 10.0); gl_FragColor = vec4(1.0, 1.0, 1.0, a * opacity); }`,
-                    transparent: true, blending: THREE.AdditiveBlending, depthWrite: false
-                });
-                this.stars = new THREE.Points(geometry, this.material); this.stars.renderOrder = -2; this.renderTarget.add(this.stars);
-            }
-            update(time) { if(this.stars) { this.material.uniforms.time.value = time; this.stars.rotation.x = time * 0.02; this.stars.rotation.y = time * 0.01; } }
-        }
-        
+
         class ElasticGeometry {
             constructor(renderer) {
                 this.renderer = renderer; this.SPRING_STRENGTH = 0.04; this.DAMPING = 0.88; this.velocityThreshold = 0.0001; this.isParticleSystem = false; this.activeMorph = null;
-                this.initGeometry(); this.initPhysics(); this.initMaterials(); this.initVisuals();
+               this.initGeometry(); this.initPhysics(); this.initMaterials(); this.initVisuals();
             }
 
             _addColorAttribute(geometry) {
                 if (geometry.attributes.color) return;
                 const count = geometry.attributes.position.count;
                 const colors = new Float32Array(count * 3);
+                const life = new Float32Array(count); // Harmoni-fix: Partiklarna får ett individuellt liv.
                 const color1 = new THREE.Color(0x00D4FF); // NordSym Cyan
                 const color2 = new THREE.Color(0x9370DB); // NordSym Purple
                 const tempColor = new THREE.Color();
@@ -1902,8 +2062,10 @@
                     colors[i * 3] = tempColor.r;
                     colors[i * 3 + 1] = tempColor.g;
                     colors[i * 3 + 2] = tempColor.b;
+                    life[i] = Math.random() * 10.0; // Ett unikt startvärde för varje partikel.
                 }
                 geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+                geometry.setAttribute('life', new THREE.BufferAttribute(life, 1));
             }
 
             initGeometry() {
@@ -1928,7 +2090,8 @@
                     cosmic_web: this.createCosmicWebGeometry(),
                     stellated_dodecahedron: this.createStellatedDodecahedronGeometry(),
                     atomic_orbitals: this.createAtomicOrbitalsGeometry(),
-                    supernova_remnant: this.createSupernovaRemnantGeometry()
+                    supernova_remnant: this.createSupernovaRemnantGeometry(),
+                    lorenz_attractor: this.createLorenzAttractorGeometry()
                 };
                 
                 Object.values(this.geometries).forEach(geo => this._addColorAttribute(geo));
@@ -1939,6 +2102,27 @@
                 const points = []; let x = 0.1, y = 0, z = 0; const a = 10, b = 28, c = 8.0 / 3.0; const dt = 0.01;
                 for (let i = 0; i < count; i++) { const dx = a * (y - x) * dt; const dy = (x * (b - z) - y) * dt; const dz = (x * y - c * z) * dt; x += dx; y += dy; z += dz; if (i > 100) points.push(x * 0.2, y * 0.2, z * 0.2); }
                 const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3)); return geometry;
+            }
+            createLorenzAttractorGeometry(params = { a: 10, b: 28, c: 8.0 / 3.0, dt: 0.01 }, count = 15000) {
+                const points = [];
+                let x = 0.1, y = 0, z = 0;
+                const { a, b, c, dt } = params;
+                for (let i = 0; i < count; i++) {
+                    const dx = a * (y - x) * dt;
+                    const dy = (x * (b - z) - y) * dt;
+                    const dz = (x * y - c * z) * dt;
+                    x += dx; y += dy; z += dz;
+                    if (i > 100) points.push(x * 0.3, y * 0.3, (z * 0.3) - 10);
+                }
+                const geometry = new THREE.BufferGeometry();
+                geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3));
+                return geometry;
+            }
+            regenerateAttractor(params) {
+                const newGeo = this.createLorenzAttractorGeometry(params);
+                this.geometries['lorenz_attractor'] = newGeo;
+                this._addColorAttribute(newGeo);
+                this.morphToShape('lorenz_attractor');
             }
             createFibonacciSphereGeometry(count = 2000, radius = 5) {
                 const points = []; const phi = Math.PI * (3. - Math.sqrt(5.)); 
@@ -2016,40 +2200,48 @@
                     const z = r * Math.cos(phi);
                     points.push(x, y, z);
                 }
-                const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3)); return geometry;
+                const geometry = new THREE.BufferGeometry();
+                geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3));
+                return geometry;
             }
-            createSupernovaRemnantGeometry(count = 15000) {
+            createSupernovaRemnantGeometry(count = 20000, radius = 10) {
                 const points = [];
                 for (let i = 0; i < count; i++) {
-                    const r = 5 + Math.random() * 5;
                     const u = Math.random();
                     const v = Math.random();
-                    const theta = 2 * Math.PI * u;
-                    const phi = Math.acos(2 * v - 1);
-                    const x = r * Math.sin(phi) * Math.cos(theta);
-                    const y = r * Math.sin(phi) * Math.sin(theta);
-                    const z = r * Math.cos(phi);
+                    const r = radius * Math.sqrt(u);
+                    const theta = 2 * Math.PI * v;
+                    const shell_thickness = 0.5 * Math.random();
+                    const R = r * (1.0 - shell_thickness * shell_thickness);
+
+                    const phi = Math.acos(2 * Math.random() - 1);
+                    const x = R * Math.sin(phi) * Math.cos(theta);
+                    const y = R * Math.sin(phi) * Math.sin(theta);
+                    const z = R * Math.cos(phi);
                     points.push(x, y, z);
                 }
-                const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3)); return geometry;
+                const geometry = new THREE.BufferGeometry();
+                geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3));
+                return geometry;
             }
             initMaterials() {
                 const nebulaShader = {
-                    uniforms: { time: { value: 0 }, opacity: { value: 1.0 }, pointSize: { value: 2.5 }, morphProgress: { value: 0.0 }, pulseIntensity: { value: 1.0 } },
-                    vertexShader: `attribute vec3 color; attribute vec3 morphTarget; uniform float time; uniform float pointSize; uniform float morphProgress; varying vec3 vColor; void main() { vColor = color; vec3 p = mix(position, morphTarget, morphProgress); vec4 mvPosition = modelViewMatrix * vec4(p, 1.0); gl_PointSize = pointSize * (20.0 / -mvPosition.z); gl_Position = projectionMatrix * mvPosition; }`,
-                    fragmentShader: `uniform float time; uniform float opacity; uniform float pulseIntensity; varying vec3 vColor; void main() { float dist = length(gl_PointCoord - vec2(0.5)); if (dist > 0.45) discard; float pulse = 0.8 + 0.2 * sin(time * 5.0 + vColor.x * 10.0); gl_FragColor = vec4(vColor * pulse * pulseIntensity, smoothstep(0.45, 0.1, dist) * opacity); }`,
+                    uniforms: { time: { value: 0 }, rotation: { value: 0}, opacity: { value: 1.0 }, pointSize: { value: 2.5 }, morphProgress: { value: 0.0 }, pulseIntensity: { value: 1.0 } },
+                    vertexShader: `attribute vec3 color; attribute float life; attribute vec3 morphTarget; uniform float time; uniform float rotation; uniform float pointSize; uniform float morphProgress; varying vec3 vColor; varying float vLife; void main() { vColor = color; vLife = life; vec3 p = mix(position, morphTarget, morphProgress); mat2 rot = mat2(cos(rotation), -sin(rotation), sin(rotation), cos(rotation)); p.xz = rot * p.xz; vec4 mvPosition = modelViewMatrix * vec4(p, 1.0); gl_PointSize = pointSize * (20.0 / -mvPosition.z); gl_Position = projectionMatrix * mvPosition; }`,
+                    fragmentShader: `uniform float time; uniform float opacity; uniform float pulseIntensity; varying vec3 vColor; varying float vLife; void main() { float dist = length(gl_PointCoord - vec2(0.5)); if (dist > 0.45) discard; float pulse = 0.8 + 0.2 * sin(time * 3.0 + vLife); gl_FragColor = vec4(vColor * pulse * pulseIntensity, smoothstep(0.45, 0.1, dist) * opacity); }`,
                     transparent: true, blending: THREE.AdditiveBlending, depthWrite: false
                 };
                 this.materials = {
-                    neural: new THREE.MeshBasicMaterial({ color: 0x00ffff, wireframe: true, transparent: true, opacity: 0.5 }),
-                    organic: new THREE.ShaderMaterial({ uniforms: { time: { value: 0 }, opacity: { value: 1.0 } }, vertexShader: `uniform float time; varying vec3 vNormal; void main() { vNormal = normal; float displacement = sin(position.y * 2.0 + time * 3.0) * 0.2 + cos(position.x * 2.0 + time * 2.0) * 0.2; vec3 newPosition = position + normal * displacement; gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0); }`, fragmentShader: `varying vec3 vNormal; uniform float opacity; void main() { float intensity = pow(0.7 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.0); gl_FragColor = vec4(vec3(0.5, 0.8, 1.0) * intensity, opacity); }`, wireframe: true, transparent: true }),
-                    crystal: new THREE.ShaderMaterial({ uniforms: { time: { value: 0 }, opacity: { value: 1.0 } }, vertexShader: `varying vec3 vNormal; varying vec3 vViewPosition; void main() { vNormal = normalize(normalMatrix * normal); vec4 mvPosition = modelViewMatrix * vec4(position, 1.0); vViewPosition = -mvPosition.xyz; gl_Position = projectionMatrix * mvPosition; }`, fragmentShader: `varying vec3 vNormal; varying vec3 vViewPosition; uniform float opacity; void main() { vec3 viewDir = normalize(vViewPosition); float fresnel = 1.0 - dot(viewDir, vNormal); fresnel = pow(fresnel, 2.0); vec3 iceColor = vec3(0.9, 0.95, 1.0); vec3 shadowColor = vec3(0.7, 0.85, 1.0); vec3 color = mix(shadowColor, iceColor, fresnel); float frost = sin(vNormal.y * 10.0) * 0.05 + 0.95; gl_FragColor = vec4(color * frost, (0.9 + fresnel * 0.1) * opacity); }`, transparent: true, side: THREE.DoubleSide }),
-                    quantum: new THREE.ShaderMaterial({ uniforms: { time: { value: 0 }, opacity: { value: 1.0 } }, vertexShader: `varying vec3 vNormal; varying vec3 vViewPosition; void main() { vNormal = normalize(normalMatrix * normal); vec4 mvPosition = modelViewMatrix * vec4(position, 1.0); vViewPosition = -mvPosition.xyz; gl_Position = projectionMatrix * mvPosition; }`, fragmentShader: `uniform float time; varying vec3 vNormal; varying vec3 vViewPosition; uniform float opacity; void main() { vec3 viewDir = normalize(vViewPosition); float fresnel = 1.0 - dot(viewDir, vNormal); fresnel = pow(fresnel, 4.0); float flicker = 0.8 + sin(vNormal.x * 10.0 + time * 2.0) * 0.2; vec3 baseColor = vec3(0.1, 0.15, 0.3) * flicker; vec3 rimColor = vec3(0.6, 0.8, 1.0); vec3 color = mix(baseColor, rimColor, fresnel); gl_FragColor = vec4(color, (fresnel * 0.5 + 0.3) * opacity); }`, transparent: true, blending: THREE.AdditiveBlending }),
+                    neural: new THREE.ShaderMaterial({ uniforms: { time: { value: 0 }, rotation: { value: 0 }, opacity: { value: 1.0 } }, vertexShader: `uniform float rotation; void main() { vec3 p = position; mat2 rot = mat2(cos(rotation), -sin(rotation), sin(rotation), cos(rotation)); p.xz = rot * p.xz; gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0); }`, fragmentShader: `uniform float opacity; void main() { gl_FragColor = vec4(0.0, 0.83, 1.0, 0.5 * opacity); }`, wireframe: true, transparent: true }),
+                    organic: new THREE.ShaderMaterial({ uniforms: { time: { value: 0 }, rotation: { value: 0}, opacity: { value: 1.0 } }, vertexShader: `uniform float time; uniform float rotation; varying vec3 vNormal; void main() { vNormal = normal; vec3 newPosition = position; mat2 rot = mat2(cos(rotation), -sin(rotation), sin(rotation), cos(rotation)); newPosition.xz = rot * newPosition.xz; gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0); }`, fragmentShader: `varying vec3 vNormal; uniform float opacity; void main() { float intensity = pow(0.7 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.0); gl_FragColor = vec4(vec3(0.5, 0.8, 1.0) * intensity, opacity); }`, wireframe: true, transparent: true }),
+                    crystal: new THREE.ShaderMaterial({ uniforms: { time: { value: 0 }, rotation: { value: 0}, opacity: { value: 1.0 } }, vertexShader: `uniform float rotation; varying vec3 vNormal; varying vec3 vViewPosition; void main() { vNormal = normalize(normalMatrix * normal); vec3 p = position; mat2 rot = mat2(cos(rotation), -sin(rotation), sin(rotation), cos(rotation)); p.xz = rot * p.xz; vec4 mvPosition = modelViewMatrix * vec4(p, 1.0); vViewPosition = -mvPosition.xyz; gl_Position = projectionMatrix * mvPosition; }`, fragmentShader: `varying vec3 vNormal; varying vec3 vViewPosition; uniform float opacity; void main() { vec3 viewDir = normalize(vViewPosition); float fresnel = 1.0 - dot(viewDir, vNormal); fresnel = pow(fresnel, 2.0); vec3 iceColor = vec3(0.9, 0.95, 1.0); vec3 shadowColor = vec3(0.7, 0.85, 1.0); vec3 color = mix(shadowColor, iceColor, fresnel); float frost = sin(vNormal.y * 10.0) * 0.05 + 0.95; gl_FragColor = vec4(color * frost, (0.9 + fresnel * 0.1) * opacity); }`, transparent: true, side: THREE.DoubleSide }),
+                    quantum: new THREE.ShaderMaterial({ uniforms: { time: { value: 0 }, rotation: { value: 0}, opacity: { value: 1.0 } }, vertexShader: `uniform float rotation; varying vec3 vNormal; varying vec3 vViewPosition; void main() { vNormal = normalize(normalMatrix * normal); vec3 p = position; mat2 rot = mat2(cos(rotation), -sin(rotation), sin(rotation), cos(rotation)); p.xz = rot * p.xz; vec4 mvPosition = modelViewMatrix * vec4(p, 1.0); vViewPosition = -mvPosition.xyz; gl_Position = projectionMatrix * mvPosition; }`, fragmentShader: `uniform float time; varying vec3 vNormal; varying vec3 vViewPosition; uniform float opacity; void main() { vec3 viewDir = normalize(vViewPosition); float fresnel = 1.0 - dot(viewDir, vNormal); fresnel = pow(fresnel, 4.0); float flicker = 0.8 + sin(vNormal.x * 10.0 + time * 2.0) * 0.2; vec3 baseColor = vec3(0.1, 0.15, 0.3) * flicker; vec3 rimColor = vec3(0.6, 0.8, 1.0); vec3 color = mix(baseColor, rimColor, fresnel); gl_FragColor = vec4(color, (fresnel * 0.5 + 0.3) * opacity); }`, transparent: true, blending: THREE.AdditiveBlending }),
                     nebula: new THREE.ShaderMaterial(nebulaShader)
                 };
             }
             initPhysics() { const vertexCount = this.geometry.attributes.position.count; this.originalPositions = new Float32Array(this.geometry.attributes.position.array); this.velocities = new Array(vertexCount).fill(0).map(() => new THREE.Vector3()); }
             initVisuals() { this.mesh = new THREE.Mesh(this.geometry, this.materials.organic); this.mesh.renderOrder = 0; }
+            
             setMaterial(materialKey) {
                 const newMat = this.materials[materialKey]; if (!newMat) return;
                 const currentOpacity = this.mesh.material.uniforms?.opacity?.value ?? this.mesh.material.opacity;
@@ -2057,13 +2249,30 @@
                 Object.values(this.materials).forEach(mat => { if(mat.wireframe) mat.wireframe = false; });
                 if (newMat.wireframe !== undefined) newMat.wireframe = true;
                 const currentScene = this.mesh.parent; if (currentScene) currentScene.remove(this.mesh);
-                this.isParticleSystem = (materialKey === 'nebula');
-                if (this.isParticleSystem) { if (this.mesh.type !== 'Points') this.mesh = new THREE.Points(this.mesh.geometry, newMat); } else { if (this.mesh.type !== 'Mesh') this.mesh = new THREE.Mesh(this.mesh.geometry, newMat); }
-                this.mesh.material = newMat; if (currentScene) currentScene.add(this.mesh);
+                
+                const isNebulaType = (materialKey === 'nebula');
+                if (isNebulaType) {
+                     if (this.mesh.type !== 'Points') this.mesh = new THREE.Points(this.mesh.geometry, newMat);
+                     // Harmoni-fix: Säkerställ att geometrin har ett morphTarget-attribut, vilket är kritiskt för partikel-shadern.
+                     if (!this.mesh.geometry.attributes.morphTarget) {
+                        const vertexCount = this.mesh.geometry.attributes.position.count;
+                        this.mesh.geometry.setAttribute('morphTarget', new THREE.BufferAttribute(new Float32Array(this.mesh.geometry.attributes.position.array), 3));
+                    }
+                } else {
+                     if (this.mesh.type !== 'Mesh') this.mesh = new THREE.Mesh(this.mesh.geometry, newMat);
+                }
+                this.mesh.material = newMat; 
+                
+                if (currentScene) {
+                    currentScene.add(this.mesh);
+                }
             }
+
             update(time) {
                 if (this.mesh.material.uniforms && this.mesh.material.uniforms.time) { this.mesh.material.uniforms.time.value = time; }
-                if (this.isParticleSystem) return;
+                if (this.mesh.material.uniforms && this.mesh.material.uniforms.rotation) { this.mesh.material.uniforms.rotation.value = time * 0.1; }
+                
+                if (this.mesh.type === 'Points') return; // Don't run physics on particle systems
                 const positions = this.geometry.attributes.position.array; const restPos = new THREE.Vector3(); const currentPos = new THREE.Vector3();
                 for (let i = 0; i < this.velocities.length; i++) {
                     restPos.fromArray(this.originalPositions, i * 3); currentPos.fromArray(positions, i * 3);
@@ -2073,7 +2282,7 @@
                 this.geometry.attributes.position.needsUpdate = true; this.geometry.computeVertexNormals();
             }
             nudge() { 
-                if (this.isParticleSystem) { 
+                if (this.mesh.type === 'Points') { 
                     gsap.to(this.mesh.material.uniforms.pulseIntensity, { value: 2.5, duration: 0.3, yoyo: true, repeat: 1, ease: 'power2.inOut' });
                 } else {
                     for (let i = 0; i < this.velocities.length; i++) { this.velocities[i].add(new THREE.Vector3(Math.random()-0.5, Math.random()-0.5, Math.random()-0.5).multiplyScalar(0.1)); }
@@ -2083,47 +2292,92 @@
                 const targetGeo = this.geometries[shapeKey.toLowerCase()]; if (!targetGeo || !targetGeo.attributes.position) return; if (this.activeMorph) this.activeMorph.kill();
                 const targetPositions = new Float32Array(this.originalPositions.length); const vertexCount = this.originalPositions.length / 3;
                 for (let i = 0; i < vertexCount; i++) { const targetIndex = i % targetGeo.attributes.position.count; targetPositions[i*3] = targetGeo.attributes.position.array[targetIndex*3] * scale; targetPositions[i*3+1] = targetGeo.attributes.position.array[targetIndex*3+1] * scale; targetPositions[i*3+2] = targetGeo.attributes.position.array[targetIndex*3+2] * scale; }
-                if (this.isParticleSystem) { 
+                
+                if (this.mesh.type === 'Points') { 
                     this.geometry.setAttribute('position', new THREE.BufferAttribute(targetPositions, 3)); 
                     this.geometry.setAttribute('color', targetGeo.attributes.color.clone());
                     this.geometry.attributes.position.needsUpdate = true; 
                     this.geometry.attributes.color.needsUpdate = true;
-                } else { this.activeMorph = gsap.to(this.originalPositions, { endArray: targetPositions, duration: 2.0, ease: "power3.inOut" }); }
+                } else { 
+                    this.activeMorph = gsap.to(this.originalPositions, { endArray: targetPositions, duration: 2.0, ease: "power3.inOut" }); 
+                }
             }
+
+            setParticleMode(asParticles, activeTheme) {
+                const themeMaterial = SACRED_GEOMETRY_LIBRARY[activeTheme]?.material || 'neural';
+                const shouldUseParticles = asParticles || themeMaterial === 'nebula';
+
+                if (shouldUseParticles) {
+                    this.isParticleSystem = true;
+                    this.setMaterial('nebula');
+                } else {
+                    this.isParticleSystem = false;
+                    this.setMaterial(themeMaterial);
+                }
+            }
+
             setMorph(fromKey, toKey, progress) {
-                const fromGeo = this.geometries[fromKey.toLowerCase()]; const toGeo = this.geometries[toKey.toLowerCase()]; if (!fromGeo || !toGeo) return;
-                const fromPos = fromGeo.attributes.position.array; const toPos = toGeo.attributes.position.array; const vertexCount = this.originalPositions.length / 3;
+                const fromGeo = this.geometries[fromKey.toLowerCase()];
+                const toGeo = this.geometries[toKey.toLowerCase()];
+                if (!fromGeo || !toGeo) return;
+
+                const vertexCount = this.originalPositions.length / 3;
+
                 if (this.isParticleSystem) {
-                    if (!this.geometry.attributes.morphTarget) { this.geometry.setAttribute('morphTarget', new THREE.BufferAttribute(new Float32Array(vertexCount * 3), 3)); }
-                    if (!this.geometry.attributes.color) { this.geometry.setAttribute('color', new THREE.BufferAttribute(new Float32Array(vertexCount * 3), 3)); }
-                    const startArray = this.geometry.attributes.position.array; const targetArray = this.geometry.attributes.morphTarget.array;
+                    // Particle system morphing logic
+                    if (!this.geometry.attributes.morphTarget) {
+                        this.geometry.setAttribute('morphTarget', new THREE.BufferAttribute(new Float32Array(vertexCount * 3), 3));
+                    }
+
+                    const startArray = this.geometry.attributes.position.array;
+                    const targetArray = this.geometry.attributes.morphTarget.array;
                     const colorArray = this.geometry.attributes.color.array;
                     const fromColors = fromGeo.attributes.color.array;
+
                     for (let i = 0; i < vertexCount; i++) {
-                        const fromIndex = (i % fromGeo.attributes.position.count) * 3; const toIndex = (i % toGeo.attributes.position.count) * 3;
-                        startArray[i*3] = fromPos[fromIndex]; startArray[i*3+1] = fromPos[fromIndex+1]; startArray[i*3+2] = fromPos[fromIndex+2];
-                        targetArray[i*3] = toPos[toIndex]; targetArray[i*3+1] = toPos[toIndex+1]; targetArray[i*3+2] = toPos[toIndex+2];
+                        const fromIndex = (i % fromGeo.attributes.position.count) * 3;
+                        const toIndex = (i % toGeo.attributes.position.count) * 3;
+                        
+                        startArray[i * 3]     = fromGeo.attributes.position.array[fromIndex];
+                        startArray[i * 3 + 1] = fromGeo.attributes.position.array[fromIndex + 1];
+                        startArray[i * 3 + 2] = fromGeo.attributes.position.array[fromIndex + 2];
+
+                        targetArray[i * 3]     = toGeo.attributes.position.array[toIndex];
+                        targetArray[i * 3 + 1] = toGeo.attributes.position.array[toIndex + 1];
+                        targetArray[i * 3 + 2] = toGeo.attributes.position.array[toIndex + 2];
+
                         const fromColorIndex = (i % fromGeo.attributes.color.count) * 3;
-                        colorArray[i*3] = fromColors[fromColorIndex];
-                        colorArray[i*3+1] = fromColors[fromColorIndex+1];
-                        colorArray[i*3+2] = fromColors[fromColorIndex+2];
+                        colorArray[i * 3]     = fromColors[fromColorIndex];
+                        colorArray[i * 3 + 1] = fromColors[fromColorIndex + 1];
+                        colorArray[i * 3 + 2] = fromColors[fromColorIndex + 2];
                     }
-                    this.geometry.attributes.position.needsUpdate = true; this.geometry.attributes.morphTarget.needsUpdate = true;
+
+                    this.geometry.attributes.position.needsUpdate = true;
+                    this.geometry.attributes.morphTarget.needsUpdate = true;
                     this.geometry.attributes.color.needsUpdate = true;
                     this.mesh.material.uniforms.morphProgress.value = progress;
                 } else {
+                    // Solid geometry morphing logic (physics-based)
+                    const fromPos = fromGeo.attributes.position.array;
+                    const toPos = toGeo.attributes.position.array;
+                    
                     for (let i = 0; i < vertexCount; i++) {
-                        const fromIndex = (i % fromGeo.attributes.position.count) * 3; const toIndex = (i % toGeo.attributes.position.count) * 3;
+                        const fromIndex = (i % fromGeo.attributes.position.count) * 3;
+                        const toIndex = (i % toGeo.attributes.position.count) * 3;
+
                         const x = fromPos[fromIndex] * (1 - progress) + toPos[toIndex] * progress;
                         const y = fromPos[fromIndex + 1] * (1 - progress) + toPos[toIndex + 1] * progress;
                         const z = fromPos[fromIndex + 2] * (1 - progress) + toPos[toIndex + 2] * progress;
-                        this.originalPositions[i * 3] = x; this.originalPositions[i * 3 + 1] = y; this.originalPositions[i * 3 + 2] = z;
+                        
+                        this.originalPositions[i * 3] = x;
+                        this.originalPositions[i * 3 + 1] = y;
+                        this.originalPositions[i * 3 + 2] = z;
                     }
                 }
             }
         }
-        
-        // Anti-Fragile Initialization Sequence
+    
+    // Anti-Fragile Initialization Sequence
         try {
             window.UnifiedGeometryManager = new UnifiedGeometryManager();
             window.UnifiedGeometryManager.init();
@@ -2206,80 +2460,52 @@
         }
 
         init() {
+            // Harmoni-fix: Förenklad och robust logik. Skapa alltid innehållet för både desktop och mobil.
+            // Låt CSS sköta synligheten via @media queries. Detta eliminerar komplex och felbenägen JS-logik.
             this.populateDesktopCards();
-            this.initLayoutManager();
+            this.renderMobileLayout();
         }
 
         populateDesktopCards() {
-            const processContainer = document.getElementById('ritbordet-grid-process');
-            const valueContainer = document.getElementById('ritbordet-grid-value');
-            if(!processContainer || !valueContainer) return;
+            const topContainer = document.getElementById('ritbordet-grid-top');
+            const bottomContainer = document.getElementById('ritbordet-grid-bottom');
+            if(!topContainer || !bottomContainer) return;
             
-            processContainer.innerHTML = this.processCardsData.map(card => this.createCardHTML(card)).join('');
-            valueContainer.innerHTML = this.valueCardsData.map(card => this.createCardHTML(card)).join('');
+            topContainer.innerHTML = this.processCardsData.map(card => this.createCardHTML(card)).join('');
+            bottomContainer.innerHTML = this.valueCardsData.map(card => this.createCardHTML(card)).join('');
         }
         
         createCardHTML(card) {
             const clickHandler = `window.nord.showPage('hero'); setTimeout(() => document.getElementById('${card.page}').scrollIntoView({ behavior: 'smooth' }), 500);`;
-            if(card.type === 'success-story') {
-                return `<div class="ritbordet-card success-story card-base">
-                            <span class="metric">${card.metric}</span>
-                            <h4>${card.title}</h4>
-                            <p>${card.description}</p>
-                            <button onclick="${clickHandler}" class="btn-base btn-secondary-on-dark text-sm">${card.buttonText}</button>
-                        </div>`;
-            }
+            
+            const buttonHTML = card.buttonText ? `<button onclick="${card.page === 'atom-gallery-section' ? clickHandler : `window.nord.showPage('${card.page}')`}" class="btn-base btn-secondary-on-dark text-sm">${card.buttonText}</button>` : '';
+
             if(card.type === 'pricing-preview') {
                 return `<div class="ritbordet-card pricing-preview card-base">
                             <i class="ph ph-tag"></i>
                             <h4>${card.title}</h4>
                             <div class="price-range">${card.price}</div>
                             <p>${card.description}</p>
-                            <button onclick="window.nord.showPage('${card.page}')" class="btn-base btn-secondary-on-dark text-sm">${card.buttonText}</button>
+                            ${buttonHTML}
                         </div>`;
             }
-             if(card.icon) {
-                return `<div class="ritbordet-card card-base" ${card.tooltip ? `title="${card.tooltip}"` : ''}>
-                            <i class="ph ${card.icon}"></i>
-                            <h4>${card.title}</h4>
-                            <p>${card.description}</p>
-                            ${card.buttonText ? `<button onclick="${card.page === 'atom-gallery-section' ? clickHandler : `window.nord.showPage('${card.page}')`}" class="btn-base btn-secondary-on-dark text-sm">${card.buttonText}</button>` : ''}
-                        </div>`;
-            }
-            return '';
-        }
 
-        initLayoutManager() {
-            this.updateLayout();
-            window.addEventListener('resize', () => this.updateLayout());
-        }
-
-        updateLayout() {
-            const isMobile = window.innerWidth < 768;
-            if (isMobile && !this.mobileLayoutInitialized) {
-                this.renderMobileLayout();
-                this.mobileLayoutInitialized = true;
-                this.desktopLayoutInitialized = false;
-            } else if (!isMobile && !this.desktopLayoutInitialized) {
-                this.renderDesktopLayout();
-                this.desktopLayoutInitialized = true;
-                this.mobileLayoutInitialized = false;
-            }
-        }
-        
-        renderDesktopLayout() {
-            const mobileContent = document.getElementById('mobile-lobby-content');
-            if (mobileContent) mobileContent.innerHTML = '';
+            return `<div class="ritbordet-card card-base" ${card.tooltip ? `title="${card.tooltip}"` : ''}>
+                        <i class="ph ${card.icon}"></i>
+                        <h4>${card.title}</h4>
+                        <p>${card.description}</p>
+                        ${buttonHTML}
+                    </div>`;
         }
 
         renderMobileLayout() {
             const mobileContent = document.getElementById('mobile-lobby-content');
-            if (!mobileContent || mobileContent.innerHTML !== '') return;
+            if (!mobileContent) return;
 
-            const processHTML = `<h3>Process</h3><div class="ritbordet-grid">${this.processCardsData.map(c => this.createCardHTML(c)).join('')}</div>`;
-            const valueHTML = `<h3>Värde</h3><div class="ritbordet-grid">${this.valueCardsData.map(c => this.createCardHTML(c)).join('')}</div>`;
+            const allCards = [...this.processCardsData, ...this.valueCardsData];
+            const mobileHTML = `<div class="ritbordet-grid">${allCards.map(c => this.createCardHTML(c)).join('')}</div>`;
             
-            mobileContent.innerHTML = processHTML + valueHTML;
+            mobileContent.innerHTML = mobileHTML;
         }
     }
 
@@ -2288,40 +2514,104 @@
             this.isInitialMobileLoad = true; // HARMONI-FIX: Flagga för att förhindra initial scroll.
             this.galleryData = [
                 {
-                    status: 'active',
-                    sidebar: { industry: 'Event & Catering', tech: 'React, n8n, Airtable, Gemini', status: 'I Drift' },
-                    main: { title: 'AI-driven Event & Catering Portal', description: 'För en ledande cateringaktör eliminerade vi manuell offerthantering. Vårt system fungerar som en digital eventkoordinator - från första kundkontakt till färdig offert, inklusive menyrådgivning och planering, så att teamet kan fokusera på att leverera fantastiska upplevelser.' },
-                    results: [ { icon: 'ph-clock-arrow-counter-clockwise', value: '>75%', label: 'Minskad Admin'}, { icon: 'ph-chat-centered-text', value: '+40%', label: 'Kundinteraktion'}, { icon: 'ph-sparkle', value: 'Förhöjd', label: 'Kundupplevelse'} ]
+                    icon: 'ph-robot',
+                    title: 'AI-Agenter',
+                    description: 'Vi designar och driftsätter autonoma AI-agenter som hanterar komplexa uppgifter, från research till kunddialog, med inbyggda loopar för mänsklig validering.',
+                    signatures: [
+                        { icon: 'ph-brain', text: 'Intelligens' },
+                        { icon: 'ph-chats-circle', text: 'Dialog' },
+                        { icon: 'ph-file-search', text: 'Research' }
+                    ],
+                    indicator: 'Bygger på 40+ validerade mönster för AI-orkestrering.'
                 },
                 {
-                    status: 'active',
-                    sidebar: { industry: 'Sälj / Alla B2B', tech: 'CRM Integration, n8n, LLM', status: 'Tillgänglig' },
-                    main: { title: '24/7 AI Säljassistent', description: 'En outtröttlig säljassistent som arbetar dygnet runt. Den fångar upp leads, utför research och skickar personaliserade uppföljningar för att hålla er säljpipeline fylld och era säljare fokuserade på avslut.' },
-                    results: [ { icon: 'ph-chart-bar', value: '+25%', label: 'Konverteringsgrad'}, { icon: 'ph-power', value: '24/7', label: 'Alltid Aktiv'}, { icon: 'ph-chat-centered-dots', value: '100%', label: 'Personaliserad Dialog'} ]
+                    icon: 'ph-lightning',
+                    title: 'Processautomation',
+                    description: 'Vi transformerar era manuella processer till självkörande, intelligenta arbetsflöden som lär sig och anpassar sig över tid, komplett med robust felhantering.',
+                    signatures: [
+                        { icon: 'ph-arrows-clockwise', text: 'Självgående' },
+                        { icon: 'ph-timer', text: 'Effektivitet' },
+                        { icon: 'ph-shield-check', text: 'Robusthet' }
+                    ],
+                    indicator: 'Baserad på vår katalog av 200+ beprövade automationsmallar.'
                 },
                 {
-                    status: 'active',
-                    sidebar: { industry: 'Alla', tech: 'Multi-LLM, n8n, API', status: 'Tillgänglig' },
-                    main: { title: 'Intern Synk-Nod', description: 'Hjärtat i våra ekosystem. En egenutvecklad motor som sömlöst synkroniserar data och intelligens mellan olika AI-plattformar (Claude, Gemini, etc.) och era befintliga system. <a href="URL_TILL_DIN_DEMO.html" target="_blank" rel="noopener noreferrer" class="text-nord-sym-cyan hover:underline font-semibold">Utforska en interaktiv demo här.</a>' },
-                    results: [ { icon: 'ph-arrows-clockwise', value: 'Sömlös', label: 'Synkronisering'}, { icon: 'ph-plugs-connected', value: 'Universell', label: 'Integration'}, { icon: 'ph-brain', value: 'Kollektiv', label: 'Intelligens'} ]
+                    icon: 'ph-chart-line',
+                    title: 'Data & Insikt',
+                    description: 'Våra system samlar in, analyserar och omvandlar data från alla era källor till handlingsbara insikter med hjälp av avancerad RAG-teknologi.',
+                     signatures: [
+                        { icon: 'ph-database', text: 'Datakällor' },
+                        { icon: 'ph-chart-bar', text: 'Analys' },
+                        { icon: 'ph-lightbulb', text: 'Insikt' }
+                    ],
+                    indicator: 'Använder 15+ beprövade integrationsmönster för dataharmonisering.'
                 },
                 {
-                    status: 'active',
-                    sidebar: { industry: 'Konsult / Strategi / Finans', tech: 'LangGraph, n8n, Multi-LLM', status: 'Tillgänglig' },
-                    main: { title: 'Multi-Agent Research System', description: 'Ett avancerat system där specialiserade AI-agenter samarbetar för att genomföra djupgående marknads-, företags- och konkurrentanalys på en bråkdel av tiden.' },
-                    results: [ { icon: 'ph-timer', value: '>95%', label: 'Snabbare Analys'}, { icon: 'ph-brain', value: 'Djupare', label: 'Insikter'}, { icon: 'ph-chart-line-up', value: 'Skalbar', label: 'Research On-Demand'} ]
+                    icon: 'ph-magic-wand',
+                    title: 'Innehållsflöden',
+                    description: 'Vi automatiserar hela er innehållscykel – från idé och research till skapande och distribution på flera plattformar, optimerat för maximal räckvidd.',
+                    signatures: [
+                        { icon: 'ph-pencil-circle', text: 'Skapande' },
+                        { icon: 'ph-paper-plane-tilt', text: 'Distribution' },
+                        { icon: 'ph-megaphone', text: 'Räckvidd' }
+                    ],
+                    indicator: 'Bygger på beprövade modeller för automatiserad innehållsdistribution.'
                 },
                 {
-                    status: 'frosted-heavy',
-                    sidebar: { industry: 'E-handel', tech: 'AI, Machine Learning', status: 'Under Utveckling' },
-                    main: { title: 'Dynamisk Prisoptimering', description: 'Ett självlärande system som analyserar marknadstrender, konkurrenters prissättning och interna data för att automatiskt justera priser i realtid för maximal lönsamhet.' },
-                    results: [ { icon: 'ph-currency-dollar', value: 'Ökad', label: 'Maringal'}, { icon: 'ph-chart-line', value: 'Optimerad', label: 'Konvertering'}, { icon: 'ph-robot', value: 'Fullt', label: 'Autonom'} ]
+                    icon: 'ph-envelope-simple',
+                    title: 'CRM & Säljautomation',
+                    description: 'Vi revolutionerar er säljprocess med AI-driven personalisering, automatiserad lead-hantering och komplett livscykelautomation direkt i ert CRM.',
+                     signatures: [
+                        { icon: 'ph-users-three', text: 'Leads' },
+                        { icon: 'ph-target', text: 'Personalisering' },
+                        { icon: 'ph-chart-line-up', text: 'Konvertering' }
+                    ],
+                    indicator: 'Optimerar säljflöden med över 30+ ramverk för CRM-automation.'
                 },
                 {
-                    status: 'frosted-heavy',
-                    sidebar: { industry: 'Logistik', tech: 'AI, IoT, API', status: 'Under Utveckling' },
-                    main: { title: 'Prediktiv Logistikkedja', description: 'Ett system som förutser flaskhalsar och störningar i er logistikkedja innan de inträffar, och proaktivt föreslår och implementerar optimerade rutter och lagerhantering.' },
-                    results: [ { icon: 'ph-truck', value: 'Minskade', label: 'Ledtider'}, { icon: 'ph-package', value: 'Optimerat', label: 'Lager'}, { icon: 'ph-shield-check', value: 'Högre', label: 'Leveranssäkerhet'} ]
+                    icon: 'ph-magnifying-glass',
+                    title: 'Automatiserad Research',
+                    description: 'Sätt en armé av AI-agenter i arbete för att leverera djupgående marknads-, konkurrent- och företagsanalyser på en bråkdel av den manuella tiden.',
+                     signatures: [
+                        { icon: 'ph-globe-hemisphere-west', text: 'Marknad' },
+                        { icon: 'ph-buildings', text: 'Företag' },
+                        { icon: 'ph-users', text: 'Konkurrenter' }
+                    ],
+                    indicator: 'Levererar sammansatt intelligens från 20+ modeller för research-automation.'
+                },
+                {
+                    icon: 'ph-film-strip',
+                    title: 'Mediaproduktion',
+                    description: 'Från råmaterial till färdigt innehåll. Vi bygger AI-drivna flöden som automatiserar produktion och distribution av video, ljud och bild för alla era kanaler.',
+                    signatures: [
+                        { icon: 'ph-video-camera', text: 'Video' },
+                        { icon: 'ph-microphone-stage', text: 'Ljud' },
+                        { icon: 'ph-image', text: 'Bild' }
+                    ],
+                    indicator: 'Hanterar hela mediaproduktionen med 18+ beprövade systemflöden.'
+                },
+                {
+                    icon: 'ph-plugs-connected',
+                    title: 'Sync-Noden',
+                    description: 'Vår egenutvecklade kärnteknologi som binder samman alla era system, API:er och AI-modeller till ett sömlöst, intelligent nätverk. Hjärnan i ert ekosystem.',
+                    indicator: 'Möjliggör portabilitet och framtidssäkrar er tekniska arkitektur.',
+                    ctaText: 'Utforska Demo',
+                    ctaIcon: 'ph-play-circle',
+                    ctaLink: '#' 
+                },
+                {
+                    teaser: true,
+                    icon: 'ph-lock-simple',
+                    title: 'Nästa Generations AI-Kärna',
+                    description: 'En ny nivå av autonomi och proaktiv intelligens, designad för att förutse och agera på framtida behov.',
+                    indicator: 'Lansering Q4 2025'
+                },
+                {
+                    teaser: true,
+                    icon: 'ph-puzzle-piece',
+                    title: 'Adaptiva Gränssnitt',
+                    description: 'Revolutionerande UI som anpassar sig i realtid efter användarens unika kontext, mål och arbetsflöde.',
+                    indicator: 'Lansering Q1 2026'
                 }
             ];
         }
@@ -2335,21 +2625,34 @@
             wrapper.innerHTML = this.galleryData.map(cardData => this.createCardHTML(cardData)).join('');
         }
         createCardHTML(data) {
-            const frostedClass = data.status.startsWith('frosted') ? data.status : '';
-            return `
-                <div class="case-study-card card-base ${frostedClass}">
-                    <div class="case-study-sidebar">
-                        <div class="case-study-sidebar-item"><i class="ph-buildings"></i><div><h5>Bransch</h5><p>${data.sidebar.industry}</p></div></div>
-                        <div class="case-study-sidebar-item"><i class="ph-compass-tool"></i><div><h5>Teknik</h5><p>${data.sidebar.tech}</p></div></div>
-                        <div class="case-study-sidebar-item"><i class="ph-power"></i><div><h5>Status</h5><p>${data.sidebar.status}</p></div></div>
-                    </div>
-                    <div class="case-study-main">
-                        <h4>${data.main.title}</h4>
-                        <p>${data.main.description}</p>
-                        <div class="case-study-results-grid">
-                            ${data.results.map(r => `<div class="case-study-result-item"><i class="ph ${r.icon}"></i><div class="value">${r.value}</div><div class="label">${r.label}</div></div>`).join('')}
+             const isTeaser = data.teaser || false;
+             const cardClasses = `archetype-card card-base ${isTeaser ? 'teaser' : ''}`;
+
+             const ctaButton = data.ctaText ?
+                `<a href="${data.ctaLink || '#'}" target="_blank" rel="noopener noreferrer" class="archetype-cta btn-base">
+                    <i class="ph ${data.ctaIcon}"></i>
+                    <span>${data.ctaText}</span>
+                </a>` : '';
+            
+            const signaturesHTML = data.signatures ? `
+                <div class="tech-signature-container">
+                    ${data.signatures.map(sig => `
+                        <div class="tech-signature-item">
+                            <i class="ph ${sig.icon}"></i>
+                            <span>${sig.text}</span>
                         </div>
-                    </div>
+                    `).join('')}
+                </div>
+            ` : '';
+
+             return `
+                <div class="${cardClasses}">
+                    <i class="ph ${data.icon}"></i>
+                    <h4>${data.title}</h4>
+                    <p class="description">${data.description}</p>
+                    ${signaturesHTML}
+                    ${ctaButton}
+                    <p class="indicator">${data.indicator}</p>
                 </div>
             `;
         }
@@ -2522,6 +2825,17 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
