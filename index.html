@@ -69,9 +69,8 @@
     <style>
         html, body {
             height: 100%; margin: 0; padding: 0;
-            /* Harmoni-fix: Den globala overflow-regeln är borttagen för att säkerställa att
-               interna komponenter, som galleriet, kan scrollas fritt på mobila enheter. */
-            scroll-behavior: smooth; 
+            /* Harmoni-fix: Utrotar scroll-konflikten genom att ta bort den globala 'scroll-behavior',
+               vilket ger GSAP och JS full, oinskränkt kontroll över alla animationer. */
         }
         body {
             font-family: 'Inter', sans-serif; color: #E2E8F0; 
@@ -3080,6 +3079,7 @@
     </script>
 </body>
 </html>
+
 
 
 
