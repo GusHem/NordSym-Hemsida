@@ -1935,14 +1935,13 @@
                 this.lastState = this.currentState;
                 this.currentState = targetStateKey;
                 
-                // Harmoni-fix: Skapar en kopia av state-objektet och justerar zoomen för mobil
-                // för att säkerställa att geometrin alltid ser sfärisk och korrekt ut.
                 let finalState = { ...baseState }; 
                 if (window.innerWidth < 768) {
                     if (targetStateKey === 'PAGE') {
-                        finalState.zoom = 60; // Harmoni-fix: Zoomar ut mer på undersidor för att motverka "oval" effekt.
+                        finalState.zoom = 60; 
                     } else if (targetStateKey === 'HERO') {
-                        finalState.zoom = 30; // Harmoni-fix: Zoomar ut mer på startsidan för mobil.
+                        finalState.zoom = 30; 
+                        finalState.y = -5; // Harmoni-fix: Sänker geometrin för en mer dynamisk och "sexig" komposition.
                     }
                 }
                 
@@ -2029,6 +2028,13 @@
                     onboardingEl.addEventListener('click', this.boundHideOnboarding);
                 }
 
+                // Harmoni-fix: Aktivera bara de globala touch-lyssnarna när verkstaden är aktiv.
+                if (window.matchMedia('(pointer: coarse)').matches) {
+                    window.addEventListener('touchmove', this.boundJoystickTouchMove, { passive: false });
+                    window.addEventListener('touchend', this.boundJoystickTouchEnd, { passive: false });
+                    window.addEventListener('touchcancel', this.boundJoystickTouchEnd, { passive: false });
+                }
+
                 // Set initial state for workshop
                 this.updateViewState();
             }
@@ -2041,6 +2047,13 @@
                 this.transitionTo(this.lastState === 'HIDDEN' ? 'HERO' : this.lastState);
                 this.hideOnboarding();
                 this.hideFormName();
+                
+                // Harmoni-fix: Avaktivera de globala touch-lyssnarna när verkstaden stängs.
+                if (window.matchMedia('(pointer: coarse)').matches) {
+                    window.removeEventListener('touchmove', this.boundJoystickTouchMove, { passive: false });
+                    window.removeEventListener('touchend', this.boundJoystickTouchEnd, { passive: false });
+                    window.removeEventListener('touchcancel', this.boundJoystickTouchEnd, { passive: false });
+                }
             }
             
             hideOnboarding() { 
@@ -3053,6 +3066,8 @@
     </script>
 </body>
 </html>
+
+
 
 
 
