@@ -1342,12 +1342,12 @@
 
     <div id="elastic-toolbar">
         <div class="glass-control-group">
-            <!-- Harmoni-fix: Tog bort den separata stäng-knappen. Dess funktion hanteras nu av toggle-knappen. -->
+            <button class="glass-btn" data-theme="fundamental" title="Grundläggande">◎</button>
             <button class="glass-btn" data-theme="neural" title="Platonska Solider">◉</button>
             <button class="glass-btn" data-theme="organic" title="Helig Geometri">◊</button>
             <button class="glass-btn" data-theme="crystal" title="Kristaller">Ψ</button>
             <button class="glass-btn" data-theme="quantum" title="Kvantum">∞</button>
-            <button class="glass-btn active" data-theme="cosmic" title="Kosmisk">⟠</button>
+            <button class="glass-btn" data-theme="cosmic" title="Kosmisk">⟠</button>
             <button class="glass-btn" id="fractal-mode-toggle" title="Partikel-manifestation">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 C 17 7, 7 17, 2 12 C 7 7, 17 17, 22 12 C 17 7, 7 7, 12 2"></path></svg>
             </button>
@@ -1414,6 +1414,17 @@
     window.UnifiedGeometryManager = null;
 
     const SACRED_GEOMETRY_LIBRARY = {
+        fundamental: {
+            material: 'neural',
+            forms: [
+                { name: 'potential', displayName: 'Potential' },
+                { name: 'relation', displayName: 'Relation' },
+                { name: 'structure', displayName: 'Struktur' },
+                { name: 'adaptation', displayName: 'Adaptation' },
+                { name: 'synergy', displayName: 'Synergi' }
+            ],
+            currentIndex: 0
+        },
         neural: { 
             material: 'neural', 
             forms: [
@@ -1622,8 +1633,8 @@
                 this.initializationFailed = false;
                 this.composer = null;
                 this.states = {
-                HERO: { zoom: 15, y: 0, opacity: 0.15, rotSpeed: 0.1 },
-                PAGE: { zoom: 35, y: 10, opacity: 0.3, rotSpeed: 0.05 },
+                HERO: { zoom: 15, y: 0, opacity: 0.4, rotSpeed: 0.1 }, /* Harmoni-fix: Ytterligare ökad ljusstyrka för en ljusare känsla. */
+                PAGE: { zoom: 35, y: 10, opacity: 0.4, rotSpeed: 0.05 }, /* Harmoni-fix: Matchar ljusstyrkan på Hero-sektionen. */
                 WORKSHOP: { zoom: 22, y: 0, opacity: 1.0, rotSpeed: 0.2 },
                 HIDDEN: { zoom: 60, y: 0, opacity: 0.0, rotSpeed: 0.02 } // Harmoni-fix: Mjukare, horisontell ingångsanimation.
             };
@@ -1632,7 +1643,7 @@
             this.targetState = this.states.HIDDEN;
             
             // State Management Refactor
-            this.activeThemeKey = 'cosmic';
+            this.activeThemeKey = 'fundamental';
             this.isParticleModeActive = false;
             this.attractorParams = { a: 10, b: 28, c: 8.0 / 3.0, dt: 0.01 };
             
@@ -1775,7 +1786,6 @@
 
                 // Harmoni-fix: Dedikerad logik för det nya, hopfällbara verktygsfältet på mobil.
                 const toolbarToggle = document.getElementById('toolbar-toggle');
-                const toolbarClose = document.getElementById('toolbar-close');
                 const body = document.body;
 
                 if (toolbarToggle) {
@@ -1791,7 +1801,6 @@
                         }
                     });
                 }
-                 // Den separata stäng-knappen är borttagen, så dess listener behövs inte.
             }
 
             handleWheel(e) {
@@ -1806,14 +1815,12 @@
 
                 if (e.shiftKey) { // Temaväxling
                     // Harmoni-fix: "Den Stora Resan" är nu mer intelligent och behaglig.
-                    // 1. Resan är pausad i partikelläge för att undvika konflikter.
-                    // 2. En "andningspaus" har lagts till för att göra växlingen mindre abrupt.
                     if (this.isParticleModeActive) return; 
                     const now = Date.now();
                     if (now - this.lastThemeSwitchTime < this.themeSwitchCooldown) return;
 
                     const themeKeys = Object.keys(SACRED_GEOMETRY_LIBRARY);
-                    const currentIndex = themeKeys.indexOf(this.activeThemeKey || 'neural');
+                    const currentIndex = themeKeys.indexOf(this.activeThemeKey || 'fundamental');
                     let nextIndex;
                     if (e.deltaY > 0) { // Scrolla ner
                         nextIndex = (currentIndex + 1) % themeKeys.length;
@@ -2157,7 +2164,13 @@
                     stellated_dodecahedron: this.createStellatedDodecahedronGeometry(),
                     atomic_orbitals: this.createAtomicOrbitalsGeometry(),
                     supernova_remnant: this.createSupernovaRemnantGeometry(),
-                    lorenz_attractor: this.createLorenzAttractorGeometry()
+                    lorenz_attractor: this.createLorenzAttractorGeometry(),
+                     // Formerna för det nya "Grundläggande" temat
+                    potential: this.createPotentialGeometry(),
+                    relation: this.createRelationGeometry(),
+                    structure: this.createStructureGeometry(),
+                    adaptation: this.createAdaptationGeometry(),
+                    synergy: this.createSynergyGeometry()
                 };
                 
                 Object.values(this.geometries).forEach(geo => this._addColorAttribute(geo));
@@ -2168,6 +2181,88 @@
                 const points = []; let x = 0.1, y = 0, z = 0; const a = 10, b = 28, c = 8.0 / 3.0; const dt = 0.01;
                 for (let i = 0; i < count; i++) { const dx = a * (y - x) * dt; const dy = (x * (b - z) - y) * dt; const dz = (x * y - c * z) * dt; x += dx; y += dy; z += dz; if (i > 100) points.push(x * 0.2, y * 0.2, z * 0.2); }
                 const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3)); return geometry;
+            }
+             createPotentialGeometry(count = 15000, radius = 5) {
+                const points = []; 
+                for (let i = 0; i < count; i++) { 
+                    const u = Math.random();
+                    const v = Math.random();
+                    const theta = 2 * Math.PI * u;
+                    const phi = Math.acos(2 * v - 1);
+                    const r = radius * Math.cbrt(Math.random());
+                    const x = r * Math.sin(phi) * Math.cos(theta);
+                    const y = r * Math.sin(phi) * Math.sin(theta);
+                    const z = r * Math.cos(phi);
+                    points.push(x, y, z); 
+                }
+                const geometry = new THREE.BufferGeometry(); 
+                geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3)); 
+                return geometry;
+            }
+            createRelationGeometry(nodes = 50, connectionsPerNode = 3, radius = 8) {
+                const geometry = new THREE.BufferGeometry();
+                const nodePoints = [];
+                for(let i = 0; i < nodes; i++) { 
+                    nodePoints.push(new THREE.Vector3((Math.random() - 0.5) * radius * 2, (Math.random() - 0.5) * radius * 2, (Math.random() - 0.5) * radius * 2)); 
+                }
+                const vertices = [];
+                const connected = new Set();
+                nodePoints.forEach((p1, i) => {
+                    const distances = nodePoints.map((p2, j) => ({ index: j, dist: p1.distanceTo(p2) }))
+                        .sort((a, b) => a.dist - b.dist)
+                        .slice(1, connectionsPerNode + 1);
+
+                    distances.forEach(d => {
+                        const j = d.index;
+                        const key1 = `${i}-${j}`, key2 = `${j}-${i}`;
+                        if (!connected.has(key1) && !connected.has(key2)) {
+                            const p2 = nodePoints[j];
+                            vertices.push(p1.x, p1.y, p1.z);
+                            vertices.push(p2.x, p2.y, p2.z);
+                            connected.add(key1);
+                        }
+                    });
+                });
+
+                geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+                return geometry;
+            }
+            createStructureGeometry(size = 8, divisions = 5) {
+                const geometry = new THREE.BufferGeometry();
+                const vertices = [];
+                const step = size / divisions;
+                const halfSize = size / 2;
+
+                for (let i = 0; i <= divisions; i++) {
+                    const x = -halfSize + i * step;
+                    const y = -halfSize + i * step;
+                    const z = -halfSize + i * step;
+
+                    // Lines along X
+                    vertices.push(-halfSize, y, z, halfSize, y, z);
+                    // Lines along Y
+                    vertices.push(x, -halfSize, z, x, halfSize, z);
+                    // Lines along Z
+                    vertices.push(x, y, -halfSize, x, y, halfSize);
+                }
+
+                geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+                return geometry;
+            }
+            createAdaptationGeometry(size = 8, divisions = 5) { // Harmoni-fix: Minskat antalet "trådar" för en luftigare, mer genomskinlig känsla.
+                 const geometry = new THREE.PlaneGeometry(size, size, divisions, divisions);
+                 // Deform it into a sphere-like shape
+                 const vertices = geometry.attributes.position;
+                 for (let i = 0; i < vertices.count; i++) {
+                     const vertex = new THREE.Vector3().fromBufferAttribute(vertices, i);
+                     vertex.normalize().multiplyScalar(size / 2);
+                     vertices.setXYZ(i, vertex.x, vertex.y, vertex.z);
+                 }
+                 geometry.computeVertexNormals();
+                 return geometry;
+            }
+            createSynergyGeometry(radius = 5, detail = 5) {
+                return new THREE.IcosahedronGeometry(radius, detail);
             }
             createLorenzAttractorGeometry(params = { a: 10, b: 28, c: 8.0 / 3.0, dt: 0.01 }, count = 15000) {
                 const points = [];
@@ -2300,7 +2395,7 @@
                 };
                 this.materials = {
                     neural: new THREE.ShaderMaterial({ uniforms: { time: { value: 0 }, rotation: { value: 0 }, opacity: { value: 1.0 }, thickness: { value: 0.1 } }, vertexShader: `uniform float rotation; void main() { vec3 p = position; mat2 rot = mat2(cos(rotation), -sin(rotation), sin(rotation), cos(rotation)); p.xz = rot * p.xz; gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0); }`, fragmentShader: `uniform float opacity; uniform float thickness; void main() { gl_FragColor = vec4(0.0, 0.83, 1.0, 0.5 * opacity); }`, wireframe: true, transparent: true }),
-                    organic: new THREE.ShaderMaterial({ uniforms: { time: { value: 0 }, rotation: { value: 0}, opacity: { value: 1.0 }, displacement: { value: 0.2 } }, vertexShader: `uniform float time; uniform float rotation; uniform float displacement; varying vec3 vNormal; void main() { vNormal = normal; vec3 newPosition = position; mat2 rot = mat2(cos(rotation), -sin(rotation), sin(rotation), cos(rotation)); newPosition.xz = rot * newPosition.xz; gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0); }`, fragmentShader: `varying vec3 vNormal; uniform float opacity; void main() { float intensity = pow(0.7 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.0); gl_FragColor = vec4(vec3(0.5, 0.8, 1.0) * intensity, opacity); }`, wireframe: true, transparent: true }),
+                    organic: new THREE.ShaderMaterial({ uniforms: { time: { value: 0 }, rotation: { value: 0}, opacity: { value: 1.0 }, displacement: { value: 0.0 } }, vertexShader: `uniform float time; uniform float rotation; uniform float displacement; varying vec3 vNormal; void main() { vNormal = normal; float d = sin(position.y * 2.0 + time * 3.0) * displacement + cos(position.x * 2.0 + time * 2.0) * displacement; vec3 newPosition = position + normal * d; mat2 rot = mat2(cos(rotation), -sin(rotation), sin(rotation), cos(rotation)); newPosition.xz = rot * newPosition.xz; gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0); }`, fragmentShader: `varying vec3 vNormal; uniform float opacity; void main() { float intensity = pow(0.7 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.0); gl_FragColor = vec4(vec3(0.5, 0.8, 1.0) * intensity, opacity); }`, wireframe: true, transparent: true }),
                     crystal: new THREE.ShaderMaterial({ uniforms: { time: { value: 0 }, rotation: { value: 0}, opacity: { value: 1.0 }, fresnelPower: { value: 2.0 } }, vertexShader: `uniform float rotation; varying vec3 vNormal; varying vec3 vViewPosition; void main() { vNormal = normalize(normalMatrix * normal); vec3 p = position; mat2 rot = mat2(cos(rotation), -sin(rotation), sin(rotation), cos(rotation)); p.xz = rot * p.xz; vec4 mvPosition = modelViewMatrix * vec4(p, 1.0); vViewPosition = -mvPosition.xyz; gl_Position = projectionMatrix * mvPosition; }`, fragmentShader: `uniform float fresnelPower; varying vec3 vNormal; varying vec3 vViewPosition; uniform float opacity; void main() { vec3 viewDir = normalize(vViewPosition); float fresnel = 1.0 - dot(viewDir, vNormal); fresnel = pow(fresnel, fresnelPower); vec3 iceColor = vec3(0.9, 0.95, 1.0); vec3 shadowColor = vec3(0.7, 0.85, 1.0); vec3 color = mix(shadowColor, iceColor, fresnel); float frost = sin(vNormal.y * 10.0) * 0.05 + 0.95; gl_FragColor = vec4(color * frost, (0.9 + fresnel * 0.1) * opacity); }`, transparent: true, side: THREE.DoubleSide }),
                     quantum: new THREE.ShaderMaterial({ uniforms: { time: { value: 0 }, rotation: { value: 0}, opacity: { value: 1.0 }, flickerIntensity: { value: 0.2 } }, vertexShader: `uniform float rotation; varying vec3 vNormal; varying vec3 vViewPosition; void main() { vNormal = normalize(normalMatrix * normal); vec3 p = position; mat2 rot = mat2(cos(rotation), -sin(rotation), sin(rotation), cos(rotation)); p.xz = rot * p.xz; vec4 mvPosition = modelViewMatrix * vec4(p, 1.0); vViewPosition = -mvPosition.xyz; gl_Position = projectionMatrix * mvPosition; }`, fragmentShader: `uniform float time; uniform float flickerIntensity; varying vec3 vNormal; varying vec3 vViewPosition; uniform float opacity; void main() { vec3 viewDir = normalize(vViewPosition); float fresnel = 1.0 - dot(viewDir, vNormal); fresnel = pow(fresnel, 4.0); float flicker = 0.8 + sin(vNormal.x * 10.0 + time * 2.0) * flickerIntensity; vec3 baseColor = vec3(0.1, 0.15, 0.3) * flicker; vec3 rimColor = vec3(0.6, 0.8, 1.0); vec3 color = mix(baseColor, rimColor, fresnel); gl_FragColor = vec4(color, (fresnel * 0.5 + 0.3) * opacity); }`, transparent: true, blending: THREE.AdditiveBlending }),
                     nebula: new THREE.ShaderMaterial(nebulaShader)
@@ -2367,25 +2462,23 @@
 
                 if (this.isParticleSystem) {
                     const size = material.uniforms.pointSize;
-                    size.value = Math.max(0.5, Math.min(5.0, size.value - delta * 0.01));
+                    if (size) size.value = Math.max(0.5, Math.min(5.0, size.value - delta * 0.01));
                 } else {
                     const themeKey = window.UnifiedGeometryManager.activeTheme;
                     switch(themeKey) {
                         case 'organic':
                             const displacement = material.uniforms.displacement;
-                            displacement.value = Math.max(0, Math.min(1.0, displacement.value - delta * 0.001));
+                            if (displacement) displacement.value = Math.max(0, Math.min(1.0, displacement.value - delta * 0.001));
                             break;
                         case 'crystal':
                              const fresnelPower = material.uniforms.fresnelPower;
-                             fresnelPower.value = Math.max(0.1, Math.min(8.0, fresnelPower.value - delta * 0.01));
+                             if (fresnelPower) fresnelPower.value = Math.max(0.1, Math.min(8.0, fresnelPower.value - delta * 0.01));
                             break;
                         case 'quantum':
                             const flicker = material.uniforms.flickerIntensity;
-                            flicker.value = Math.max(0, Math.min(1.0, flicker.value - delta * 0.001));
+                            if (flicker) flicker.value = Math.max(0, Math.min(1.0, flicker.value - delta * 0.001));
                             break;
-                        case 'neural':
-                            // Neural är wireframe, vi kan inte skulptera den på samma sätt.
-                            // Kanske tjockleken i framtiden.
+                        default:
                             break;
                     }
                 }
@@ -2955,6 +3048,12 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
 
 
 
