@@ -1636,7 +1636,6 @@
             this.activeThemeKey = 'cosmic';
             this.isParticleModeActive = false;
             this.attractorParams = { a: 10, b: 28, c: 8.0 / 3.0, dt: 0.01 };
-            this.attractorTargetParams = { ...this.attractorParams }; // Harmoni-fix: Målparametrar för mjuk animation.
             
             this.isMorphing = false;
             this.currentMorphProgress = 0;
@@ -1793,9 +1792,11 @@
                 if (!this.isWorkshopBuilderActive) return;
                 e.preventDefault();
 
-                // Interaktion för Ursprunglig Attraktor - nu med mjuk transformation.
+                // Harmoni-fix: Återställer den stabila, direkta interaktionen för Attraktorn.
                 if (this.isParticleModeActive && !this.activeThemeKey) {
-                    this.attractorTargetParams.b += e.deltaY * 0.02;
+                    this.attractorParams.b += e.deltaY * 0.01;
+                    this.elasticGeometry.regenerateAttractor(this.attractorParams);
+                    this.displayFormName({ displayName: `Attraktor [b=${this.attractorParams.b.toFixed(2)}]` });
                     return;
                 }
 
@@ -1842,7 +1843,10 @@
                     } else if (touch.identifier === this.joystick.right.id && this.joystick.right.active) {
                         const deltaY = touch.clientY - this.joystick.right.currentY;
                         if (this.isParticleModeActive && !this.activeThemeKey) {
-                           this.attractorTargetParams.b -= deltaY * 0.1;
+                           // Harmoni-fix: Återställer den stabila, direkta interaktionen för Attraktorn.
+                           this.attractorParams.b -= deltaY * 0.05;
+                           this.elasticGeometry.regenerateAttractor(this.attractorParams);
+                           this.displayFormName({ displayName: `Attraktor [b=${this.attractorParams.b.toFixed(2)}]` });
                         } else if (this.activeThemeKey) {
                             const rawForce = deltaY * this.forceFactor * 2;
                             const force = Math.max(-this.MAX_INPUT_FORCE, Math.min(this.MAX_INPUT_FORCE, rawForce));
@@ -2010,16 +2014,6 @@
                 this.interaction.actualZoom += (this.interaction.targetZoom - this.interaction.actualZoom) * 0.05;
                 this.interaction.actualY += (this.interaction.targetY - this.interaction.actualY) * 0.05;
                 
-                // Harmoni-fix: Dedikerad animationsloop för Ursprunglig Attraktor för att skapa en "dans"-känsla.
-                if (this.isWorkshopBuilderActive && this.isParticleModeActive && !this.activeThemeKey) {
-                    const change = this.attractorTargetParams.b - this.attractorParams.b;
-                    if (Math.abs(change) > 0.001) {
-                        this.attractorParams.b += change * 0.05; // Mjuk interpolation mot målet.
-                        this.elasticGeometry.regenerateAttractor(this.attractorParams);
-                        this.displayFormName({ displayName: `Attraktor [b=${this.attractorParams.b.toFixed(2)}]` });
-                    }
-                }
-
                 if (this.isWorkshopBuilderActive && this.activeThemeKey) {
                     this.currentMorphProgress += this.morphVelocity; this.morphVelocity *= this.dampingFactor;
                     if (Math.abs(this.morphVelocity) < 0.0001) { this.morphVelocity = 0; if(this.isMorphing) this.isMorphing = false; }
@@ -2146,37 +2140,8 @@
                 const newGeo = this.createLorenzAttractorGeometry(params);
                 this.geometries['lorenz_attractor'] = newGeo;
                 this._addColorAttribute(newGeo);
-
-                // Harmoni-fix: Istället för att omedelbart byta form, initierar vi en mjuk morfing.
-                const fromPositions = this.geometry.attributes.position.array;
-                const targetPositions = new Float32Array(this.originalPositions.length);
-                const vertexCount = this.originalPositions.length / 3;
-                for (let i = 0; i < vertexCount; i++) {
-                    const targetIndex = i % newGeo.attributes.position.count;
-                    targetPositions[i*3]     = newGeo.attributes.position.array[targetIndex*3];
-                    targetPositions[i*3+1]   = newGeo.attributes.position.array[targetIndex*3+1];
-                    targetPositions[i*3+2]   = newGeo.attributes.position.array[targetIndex*3+2];
-                }
-
-                // Sätt start- och slutpositioner för grafikprocessorn.
-                this.geometry.setAttribute('position', new THREE.BufferAttribute(fromPositions, 3));
-                this.geometry.setAttribute('morphTarget', new THREE.BufferAttribute(targetPositions, 3));
-                this.geometry.attributes.position.needsUpdate = true;
-                this.geometry.attributes.morphTarget.needsUpdate = true;
-                
-                // Använd GSAP för att animera övergången mjukt.
-                this.mesh.material.uniforms.morphProgress.value = 0;
-                this.activeMorph = gsap.to(this.mesh.material.uniforms.morphProgress, {
-                    value: 1,
-                    duration: 0.2,
-                    ease: 'power2.out',
-                    onComplete: () => {
-                        // När morfningen är klar, uppdatera baspositionen.
-                        this.geometry.setAttribute('position', new THREE.BufferAttribute(targetPositions, 3));
-                        this.geometry.attributes.position.needsUpdate = true;
-                        this.mesh.material.uniforms.morphProgress.value = 0;
-                    }
-                });
+                // Harmoni-fix: Återgår till den direkta, stabila metoden för att uppdatera Attraktorn.
+                this.morphToShape('lorenz_attractor');
             }
             createFibonacciSphereGeometry(count = 2000, radius = 5) {
                 const points = []; const phi = Math.PI * (3. - Math.sqrt(5.)); 
@@ -2312,6 +2277,12 @@
 
                     if (isNebulaType) {
                         this.mesh = new THREE.Points(this.geometry, newMat);
+                        // Harmoni-fix: Detta är den kritiska pusselbiten. När en solid form blir partiklar,
+                        // måste den få ett 'morphTarget'-attribut så att partikel-shadern vet hur den ska kunna
+                        // transformera sig i framtiden. Utan detta kraschar shadern och ingenting syns.
+                        if (!this.geometry.attributes.morphTarget) {
+                            this.geometry.setAttribute('morphTarget', new THREE.BufferAttribute(new Float32Array(this.geometry.attributes.position.array), 3));
+                        }
                     } else {
                         this.mesh = new THREE.Mesh(this.geometry, newMat);
                     }
@@ -2344,14 +2315,41 @@
             }
             morphToShape(shapeKey, scale = 1.0) {
                 const targetGeo = this.geometries[shapeKey.toLowerCase()]; if (!targetGeo || !targetGeo.attributes.position) return; if (this.activeMorph) this.activeMorph.kill();
-                const targetPositions = new Float32Array(this.originalPositions.length); const vertexCount = this.originalPositions.length / 3;
-                for (let i = 0; i < vertexCount; i++) { const targetIndex = i % targetGeo.attributes.position.count; targetPositions[i*3] = targetGeo.attributes.position.array[targetIndex*3] * scale; targetPositions[i*3+1] = targetGeo.attributes.position.array[targetIndex*3+1] * scale; targetPositions[i*3+2] = targetGeo.attributes.position.array[targetIndex*3+2] * scale; }
+                
+                const vertexCount = this.originalPositions.length / 3;
+                const targetPositions = new Float32Array(vertexCount * 3);
+                const targetColors = new Float32Array(vertexCount * 3);
+                const targetLifes = new Float32Array(vertexCount);
+
+                const targetPosAttr = targetGeo.attributes.position;
+                const targetColorAttr = targetGeo.attributes.color;
+                const targetLifeAttr = targetGeo.attributes.life;
+
+                for (let i = 0; i < vertexCount; i++) { 
+                    const targetIndex = i % targetPosAttr.count;
+                    
+                    targetPositions[i*3] = targetPosAttr.array[targetIndex*3] * scale; 
+                    targetPositions[i*3+1] = targetPosAttr.array[targetIndex*3+1] * scale; 
+                    targetPositions[i*3+2] = targetPosAttr.array[targetIndex*3+2] * scale;
+                    
+                    if(targetColorAttr) {
+                        targetColors[i*3] = targetColorAttr.array[targetIndex*3];
+                        targetColors[i*3+1] = targetColorAttr.array[targetIndex*3+1];
+                        targetColors[i*3+2] = targetColorAttr.array[targetIndex*3+2];
+                    }
+                    
+                    if(targetLifeAttr) {
+                        targetLifes[i] = targetLifeAttr.array[targetIndex];
+                    }
+                }
                 
                 if (this.mesh.type === 'Points') { 
                     this.geometry.setAttribute('position', new THREE.BufferAttribute(targetPositions, 3)); 
-                    this.geometry.setAttribute('color', targetGeo.attributes.color.clone());
+                    this.geometry.setAttribute('color', new THREE.BufferAttribute(targetColors, 3));
+                    this.geometry.setAttribute('life', new THREE.BufferAttribute(targetLifes, 1));
                     this.geometry.attributes.position.needsUpdate = true; 
                     this.geometry.attributes.color.needsUpdate = true;
+                    this.geometry.attributes.life.needsUpdate = true;
                 } else { 
                     this.activeMorph = gsap.to(this.originalPositions, { endArray: targetPositions, duration: 2.0, ease: "power3.inOut" }); 
                 }
@@ -2361,17 +2359,13 @@
                 const themeMaterial = SACRED_GEOMETRY_LIBRARY[activeTheme]?.material || 'neural';
                 const shouldUseParticles = asParticles || themeMaterial === 'nebula';
 
-                // Harmoni-fix: Omstrukturerad logik för att säkerställa att partikel-läget alltid fungerar.
+                // Harmoni-fix: Omstrukturerad och förenklad logik för att garantera att alla teman kan bli partiklar.
                 if (shouldUseParticles) {
-                    if (!this.isParticleSystem) { // Byt bara om det behövs
-                        this.isParticleSystem = true;
-                        this.setMaterial('nebula');
-                    }
+                    this.isParticleSystem = true;
+                    this.setMaterial('nebula');
                 } else {
-                    if (this.isParticleSystem) { // Byt bara om det behövs
-                        this.isParticleSystem = false;
-                        this.setMaterial(themeMaterial);
-                    }
+                    this.isParticleSystem = false;
+                    this.setMaterial(themeMaterial);
                 }
             }
 
@@ -2884,6 +2878,9 @@
     </script>
 </body>
 </html>
+
+
+
 
 
 
