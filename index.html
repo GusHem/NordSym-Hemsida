@@ -78,6 +78,7 @@
             padding-top: 80px; display: flex; flex-direction: column;
             background-color: #0c1427;
             min-height: 100vh;
+            overflow-y: auto; /* Harmoni-fix: Säkerställer vertikal scrollning på alla enheter. */
         }
         body.labb-active { 
             overflow: hidden;
@@ -1894,9 +1895,9 @@
                 let finalState = { ...baseState }; 
                 if (window.innerWidth < 768) {
                     if (targetStateKey === 'PAGE') {
-                        finalState.zoom = 50; // Zooma ut mer på undersidor
+                        finalState.zoom = 60; // Harmoni-fix: Zoomar ut mer på undersidor för att motverka "oval" effekt.
                     } else if (targetStateKey === 'HERO') {
-                        finalState.zoom = 25; // Zooma ut lite på startsidan
+                        finalState.zoom = 30; // Harmoni-fix: Zoomar ut mer på startsidan för mobil.
                     }
                 }
                 
@@ -2892,6 +2893,7 @@
     </script>
 </body>
 </html>
+
 
 
 
