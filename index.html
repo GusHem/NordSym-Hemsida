@@ -1677,7 +1677,7 @@
                     actualRotationX: 0.5, actualRotationY: 0,
                     targetZoom: this.states.HIDDEN.zoom, actualZoom: this.states.HIDDEN.zoom,
                     targetY: this.states.HIDDEN.y, 
-                    actualY: window.innerWidth < 768 ? -20 : this.states.HIDDEN.y // Harmoni-fix: Djupare startposition för en mer "sexig" mobil animation.
+                    actualY: this.states.HIDDEN.y // Harmoni-fix: Återställer startanimationen till en ren zoom för en mer kontrollerad ingång på alla enheter.
                 };
                 
                 this.joystick = {
@@ -1952,8 +1952,8 @@
                     if (targetStateKey === 'PAGE') {
                         finalState.zoom = 60; 
                     } else if (targetStateKey === 'HERO') {
-                        finalState.zoom = 30; 
-                        finalState.y = -8; // Harmoni-fix: Lägre slutposition för att matcha desktop-kompositionen.
+                        finalState.zoom = 25; // Harmoni-fix: Finjusterad zoom för mobil.
+                        finalState.y = -4; // Harmoni-fix: En subtil sänkning för att återskapa desktop-känslan.
                     }
                 }
                 
@@ -2060,11 +2060,12 @@
                 this.hideOnboarding();
                 this.hideFormName();
                 
-                // Harmoni-fix: Avaktivera de globala touch-lyssnarna när verkstaden stängs.
+                // Harmoni-fix: Utrotar scroll-konflikten genom att garanterat ta bort de globala lyssnarna.
+                // Tidigare anrop hade fel syntax, vilket gjorde att de aldrig togs bort.
                 if (window.matchMedia('(pointer: coarse)').matches) {
-                    window.removeEventListener('touchmove', this.boundJoystickTouchMove, { passive: false });
-                    window.removeEventListener('touchend', this.boundJoystickTouchEnd, { passive: false });
-                    window.removeEventListener('touchcancel', this.boundJoystickTouchEnd, { passive: false });
+                    window.removeEventListener('touchmove', this.boundJoystickTouchMove);
+                    window.removeEventListener('touchend', this.boundJoystickTouchEnd);
+                    window.removeEventListener('touchcancel', this.boundJoystickTouchEnd);
                 }
             }
             
@@ -3078,6 +3079,7 @@
     </script>
 </body>
 </html>
+
 
 
 
