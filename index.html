@@ -69,9 +69,9 @@
     <style>
         html, body {
             height: 100%; margin: 0; padding: 0;
-            /* Harmoni-fix: Använder 'clip' istället för 'hidden' för att förhindra att den globala regeln
-               blockerar avsiktlig horisontell scrollning inuti specifika element, som galleriet på mobilen. */
-            scroll-behavior: smooth; overflow-x: clip; 
+            /* Harmoni-fix: Den globala overflow-regeln är borttagen för att säkerställa att
+               interna komponenter, som galleriet, kan scrollas fritt på mobila enheter. */
+            scroll-behavior: smooth; 
         }
         body {
             font-family: 'Inter', sans-serif; color: #E2E8F0; 
@@ -1889,11 +1889,15 @@
                 this.lastState = this.currentState;
                 this.currentState = targetStateKey;
                 
-                // Harmoni-fix: Omskriven logik för att undvika syntaxfel. Skapar en kopia
-                // av state-objektet och justerar zoomen för mobil om det behövs.
+                // Harmoni-fix: Skapar en kopia av state-objektet och justerar zoomen för mobil
+                // för att säkerställa att geometrin alltid ser sfärisk och korrekt ut.
                 let finalState = { ...baseState }; 
-                if (targetStateKey === 'PAGE' && window.innerWidth < 768) {
-                    finalState.zoom = 45; // Zooma ut lite (större siffra = längre bort)
+                if (window.innerWidth < 768) {
+                    if (targetStateKey === 'PAGE') {
+                        finalState.zoom = 50; // Zooma ut mer på undersidor
+                    } else if (targetStateKey === 'HERO') {
+                        finalState.zoom = 25; // Zooma ut lite på startsidan
+                    }
                 }
                 
                 this.targetState = finalState;
@@ -2888,6 +2892,7 @@
     </script>
 </body>
 </html>
+
 
 
 
