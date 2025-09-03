@@ -681,13 +681,16 @@
             bottom: -100px;
             width: 80px; height: 80px;
             border-radius: 50%;
-            z-index: 2006; /* Harmoni-fix: Högsta prioritet för att säkerställa att de alltid är klickbara. */
+            z-index: 2006;
             display: flex; align-items: center; justify-content: center;
             transition: bottom 0.5s ease, opacity 0.3s ease;
             background: rgba(12, 20, 39, 0.5);
             backdrop-filter: blur(5px);
             border: 1px solid rgba(var(--nord-sym-text-medium), 0.3);
             color: var(--nord-sym-text-medium);
+            /* Harmoni-fix: Utrotar scroll-konflikten genom att göra joysticks helt icke-interaktiva som standard. */
+            pointer-events: none;
+            opacity: 0;
         }
         .joystick-portal.faded {
             opacity: 0.2;
@@ -697,13 +700,22 @@
         #joystick-portal-left { left: 2rem; }
         #joystick-portal-right { right: 2rem; }
         
-        /* Harmoni-fix: Separata positioner för mobil och desktop för att undvika överlappning. */
         @media (max-width: 767px) {
-            body.labb-active .joystick-portal { bottom: 1.5rem; }
-            
-            /* Harmoni-fix: Denna regel togs bort för att undvika konflikt med det nya vertikala verktygsfältet. */
+            body.labb-active .joystick-portal { 
+                bottom: 1.5rem;
+                pointer-events: auto; /* Återaktiveras endast i verkstaden */
+                opacity: 1;
+            }
         }
         
+        @media (min-width: 768px) {
+             body.labb-active .joystick-portal {
+                bottom: 2rem;
+                pointer-events: auto;
+                opacity: 1;
+            }
+        }
+
         /* --- MOBIL VERKSTAD UI-HARMONISERING --- */
         #toolbar-toggle {
             display: none; /* Dold som standard */
@@ -1665,7 +1677,7 @@
                     actualRotationX: 0.5, actualRotationY: 0,
                     targetZoom: this.states.HIDDEN.zoom, actualZoom: this.states.HIDDEN.zoom,
                     targetY: this.states.HIDDEN.y, 
-                    actualY: window.innerWidth < 768 ? -10 : this.states.HIDDEN.y // Harmoni-fix: Startar animationen lägre på mobil för en mer "sexig" och dynamisk ingång.
+                    actualY: window.innerWidth < 768 ? -20 : this.states.HIDDEN.y // Harmoni-fix: Djupare startposition för en mer "sexig" mobil animation.
                 };
                 
                 this.joystick = {
@@ -1941,7 +1953,7 @@
                         finalState.zoom = 60; 
                     } else if (targetStateKey === 'HERO') {
                         finalState.zoom = 30; 
-                        finalState.y = -5; // Harmoni-fix: Sänker geometrin för en mer dynamisk och "sexig" komposition.
+                        finalState.y = -8; // Harmoni-fix: Lägre slutposition för att matcha desktop-kompositionen.
                     }
                 }
                 
@@ -3066,6 +3078,7 @@
     </script>
 </body>
 </html>
+
 
 
 
