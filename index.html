@@ -222,16 +222,31 @@
             .venn-diagram-wrapper { width: 320px; height: 200px; }
             .venn-circle { width: 200px; height: 200px; }
             .venn-circle-text { font-size: 0.9rem; max-width: 100px; padding: 0 1.5rem; }
-            .venn-overlap-text { font-size: 0.85rem; width: 90px; line-height: 1.0; }
+            .venn-overlap-text { 
+                font-size: 0.85rem; 
+                width: 90px; 
+                line-height: 1.0; 
+                word-wrap: break-word; /* Harmoni-fix: Garanterar att texten bryts korrekt. */
+            }
         }
         @media (max-width: 480px) {
             .venn-diagram-wrapper { width: 280px; height: 180px; }
             .venn-circle { width: 180px; height: 180px; }
             .venn-circle-text { font-size: 0.8rem; max-width: 80px; padding: 0 1rem; }
-            .venn-overlap-text { font-size: 0.7rem; width: 75px; line-height: 0.95; }
+            .venn-overlap-text { 
+                font-size: 0.7rem; 
+                width: 75px; 
+                line-height: 0.95; 
+                word-wrap: break-word;
+                text-align: center; /* Harmoni-fix: Säkerställer centrering. */
+            }
         }
         @media (max-width: 360px) {
-            .venn-overlap-text { font-size: 0.65rem; width: 70px; }
+            .venn-overlap-text { 
+                font-size: 0.6rem; 
+                width: 65px;
+                line-height: 0.9;
+            }
         }
         @media (hover: none) and (pointer: coarse) {
             .venn-overlap-text:hover {
@@ -3180,6 +3195,7 @@
     </script>
 </body>
 </html>
+
 
 
 
