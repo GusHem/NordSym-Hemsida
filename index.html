@@ -69,9 +69,8 @@
     <style>
         html, body {
             height: 100%; margin: 0; padding: 0;
-            /* Harmoni-fix: Den globala overflow-regeln är borttagen för att säkerställa att
-               interna komponenter, som galleriet, kan scrollas fritt på mobila enheter. */
-            scroll-behavior: smooth; 
+            /* Harmoni-fix: Utrotar scroll-konflikten genom att ta bort den globala 'scroll-behavior',
+               vilket ger GSAP och JS full, oinskränkt kontroll över alla animationer. */
         }
         body {
             font-family: 'Inter', sans-serif; color: #E2E8F0; 
@@ -164,215 +163,85 @@
             box-shadow: 0px 8px 18px rgba(var(--nord-sym-cyan-rgb), 0.35), 0px 4px 7px rgba(0,0,0,0.2),
                         inset 0px -1px 2px rgba(255,255,255,0.08);
         }
-        @media (max-width: 768px) {
-            .btn-cta-revised, .btn-secondary-on-dark { min-height: 48px; font-size: 1rem; }
+        
+        /* --- VENNDIAGRAM-HARMONISERING --- */
+        .venn-diagram-container {
+            display: flex; justify-content: center; align-items: center;
+            min-height: 350px;
         }
-        /* --- FORM TRANSFORMATION STYLES --- */
-        .form-container {
+        .venn-diagram-wrapper {
+            position: relative; width: 440px; height: 280px;
+            transition: all 0.3s ease-in-out;
+        }
+        .venn-circle {
+            position: absolute;
+            width: 280px; height: 280px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 50% 50%, rgba(var(--nord-sym-cyan-rgb), 0.05) 0%, rgba(var(--nord-sym-cyan-rgb), 0.15) 100%);
+            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.3);
+            display: flex; 
+            align-items: center;
+            box-shadow: inset 0 0 20px rgba(var(--nord-sym-cyan-rgb), 0.1), 0 0 15px rgba(var(--nord-sym-deep-space-blue), 0.5);
+            animation: venn-pulse 8s infinite ease-in-out;
+            transition: all 0.3s ease-in-out;
+        }
+        .venn-circle-1 { top: 0; left: 0; animation-delay: 0s; justify-content: flex-start; }
+        .venn-circle-2 { top: 0; right: 0; animation-delay: -4s; justify-content: flex-end; }
+        .venn-circle-text {
+            font-family: 'Comfortaa', sans-serif;
+            font-weight: 700;
+            color: var(--nord-sym-text-light);
+            text-align: center;
+            font-size: 1.1rem;
+            max-width: 140px;
+            padding: 0 2.5rem;
+        }
+        .venn-overlap-text {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Comfortaa', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--nord-sym-light-accent);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px rgba(var(--nord-sym-light-accent-rgb), 0.3);
+        }
+        .venn-overlap-text:hover {
+            color: var(--nord-sym-cyan);
+            filter: drop-shadow(0 0 15px rgba(var(--nord-sym-cyan-rgb), 0.8));
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+        @keyframes venn-pulse {
+            50% { transform: scale(1.02); border-color: rgba(var(--nord-sym-cyan-rgb), 0.5); }
+        }
+        
+        /* Harmoni-fix: Responsiv typografi för Venn-diagrammet */
+        @media (max-width: 768px) {
+            .venn-diagram-wrapper { width: 320px; height: 200px; }
+            .venn-circle { width: 200px; height: 200px; }
+            .venn-circle-text { font-size: 0.9rem; max-width: 100px; }
+            .venn-overlap-text { font-size: 1rem; width: 100px; }
+        }
+        @media (max-width: 480px) {
+            .venn-diagram-wrapper { width: 260px; height: 160px; }
+            .venn-circle { width: 160px; height: 160px; }
+            .venn-circle-text { font-size: 0.75rem; max-width: 70px; }
+            .venn-overlap-text { font-size: 0.9rem; width: 90px; }
+        }
+
+        /* --- GALLERY HARMONIZATION --- */
+        .gallery-container {
             position: relative;
+        }
+        .gallery-viewport {
             overflow: hidden;
         }
-        .form-input, .form-textarea, .form-select { 
-            border: 1px solid #4A5568; background-color: rgba(26, 32, 44, 0.7); 
-            color: var(--nord-sym-text-light); border-radius: 0.5rem; 
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            padding: 0.75rem 1rem; width: 100%;
-        }
-        .form-input::placeholder, .form-textarea::placeholder { color: #A0AEC0; }
-        .form-input:focus, .form-textarea:focus, .form-select:focus {
-            border-color: var(--nord-sym-cyan); background-color: rgba(26, 32, 44, 0.9);
-            box-shadow: 0 0 0 3px rgba(var(--nord-sym-cyan-rgb), 0.4), 0 0 15px rgba(var(--nord-sym-cyan-rgb), 0.3); 
-            outline: none;
-        }
-        .form-label {
-            display: block; text-align: left; font-size: 0.875rem; 
-            font-weight: 500; color: var(--nord-sym-text-medium); margin-bottom: 0.25rem; 
-        }
-        .form-step { display: none; }
-        .form-step.active { display: block; }
-        .form-progress-bar {
-            height: 4px; background-color: rgba(var(--nord-sym-cyan-rgb), 0.2);
-            border-radius: 2px; margin-bottom: 1.5rem; overflow: hidden;
-        }
-        .form-progress-bar-inner {
-            height: 100%; width: 0%; background-color: var(--nord-sym-cyan);
-            transition: width 0.5s ease-in-out;
-        }
-        .form-navigation {
-            display: flex; justify-content: space-between; margin-top: 1.5rem;
-        }
-        .form-message {
-            text-align: center; padding: 1rem;
-            border-radius: 0.5rem;
-        }
-        .form-success-container {
-            text-align: center;
-        }
-        .form-success-container .nordsym-logo-star {
-            font-size: 4rem; margin-bottom: 1rem;
-        }
-        .form-success-container p {
-            color: var(--nord-sym-text-light); font-size: 1.125rem;
-        }
-        .form-error-message {
-            color: #F56565; border: 1px solid #F56565;
-            background-color: rgba(245, 101, 101, 0.1);
-        }
-        .form-loading { position: relative; pointer-events: none; opacity: 0.7; }
-        .form-loading::after {
-            content: ''; position: absolute; top: 50%; left: 50%;
-            width: 24px; height: 24px; border: 3px solid transparent;
-            border-top-color: var(--nord-sym-cyan); border-radius: 50%;
-            animation: spin 1s linear infinite; transform: translate(-50%, -50%);
-        }
-        @keyframes spin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
-        /* --- END FORM TRANSFORMATION STYLES --- */
-        main > section { display: none; }
-        .card-base {
-            border-radius: 1rem; transition: all 0.3s ease;
-        }
-        .card-base:hover { transform: translateY(-8px); }
-        .content-card-dark { 
-            background-color: rgba(12, 20, 39, 0.75); backdrop-filter: blur(8px); 
-            color: var(--nord-sym-text-light); border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.25); 
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3), 0px 5px 15px rgba(0,0,0,0.2); 
-            padding: 2rem; display: flex; flex-direction: column;
-        }
-        .content-card-transparent, .cta-card-transparent { 
-            background-color: rgba(12, 20, 39, 0.55); backdrop-filter: blur(12px); 
-            color: var(--nord-sym-text-light); border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.35); 
-            box-shadow: 0 8px 25px -8px rgba(0,0,0,0.4), 0px 4px 12px rgba(0,0,0,0.3); 
-        }
-        .content-card-dark:hover, .content-card-transparent:hover, .cta-card-transparent:hover {
-            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.3), 0px 8px 20px rgba(0,0,0,0.25);
-        }
-        #header {
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-            background-color: rgba(12, 20, 39, 0);
-            backdrop-filter: none;
-            z-index: 1000 !important;
-        }
-        body.labb-active #header {
-            background: rgba(12, 20, 39, 0.3);
-        }
-        #header .container {
-            position: relative; /* Harmoni-fix för absolut centrering */
-            display: grid;
-            grid-template-columns: auto 1fr auto;
-            align-items: center;
-        }
-        #header-logo-link { grid-column: 1; justify-self: start; }
-        .header-nav { grid-column: 2; }
-        .header-cta { grid-column: 3; justify-self: end; } /* Harmoni-fix för position */
-        @media (max-width: 767px) {
-            #header .container {
-                grid-template-columns: 1fr 1fr;
-                justify-content: space-between;
-            }
-            #mobile-menu-trigger { grid-column: 1; justify-self: start; position: relative; left: 0; top: 0; transform: none; }
-            .header-nav, .header-cta, #header-logo-link { display: none; }
-        }
-        #mobile-menu { 
-            z-index: 40;
-            transform: translateX(-100%);
-            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-        }
-        #mobile-menu.open {
-            transform: translateX(0);
-        }
-        #mobile-menu-trigger.active img { transform: rotate(45deg); }
-        #hero-logo-wrapper {
-            width: 100%; max-width: 300px; cursor: pointer;
-            transition: transform 0.4s ease, filter 0.5s ease;
-            filter: drop-shadow(0 0 8px rgba(var(--nord-sym-cyan-rgb), 0.2));
-            position: relative; z-index: 10;
-        }
-        #hero-logo-wrapper:hover {
-             transform: scale(1.05);
-             filter: drop-shadow(0 0 25px rgba(var(--nord-sym-cyan-rgb), 0.6)) 
-                    drop-shadow(0 0 10px rgba(var(--nord-sym-cyan-rgb), 0.4));
-        }
-        #hero-logo-wrapper img { width: 100%; height: auto; }
-        @media (min-width: 1024px) { #hero-logo-wrapper { max-width: 400px; } }
-        .pricing-card {
-            background-color: rgba(var(--nord-sym-deep-space-blue), 0.8);
-            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.2);
-            padding: 2.5rem; display: flex; flex-direction: column;
-        }
-        .pricing-card:hover {
-            box-shadow: 0 15px 35px rgba(var(--nord-sym-cyan-rgb), 0.2);
-            border-color: var(--nord-sym-cyan);
-        }
-        .pricing-card.ignite-package {
-            border-color: var(--nord-sym-light-accent);
-            box-shadow: 0 0 25px rgba(var(--nord-sym-light-accent-rgb), 0.3);
-            transform: scale(1.05);
-        }
-        .pricing-card-header h3 {
-            font-family: 'Comfortaa', sans-serif; font-size: 1.75rem;
-            color: var(--nord-sym-text-light); margin-bottom: 0.5rem;
-        }
-        .pricing-card .price-display {
-            font-size: 2.5rem; font-weight: 700;
-            color: var(--nord-sym-cyan); margin: 1.5rem 0;
-        }
-        .pricing-card .price-display .price-period {
-            font-size: 1rem; font-weight: 400; color: var(--nord-sym-text-medium);
-        }
-        .pricing-card ul { list-style-type: none; padding: 0; margin-bottom: 2rem; flex-grow: 1; }
-        .pricing-card ul li {
-            display: flex; align-items: flex-start; gap: 0.75rem;
-            margin-bottom: 0.75rem; color: var(--nord-sym-text-medium);
-        }
-        .pricing-card ul li i { color: var(--nord-sym-cyan); margin-top: 0.2rem; flex-shrink: 0; }
-        .venn-diagram-container {
-            position: relative; display: flex; justify-content: center;
-            align-items: center; padding: 2rem 0; width: 100%;
-        }
-        .venn-diagram-wrapper { position: relative; display: flex; flex-direction: column; align-items: center; }
-        .venn-circle {
-            width: 220px; height: 220px; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            text-align: center; box-sizing: border-box; font-weight: 600;
-            color: var(--nord-sym-text-light); background-color: transparent;
-            border: 1px solid var(--nord-sym-text-light);
-            box-shadow: 0 0 25px rgba(0,0,0,0.4);
-            position: relative; z-index: 1; transition: filter 0.3s ease;
-        }
-        .venn-circle:hover { filter: brightness(1.1); }
-        .venn-circle-1 { z-index: 2; }
-        .venn-circle-2 { margin-top: -80px; }
-        .venn-circle-text { width: 80%; font-size: 0.9rem; line-height: 1.5; }
-        .venn-overlap-text {
-            font-weight: 700; color: var(--nord-sym-text-light); text-transform: uppercase;
-            letter-spacing: 0.1em; font-size: 1rem; cursor: pointer; z-index: 3;
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            transition: text-shadow 0.3s ease, color 0.3s ease;
-        }
-        .venn-overlap-text:hover { color: var(--nord-sym-cyan); text-shadow: 0 0 10px var(--nord-sym-cyan); }
-        @media (min-width: 768px) {
-            .venn-diagram-wrapper { flex-direction: row; width: 460px; height: 300px; }
-            .venn-circle { width: 280px; height: 280px; position: absolute; top: 50%; transform: translateY(-50%); }
-            .venn-circle-1 { left: 0; margin-top: 0; }
-            .venn-circle-2 { right: 0; margin-top: 0; }
-            .venn-circle-text { position: absolute; top: 50%; transform: translateY(-50%); width: 50%; font-size: 1rem; }
-            .venn-circle-1 .venn-circle-text { left: 1.5rem; text-align: left; }
-            .venn-circle-2 .venn-circle-text { right: 1.5rem; text-align: right; }
-            .venn-overlap-text { font-size: 1.25rem; letter-spacing: 0.05em; }
-        }
-        #atom-gallery-section { padding-top: 5rem; padding-bottom: 5rem; }
-        .gallery-container {
-            position: relative; max-width: 90%; margin: 0 auto;
-            padding-top: 1rem; /* Space for hover effect */
-        }
-         @media (min-width: 640px) { .gallery-container { max-width: 520px; } }
-         @media (min-width: 1024px) { .gallery-container { max-width: 700px; } }
-        .gallery-viewport { overflow: hidden; padding-top: 1rem; margin-top: -1rem; }
-        .gallery-wrapper { display: flex; transition: transform 0.5s ease-in-out; }
-        .gallery-wrapper .archetype-card { flex: 0 0 100%; margin: 0; }
-        @media (max-width: 768px) {
-            .gallery-wrapper { scroll-snap-type: x mandatory; overflow-x: auto; scroll-behavior: smooth; }
-            .gallery-wrapper .archetype-card { scroll-snap-align: start; min-width: 100%; }
+        .gallery-wrapper {
+            display: flex;
+            gap: 2rem;
+            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .archetype-card {
             background-color: rgba(var(--nord-sym-deep-space-blue), 0.7);
@@ -385,6 +254,22 @@
             text-align: center;
             align-items: center;
             min-height: 420px; /* Ensure consistent height */
+            flex-shrink: 0; /* Förhindra att korten krymper */
+            width: calc(100% / 3 - (4rem / 3)); /* 3 kort med 2rem gap */
+        }
+        @media (max-width: 1024px) {
+            .archetype-card { width: calc(50% - 1rem); }
+        }
+        @media (max-width: 768px) {
+            .gallery-wrapper { 
+                scroll-snap-type: x mandatory; 
+                overflow-x: auto; 
+                gap: 1rem;
+            }
+            .archetype-card { 
+                scroll-snap-align: start; 
+                width: 90%; 
+            }
         }
          .archetype-card:hover {
             box-shadow: 0 0 25px rgba(var(--nord-sym-cyan-rgb), 0.4), 0 4px 15px rgba(0,0,0,0.3);
@@ -486,6 +371,59 @@
             text-transform: uppercase;
             text-shadow: 0 0 10px rgba(0,0,0,0.5);
         }
+        /* --- SYSTEM/PRICING CARD HARMONIZATION --- */
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.15);
+            padding: 2.5rem 2rem;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            border-radius: 1.5rem;
+            height: 100%;
+        }
+        .pricing-card-header {
+            margin-bottom: 1.5rem;
+        }
+        .pricing-card-header h3 {
+             font-family: 'Comfortaa', sans-serif;
+            color: var(--nord-sym-light-accent);
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        .price-display {
+            font-family: 'Comfortaa', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+        .price-period {
+            font-size: 1rem;
+            color: var(--nord-sym-text-medium);
+            font-weight: 400;
+        }
+        .venn-overlap-text {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Comfortaa', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--nord-sym-light-accent);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px rgba(var(--nord-sym-light-accent-rgb), 0.3);
+            width: 120px;
+            text-align: center;
+        }
+        .venn-overlap-text:hover {
+            color: var(--nord-sym-cyan);
+            filter: drop-shadow(0 0 20px rgba(var(--nord-sym-cyan-rgb), 0.9));
+        }
+        @keyframes venn-pulse {
+            50% { transform: scale(1.02); border-color: rgba(var(--nord-sym-cyan-rgb), 0.5); }
+        }
+        
         .gallery-nav {
             position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
             background-color: rgba(var(--nord-sym-deep-space-blue), 0.5); backdrop-filter: blur(5px);
@@ -895,13 +833,13 @@
     </style>
 </head>
 <body class="antialiased">
-    <header id="header" class="fixed w-full top-0 left-0 right-0">
-        <div class="container mx-auto px-4 md:px-6 py-4"> 
+    <header id="header" class="fixed w-full top-0 left-0 right-0 z-40 bg-nord-sym-deep-space-blue/80 backdrop-blur-sm transition-all duration-300">
+        <div class="container mx-auto px-4 md:px-6 py-4 flex justify-between items-center"> 
             <a href="#" id="header-logo-link" onclick="window.nord.showPage('hero'); return false;" class="flex-shrink-0">
-                <img src="https://raw.githubusercontent.com/GusHem/Logga-utan-text/refs/heads/main/Final%20logo%20no%20text.svg" alt="NordSym Logotyp" class="h-24 transition-all duration-300">
+                <img src="https://raw.githubusercontent.com/GusHem/Logga-utan-text/refs/heads/main/Final%20logo%20no%20text.svg" alt="NordSym Logotyp" class="h-16 md:h-20 transition-all duration-300">
             </a>
-            <button id="mobile-menu-trigger" class="md:hidden z-50">
-                <img src="https://raw.githubusercontent.com/GusHem/Logga-utan-text/refs/heads/main/Final%20logo%20no%20text.svg" alt="NordSym Meny" class="h-16 transition-transform duration-300 ease-in-out">
+            <button id="mobile-menu-trigger" class="md:hidden z-50 text-sky-100">
+                <i class="ph ph-list text-3xl"></i>
             </button>
             <nav aria-label="Huvudnavigation" class="hidden md:flex flex-grow justify-center space-x-5 items-center header-nav">
                 <a href="#" onclick="window.nord.showPage('hero'); return false;" data-nav="hero" class="nav-link transition-colors font-medium">Hem</a>
@@ -916,7 +854,7 @@
             <!-- Form Name Display flyttad utanför grid-flödet för absolut centrering -->
             <div id="form-name-display"></div>
         </div>
-        <div id="mobile-menu" class="md:hidden bg-nord-sym-deep-space-blue/95 backdrop-blur-sm shadow-lg rounded-b-xl absolute w-full left-0 top-full">
+        <div id="mobile-menu" class="md:hidden bg-nord-sym-deep-space-blue/95 backdrop-blur-sm shadow-lg rounded-b-xl absolute w-full left-0 top-full overflow-hidden transition-all duration-500 ease-in-out max-h-0">
             <a href="#" onclick="window.nord.showPage('hero'); return false;" data-nav="hero" class="block px-6 py-5 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">Hem</a>
             <a href="#" onclick="window.nord.showPage('om-oss'); return false;" data-nav="om-oss" class="block px-6 py-5 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">Arkitektur</a>
             <a href="#" onclick="window.nord.showPage('system'); return false;" data-nav="system" class="block px-6 py-5 text-sky-100 hover:bg-sky-700/50 hover:nord-accent-text transition-colors">System</a>
@@ -959,18 +897,18 @@
         <section id="home-diagram-section" class="space-background-section py-16 lg:py-24">
             <div class="section-content-wrapper">
                 <div class="text-center mb-16 max-w-4xl mx-auto">
-                    <h2 class="section-title text-4xl md:text-5xl mb-4">Vi förvandlar er expertis till <span class="nord-accent-text">intelligent kapacitet</span></h2>
-                    <p class="text-lg text-sky-200 mt-6 leading-relaxed">Varje organisation har unika processer. Vi förstärker dem med system som tänker. Resultatet är mätbart, permanent och blir bättre över tid.</p>
+                    <h2 class="section-title text-4xl md:text-5xl mb-4">Där er expertis möter vår arkitektur.</h2>
+                    <p class="text-lg text-sky-200 mt-6 leading-relaxed">Vi förvandlar er unika process till ett intelligent, självgående ekosystem.</p>
                 </div>
                 <div class="venn-diagram-container">
                     <div class="venn-diagram-wrapper">
-                        <div class="venn-circle venn-circle-1" id="vennCircle1">
-                            <span class="venn-circle-text">ER UNIKA PROCESS</span>
+                        <div class="venn-circle venn-circle-1">
+                            <span class="venn-circle-text">Er Verksamhet</span>
                         </div>
-                        <div class="venn-circle venn-circle-2" id="vennCircle2">
-                             <span class="venn-circle-text">VÅR AI-ARKITEKTUR</span>
+                        <div class="venn-circle venn-circle-2">
+                             <span class="venn-circle-text">Vår Arkitektur</span>
                         </div>
-                        <div class="venn-overlap-text" onclick="window.nord.showPage('system'); return false;" style="cursor:pointer;">SYNERGI</div>
+                        <div class="venn-overlap-text" onclick="window.nord.showPage('system'); return false;">Intelligent Kapacitet</div>
                     </div>
                 </div>
             </div>
@@ -982,7 +920,7 @@
                     <span class="inline-block bg-sky-800/50 text-sky-200 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Vår Arkitektur</span>
                     <h3 class="text-3xl md:text-4xl font-bold text-white mt-4">Våra Byggstenar</h3>
                     <p class="text-center text-sky-200 max-w-3xl mx-auto mt-4 mb-8">
-                        Dessa är de beprövade grundelementen i vår arkitektur. Från denna palett av intelligens komponerar vi allt från fokuserade Micro-SaaS-lösningar till kompletta, självgående ekosystem. <a href='#home-contact-anchor' onclick='event.preventDefault(); document.getElementById("home-contact-anchor").scrollIntoView({ behavior: "smooth" });' class='text-nord-sym-cyan hover:underline font-semibold whitespace-nowrap'>Se hur de kan kombineras för er.</a>
+                        Dessa är de beprövade grundelementen i vår arkitektur. Från denna palett av intelligens komponerar vi allt från fokuserade Micro-SaaS-lösningar till kompletta, självgående ekosystem. <a href='#home-contact-anchor' onclick='event.preventDefault(); window.nord.smoothScrollTo("#home-contact-anchor");' class='text-nord-sym-cyan hover:underline font-semibold whitespace-nowrap'>Se hur de kan kombineras för er.</a>
                     </p>
                 </div>
                 <div class="gallery-container">
@@ -1092,24 +1030,24 @@
                     </div>
                     <div class="pricing-card card-base">
                          <div class="pricing-card-header text-center">
-                            <h3>SYNERGI</h3>
-                             <p class="text-sm text-sky-300 mt-2">Fullständig systemarkitektur. För de som tänker långsiktigt.</p>
+                            <h3>ARKITEKTUR</h3>
+                             <p class="text-sm text-sky-300 mt-2">En komplett, framtidssäkrad systemarkitektur.</p>
                         </div>
                         <div class="price-display text-center">500k+ <span class="price-period">SEK</span></div>
                          <ul>
-                            <li><i class="ph-check-circle"></i> Fullskalig, självgående företagsautomation</li>
-                            <li><i class="ph-check-circle"></i> Obegränsad evolution och anpassning</li>
-                            <li><i class="ph-check-circle"></i> AI som lär sig och växer med er verksamhet</li>
-                            <li><i class="ph-check-circle"></i> Er framtidsförsäkring. Systemarkitektur som växer med AI-evolutionen</li>
+                            <li><i class="ph-check-circle"></i> Fullskalig systemtransformation</li>
+                            <li><i class="ph-check-circle"></i> Ett intelligent ekosystem som växer med er</li>
+                            <li><i class="ph-check-circle"></i> Designad för obegränsad evolution och anpassning</li>
+                            <li><i class="ph-check-circle"></i> Er framtidsförsäkring mot teknisk obsolescence</li>
                         </ul>
                          <div class="mt-auto">
-                            <a href="#" onclick="window.nord.showPage('boka-samtal-skraddarsydd'); return false;" class="btn-base btn-secondary-on-dark w-full">Uppnå Synergi</a>
+                            <a href="#" onclick="window.nord.showPage('boka-samtal-skraddarsydd'); return false;" class="btn-base btn-secondary-on-dark w-full">Etablera er Arkitektur</a>
                         </div>
                     </div>
                 </div>
                 <div class="text-center mt-16 max-w-3xl mx-auto">
-                    <p class="text-lg text-sky-200"><strong>15k SEK/månad</strong> för framtidsbevakning. När AI utvecklas, utvecklas era system automatiskt.</p>
-                    <p class="text-md text-sky-300 mt-2 italic">"Er framtidsförsäkring mot teknisk obsolescence."</p>
+                    <p class="text-lg text-sky-200"><strong>15k SEK/månad</strong> för framtidsbevakning och kontinuerlig evolution.</p>
+                    <p class="text-md text-sky-300 mt-2 italic">"När teknologin tar ett språng framåt, ser vi till att era system redan är där."</p>
                 </div>
             </div>
         </section>
@@ -1578,6 +1516,11 @@
             }
             
             window.nord.closeMobileMenu();
+        };
+
+        // Harmoni-fix: En dedikerad, GSAP-driven funktion för all mjuk scrollning på sidan.
+        window.nord.smoothScrollTo = function(selector) {
+            gsap.to(window, { duration: 1.5, scrollTo: selector, ease: 'power2.inOut' });
         };
 
         class GlobalStarfield {
@@ -2653,7 +2596,8 @@
              const mobileMenuTrigger = document.getElementById('mobile-menu-trigger');
              if(mobileMenu && mobileMenuTrigger) {
                 mobileMenu.classList.remove('open');
-                mobileMenuTrigger.classList.remove('active');
+                mobileMenu.style.maxHeight = '0px';
+                mobileMenuTrigger.querySelector('i').className = 'ph ph-list text-3xl';
              }
         };
         window.nord.updateActiveLink = function(navId) {
@@ -2672,8 +2616,16 @@
         if (mobileMenuTrigger) {
             mobileMenuTrigger.addEventListener('click', () => {
                 const mobileMenu = document.getElementById('mobile-menu');
+                const icon = mobileMenuTrigger.querySelector('i');
                 mobileMenu.classList.toggle('open');
-                mobileMenuTrigger.classList.toggle('active');
+
+                if (mobileMenu.classList.contains('open')) {
+                    mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+                    icon.className = 'ph ph-x text-3xl';
+                } else {
+                    mobileMenu.style.maxHeight = '0px';
+                    icon.className = 'ph ph-list text-3xl';
+                }
             });
         }
         
@@ -2847,7 +2799,7 @@
                 },
                 {
                     icon: 'ph-plugs-connected',
-                    title: 'Sync-Noden',
+                    title: 'FlowNode',
                     description: 'Vår egenutvecklade kärnteknologi som binder samman alla era system, API:er och AI-modeller till ett sömlöst, intelligent nätverk. Hjärnan i ert ekosystem.',
                     indicator: 'Möjliggör portabilitet och framtidssäkrar er tekniska arkitektur.',
                     ctaText: 'Utforska Demo',
@@ -2915,24 +2867,46 @@
             const galleryWrapper = document.getElementById('galleryWrapper'), nextBtn = document.getElementById('galleryNext'), prevBtn = document.getElementById('galleryPrev');
             if (!galleryWrapper || !nextBtn || !prevBtn) return;
             let currentIndex = 0;
+            const getCardsPerPage = () => {
+                if (window.innerWidth > 1024) return 3;
+                if (window.innerWidth > 768) return 2;
+                return 1;
+            };
             const totalCards = this.galleryData.length;
             const updateGallery = () => {
+                const cardsPerPage = getCardsPerPage();
+                const maxIndex = totalCards - cardsPerPage;
+                if (currentIndex > maxIndex) currentIndex = maxIndex;
+                
+                const cardWidth = galleryWrapper.children[0].offsetWidth;
+                const gap = 32; // Corresponds to gap-8 (2rem)
+                const totalMove = (cardWidth + gap) * currentIndex;
+
                 if (window.innerWidth > 768) {
-                    galleryWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+                    galleryWrapper.style.transform = `translateX(-${totalMove}px)`;
                 } else {
-                    // HARMONI-FIX: Kör bara scrollIntoView om det inte är den första laddningen.
                     if (!this.isInitialMobileLoad) {
                         const card = galleryWrapper.children[currentIndex];
                         if(card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
                     }
-                    // Vänd flaggan efter den första körningen.
                     this.isInitialMobileLoad = false;
                 }
                 prevBtn.classList.toggle('disabled', currentIndex === 0);
-                nextBtn.classList.toggle('disabled', currentIndex === totalCards - 1);
+                nextBtn.classList.toggle('disabled', currentIndex >= maxIndex);
             };
-            nextBtn.addEventListener('click', () => { if (currentIndex < totalCards - 1) { currentIndex++; updateGallery(); } });
-            prevBtn.addEventListener('click', () => { if (currentIndex > 0) { currentIndex--; updateGallery(); } });
+            nextBtn.addEventListener('click', () => { 
+                const cardsPerPage = getCardsPerPage();
+                if (currentIndex < totalCards - cardsPerPage) { 
+                    currentIndex++; 
+                    updateGallery(); 
+                } 
+            });
+            prevBtn.addEventListener('click', () => { 
+                if (currentIndex > 0) { 
+                    currentIndex--; 
+                    updateGallery(); 
+                } 
+            });
             window.addEventListener('resize', updateGallery);
             updateGallery();
         }
@@ -3080,6 +3054,16 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
 
 
 
