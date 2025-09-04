@@ -1580,6 +1580,11 @@
         };
 
         window.nord.showPage = function(pageId, isPoppingState = false) {
+            // Harmoni-fix: Geometrin svarar på varje interaktion.
+            if (window.UnifiedGeometryManager && !isPoppingState) {
+                window.UnifiedGeometryManager.nudgeGeometry();
+            }
+
             const config = pageConfig[pageId];
             if (!config) return;
             
@@ -1633,6 +1638,10 @@
 
         // Harmoni-fix: En dedikerad, GSAP-driven funktion för all mjuk scrollning på sidan.
         window.nord.smoothScrollTo = function(selector) {
+            // Harmoni-fix: Geometrin svarar på varje interaktion.
+            if (window.UnifiedGeometryManager) {
+                window.UnifiedGeometryManager.nudgeGeometry();
+            }
             gsap.to(window, { duration: 1.5, scrollTo: selector, ease: 'power2.inOut' });
         };
 
@@ -2137,6 +2146,14 @@
                         onboardingEl.removeEventListener('click', this.boundHideOnboarding);
                         this.boundHideOnboarding = null;
                     }
+                }
+            }
+
+            // Harmoni-fix: Exponerar en global funktion för att "knuffa" geometrin,
+            // vilket skapar en levande känsla vid interaktion.
+            nudgeGeometry() {
+                if (this.elasticGeometry) {
+                    this.elasticGeometry.nudge();
                 }
             }
             
@@ -3163,6 +3180,7 @@
     </script>
 </body>
 </html>
+
 
 
 
