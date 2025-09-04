@@ -97,6 +97,8 @@
             --nord-sym-text-medium: #CBD5E0; 
             --nord-sym-cyan-rgb: 0, 212, 255;
             --nord-sym-light-accent-rgb: 125, 211, 252;
+            --nord-sym-deep-space-blue-rgb: 12, 20, 39;
+            --nord-sym-mid-space-blue-rgb: 30, 58, 138;
         }
         .nord-accent-text { color: var(--nord-sym-cyan); }
         h1, h2, .section-title { font-family: 'Comfortaa', sans-serif; }
@@ -112,12 +114,6 @@
              position: relative; /* For canvas positioning */
         }
         @media (min-width: 1024px) { #hero { min-height: calc(100vh - 116px); } }
-        #karriar .section-content-wrapper { max-width: 800px; }
-        #karriar .intro-text, #karriar .detail-text { font-size: 1.125rem; line-height: 1.7; }
-        @media (min-width: 1024px) {
-            #karriar .section-title { font-size: 3.75rem; }
-            #karriar .intro-text, #karriar .detail-text { font-size: 1.25rem; }
-        }
         .section-content-wrapper { 
             position: relative; z-index: 1; width: 100%; max-width: 1280px; 
             padding-left: 1.5rem; padding-right: 1.5rem; margin-left: auto; margin-right: auto;
@@ -164,7 +160,7 @@
                         inset 0px -1px 2px rgba(255,255,255,0.08);
         }
         
-        /* --- VENNDIAGRAM-HARMONISERING --- */
+        /* --- VENNDIAGRAM-HARMONISERING (DEFINITIV LÖSNING) --- */
         .venn-diagram-container {
             display: flex; justify-content: center; align-items: center;
             min-height: 350px;
@@ -194,7 +190,7 @@
             text-align: center;
             font-size: 1.1rem;
             max-width: 140px;
-            padding: 0 2.5rem;
+            padding: 0 2rem;
         }
         .venn-overlap-text {
             position: absolute;
@@ -202,17 +198,20 @@
             transform: translate(-50%, -50%);
             font-family: 'Comfortaa', sans-serif;
             font-weight: 700;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             color: var(--nord-sym-light-accent);
             cursor: pointer;
             transition: all 0.3s ease;
             text-shadow: 0 0 10px rgba(var(--nord-sym-light-accent-rgb), 0.3);
+            width: 120px;
+            text-align: center;
         }
         .venn-overlap-text:hover {
             color: var(--nord-sym-cyan);
-            filter: drop-shadow(0 0 15px rgba(var(--nord-sym-cyan-rgb), 0.8));
-            transform: translate(-50%, -50%) scale(1.05);
+            filter: drop-shadow(0 0 20px rgba(var(--nord-sym-cyan-rgb), 0.9));
         }
+        .venn-overlap-text .mobile-text { display: none; } /* Dold på desktop som standard */
+
         @keyframes venn-pulse {
             50% { transform: scale(1.02); border-color: rgba(var(--nord-sym-cyan-rgb), 0.5); }
         }
@@ -221,14 +220,25 @@
         @media (max-width: 768px) {
             .venn-diagram-wrapper { width: 320px; height: 200px; }
             .venn-circle { width: 200px; height: 200px; }
-            .venn-circle-text { font-size: 0.9rem; max-width: 100px; }
-            .venn-overlap-text { font-size: 1rem; width: 100px; }
+            .venn-circle-text { font-size: 0.9rem; max-width: 100px; padding: 0 1.5rem; }
+            
+            /* ATOMÄR KORRIGERING: Tvingar fram en harmonisk radbrytning på mobil */
+            .venn-overlap-text .desktop-text { display: none; }
+            .venn-overlap-text .mobile-text { display: inline; }
+            .venn-overlap-text { 
+                font-size: 0.9rem; 
+                width: auto; /* Ta bort fast bredd */
+                line-height: 1.25; 
+            }
         }
         @media (max-width: 480px) {
-            .venn-diagram-wrapper { width: 260px; height: 160px; }
-            .venn-circle { width: 160px; height: 160px; }
-            .venn-circle-text { font-size: 0.75rem; max-width: 70px; }
-            .venn-overlap-text { font-size: 0.9rem; width: 90px; }
+            .venn-diagram-wrapper { width: 280px; height: 180px; }
+            .venn-circle { width: 180px; height: 180px; }
+            .venn-circle-text { font-size: 0.8rem; max-width: 80px; padding: 0 1rem; }
+            .venn-overlap-text { 
+                font-size: 0.8rem; 
+                line-height: 1.2; 
+            }
         }
 
         /* --- GALLERY HARMONIZATION --- */
@@ -471,14 +481,15 @@
             font-family: 'Comfortaa', sans-serif; font-size: 1.5rem; font-weight: 700;
             color: var(--nord-sym-text-light); margin-top: 2rem; margin-bottom: 1rem;
             border-bottom: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.2); padding-bottom: 0.5rem;
-        }
-         .legal-content-container h3:first-of-type { margin-top: 0; }
-        .legal-content-container p, .legal-content-container li { font-size: 1rem; line-height: 1.7; margin-bottom: 1rem; }
-        .legal-content-container ul { list-style-type: '• '; padding-left: 1.5rem; }
-        .legal-content-container a { color: var(--nord-sym-cyan); text-decoration: underline; transition: color 0.3s; }
-        .legal-content-container a:hover { color: var(--nord-sym-light-accent); }
+         }
+         .legal-content-container a:hover { color: var(--nord-sym-light-accent); }
         .hero-headline-glow { animation: hero-glow-animation 5s ease-in-out infinite; }
-        @keyframes hero-glow-animation { 50% { text-shadow: 0 0 12px rgba(220, 240, 255, 0.6), 0 0 24px rgba(56, 189, 248, 0.4); } }
+        
+        /* Harmoni-fix: Återställer stilen för den accentuerade texten i rubriker. */
+        .section-title-accent {
+            color: var(--nord-sym-cyan);
+            text-shadow: 0 0 10px rgba(var(--nord-sym-cyan-rgb), 0.5);
+        }
         
         #header-logo-link.menu-open img {
             filter: drop-shadow(0 0 15px rgba(var(--nord-sym-cyan-rgb), 0.6));
@@ -842,11 +853,100 @@
             flex-shrink: 0;
         }
 
+        /* --- FORM MAKEOVER: QUANTUM HARMONY --- */
+        .form-container {
+            background: rgba(var(--nord-sym-mid-space-blue-rgb), 0.1);
+            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.25);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+            border-radius: 1.5rem; /* Harmoni-fix: Matchar andra kort */
+        }
+        .form-container:hover {
+            box-shadow: 0 0 30px rgba(var(--nord-sym-cyan-rgb), 0.15);
+            border-color: rgba(var(--nord-sym-cyan-rgb), 0.4);
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--nord-sym-text-light);
+            font-size: 0.875rem;
+        }
+        .form-input, .form-textarea {
+            width: 100%;
+            background-color: rgba(var(--nord-sym-deep-space-blue-rgb), 0.8);
+            border: 1px solid rgba(var(--nord-sym-text-light), 0.2);
+            border-radius: 0.5rem;
+            padding: 0.85rem 1rem;
+            color: var(--nord-sym-text-light);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-input::placeholder, .form-textarea::placeholder {
+            color: var(--nord-sym-text-medium);
+            opacity: 0.6;
+        }
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--nord-sym-cyan);
+            box-shadow: 0 0 15px rgba(var(--nord-sym-cyan-rgb), 0.3);
+        }
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .form-progress-bar {
+            height: 4px;
+            background-color: rgba(var(--nord-sym-text-light), 0.1);
+            border-radius: 2px;
+            margin-bottom: 2.5rem;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        .form-progress-bar-inner {
+            height: 100%;
+            background: var(--nord-sym-cyan);
+            width: 0%;
+            border-radius: 2px;
+            transition: width 0.4s ease;
+            box-shadow: 0 0 10px rgba(var(--nord-sym-cyan-rgb), 0.7);
+        }
+        .form-step {
+            display: none;
+        }
+        .form-step.active {
+            display: block;
+        }
+        .form-navigation {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.1);
+            margin-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .form-loading .form-step, .form-loading .form-progress-bar {
+            filter: blur(4px);
+            opacity: 0.5;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        .form-success-container {
+            text-align: center;
+            padding: 2rem 0;
+        }
+        .form-success-container i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .form-success-container p {
+            font-size: 1.125rem;
+            color: var(--nord-sym-text-light);
+        }
 
     </style>
 </head>
 <body class="antialiased">
-    <header id="header" class="fixed w-full top-0 left-0 right-0 z-40 bg-nord-sym-deep-space-blue/80 backdrop-blur-sm transition-all duration-300">
+    <header id="header" class="fixed w-full top-0 left-0 right-0 z-40 bg-nord-sym-deep-space-blue/95 transition-all duration-300">
         <div class="container mx-auto px-4 md:px-6 py-4 flex justify-between items-center"> 
             <a href="#" id="header-logo-link" onclick="window.nord.handleHeaderLogoClick(event); return false;" class="flex-shrink-0">
                 <img src="https://raw.githubusercontent.com/GusHem/Logga-utan-text/refs/heads/main/Final%20logo%20no%20text.svg" alt="NordSym Logotyp" class="h-16 md:h-20 transition-all duration-300">
@@ -918,7 +1018,10 @@
                         <div class="venn-circle venn-circle-2">
                              <span class="venn-circle-text">Vår Arkitektur</span>
                         </div>
-                        <div class="venn-overlap-text" onclick="window.nord.showPage('system'); return false;">Intelligent Kapacitet</div>
+                        <div class="venn-overlap-text" onclick="window.nord.showPage('system'); return false;">
+                            <span class="desktop-text">Intelligent Kapacitet</span>
+                            <span class="mobile-text">Intelligent<br>Kapacitet</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1092,25 +1195,27 @@
         </section>
 
         <section id="karriar" class="space-background-section page-content-padding" style="display: none;">
-            <div class="section-content-wrapper text-center">
-                 <div class="flex justify-center space-x-2 mb-8 md:mb-10">
-                    <i class="ph-star-four nordsym-logo-star text-3xl" style="animation-delay: 0.1s;"></i>
-                    <i class="ph-star-four nordsym-logo-star text-4xl" style="animation-delay: 0.3s;"></i>
-                    <i class="ph-star-four nordsym-logo-star text-3xl" style="animation-delay: 0.5s;"></i>
-                </div>
-                <h2 class="section-title text-4xl md:text-5xl lg:text-6xl mb-8 md:mb-12">Gör din del i <span class="section-title-accent relative">systemrevolutionen</span></h2>
-                <div class="max-w-3xl lg:max-w-4xl mx-auto">
-                    <p class="text-lg md:text-xl leading-relaxed">
-                        Vi bygger inte bara funktioner, vi bygger skalbara ekosystem som levererar mätbart affärsresultat. Vi söker mångsidiga arkitekter som vill transformera hur företag fungerar i grunden.
-                    </p>
-                    <p class="text-lg md:text-xl leading-relaxed mt-6">
-                        Om du är en entreprenöriell tänkare som vill bygga system med bestående inverkan, har du hittat rätt.
-                    </p>
-                </div>
-                <div class="mt-12 md:mt-16 mb-10">
-                    <a href="#" onclick="window.nord.showPage('vilka-ar-vi'); return false;" class="btn-base btn-secondary-on-dark px-10 py-4 text-lg lg:text-xl lg:px-12 lg:py-5">
-                        Starta Din Resa <i class="ph-paper-plane-tilt ml-2"></i>
-                    </a>
+            <div class="section-content-wrapper">
+                <div class="flex flex-col items-center gap-y-8 text-center">
+                    <div class="flex justify-center space-x-2">
+                        <i class="ph-star-four nordsym-logo-star text-3xl" style="animation-delay: 0.1s;"></i>
+                        <i class="ph-star-four nordsym-logo-star text-4xl" style="animation-delay: 0.3s;"></i>
+                        <i class="ph-star-four nordsym-logo-star text-3xl" style="animation-delay: 0.5s;"></i>
+                    </div>
+                    <h2 class="section-title text-4xl md:text-5xl lg:text-6xl">Gör din del i <span class="section-title-accent relative">systemrevolutionen</span></h2>
+                    <div class="max-w-3xl lg:max-w-4xl mx-auto">
+                        <p class="text-lg md:text-xl leading-relaxed">
+                            Vi bygger inte bara funktioner, vi bygger skalbara ekosystem som levererar mätbart affärsresultat. Vi söker mångsidiga arkitekter som vill transformera hur företag fungerar i grunden.
+                        </p>
+                        <p class="text-lg md:text-xl leading-relaxed mt-6">
+                            Om du är en entreprenöriell tänkare som vill bygga system med bestående inverkan, har du hittat rätt.
+                        </p>
+                    </div>
+                    <div>
+                        <a href="#" onclick="window.nord.showPage('vilka-ar-vi'); return false;" class="btn-base btn-secondary-on-dark px-10 py-4 text-lg lg:text-xl lg:px-12 lg:py-5">
+                            Starta Din Resa <i class="ph-paper-plane-tilt ml-2"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1126,8 +1231,8 @@
                         Är du redo att ansluta dig till ett team som drivs av "Nordisk Atom-Optimism"?
                     </p>
                 </div>
-                <div id="jobApplicationFormContainer" class="content-card-dark card-base p-8 md:p-12 mt-10 max-w-2xl mx-auto text-left form-container"> 
-                    <h3 class="text-2xl font-semibold text-heading-dark-bg mb-6 text-center">Anslut Till Teamet på NordSym</h3>
+                <div id="jobApplicationFormContainer" class="form-container p-8 md:p-12 mt-10 max-w-2xl mx-auto text-left"> 
+                    <h3 class="text-2xl font-semibold text-white mb-2 text-center">Anslut Till Teamet på NordSym</h3>
                     <div class="form-progress-bar">
                         <div class="form-progress-bar-inner"></div>
                     </div>
@@ -1174,8 +1279,8 @@
             <div class="section-content-wrapper text-center">
                 <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-8">Starta er systemresa</h2>
                 <p class="text-lg text-content-dark-bg max-w-xl mx-auto mb-10">Det första steget mot ett självgående ekosystem. Låt oss diskutera er vision.</p>
-                <div id="formSkraddarsyddContainer" class="content-card-transparent card-base p-8 md:p-12 mt-10 max-w-lg mx-auto text-left form-container">
-                    <h3 class="text-2xl font-semibold text-heading-dark-bg mb-6 text-center">Kontaktinformation</h3>
+                <div id="formSkraddarsyddContainer" class="form-container p-8 md:p-12 mt-10 max-w-lg mx-auto text-left">
+                    <h3 class="text-2xl font-semibold text-white mb-2 text-center">Kontaktinformation</h3>
                     <div class="form-progress-bar">
                         <div class="form-progress-bar-inner"></div>
                     </div>
@@ -1533,16 +1638,7 @@
 
         // Harmoni-fix: En dedikerad, GSAP-driven funktion för all mjuk scrollning på sidan.
         window.nord.smoothScrollTo = function(selector) {
-            // Harmoni-fix: Säkerställ att inga CSS scroll-behaviors interfererar
-            document.documentElement.style.scrollBehavior = 'auto';
-            gsap.to(window, { 
-                duration: 1.5, 
-                scrollTo: { y: selector, autoKill: false }, 
-                ease: 'power2.inOut',
-                onComplete: () => {
-                    document.documentElement.style.scrollBehavior = '';
-                }
-            });
+            gsap.to(window, { duration: 1.5, scrollTo: selector, ease: 'power2.inOut' });
         };
 
         class GlobalStarfield {
@@ -1613,7 +1709,7 @@
                 this.states = {
                 HERO: { zoom: 15, y: 0, opacity: 0.4, rotSpeed: 0.1 }, /* Harmoni-fix: Ytterligare ökad ljusstyrka för en ljusare känsla. */
                 PAGE: { zoom: 35, y: 10, opacity: 0.4, rotSpeed: 0.05 }, /* Harmoni-fix: Matchar ljusstyrkan på Hero-sektionen. */
-                WORKSHOP: { zoom: 28, y: 0, opacity: 1.0, rotSpeed: 0.2 }, // Harmoni-fix: Mjukare zoom för mobil comfort
+                WORKSHOP: { zoom: 22, y: 0, opacity: 1.0, rotSpeed: 0.2 },
                 HIDDEN: { zoom: 60, y: 0, opacity: 0.0, rotSpeed: 0.02 } // Harmoni-fix: Mjukare, horisontell ingångsanimation.
             };
             this.currentState = 'HIDDEN';
@@ -1918,10 +2014,10 @@
                     if (targetStateKey === 'PAGE') {
                         finalState.zoom = 60; 
                     } else if (targetStateKey === 'HERO') {
-                        finalState.zoom = 25; // Harmoni-fix: Finjusterad zoom för mobil.
-                        finalState.y = -4; // Harmoni-fix: En subtil sänkning för att återskapa desktop-känslan.
+                        finalState.zoom = 18; // Harmoni-fix: Geometrin flyttas närmare på mobil för ökad skärpa och närvaro.
+                        finalState.y = 4; // Harmoni-fix: HÖJER kamerans blickpunkt för att SÄNKA geometrin under sidhuvudet.
                     } else if (targetStateKey === 'WORKSHOP') {
-                        finalState.zoom = baseState.zoom * 1.3; // Harmoni-fix: Mer utzoomad vy på mobil.
+                        finalState.y = 5; // Harmoni-fix: Centrerar geometrin i den synliga ytan på mobilen.
                     }
                 }
                 
@@ -3068,6 +3164,17 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
