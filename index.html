@@ -1481,11 +1481,11 @@
             material: 'neural', // Harmoni-fix: Återställer den solida grundformen.
             forms: [
                 // Harmoni-fix: En språklig makeover för en mer kraftfull berättelse.
-                { name: 'potential', displayName: 'Ursprung' },
-                { name: 'relation', displayName: 'Koppling' },
+                { name: 'synergy', displayName: 'Syntes' },
                 { name: 'structure', displayName: 'Ramverk' },
+                { name: 'relation', displayName: 'Koppling' },
                 { name: 'adaptation', displayName: 'Formning' },
-                { name: 'synergy', displayName: 'Syntes' }
+                { name: 'potential', displayName: 'Ursprung' }
             ],
             currentIndex: 0
         },
@@ -2272,18 +2272,22 @@
                 for (let i = 0; i < count; i++) { const dx = a * (y - x) * dt; const dy = (x * (b - z) - y) * dt; const dz = (x * y - c * z) * dt; x += dx; y += dy; z += dz; if (i > 100) points.push(x * 0.2, y * 0.2, z * 0.2); }
                 const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3)); return geometry;
             }
-             createPotentialGeometry(count = 2000, radius = 5) { // Harmoni-fix: Minskat antalet punkter för en klarare, mer "potentiell" känsla.
-                const points = []; 
-                for (let i = 0; i < count; i++) { 
-                    const u = Math.random();
-                    const v = Math.random();
-                    const theta = 2 * Math.PI * u;
-                    const phi = Math.acos(2 * v - 1);
-                    const r = radius * Math.cbrt(Math.random());
-                    const x = r * Math.sin(phi) * Math.cos(theta);
-                    const y = r * Math.sin(phi) * Math.sin(theta);
-                    const z = r * Math.cos(phi);
-                    points.push(x, y, z); 
+             createPotentialGeometry(count = 8000, radius = 5) { 
+                // Harmoni-fix: "Ursprung" är nu en Lorenz-attraktor. 
+                // Detta transformerar den från en "trasslig boll" till en vacker representation 
+                // av hur ordning och struktur uppstår ur kaotiska system.
+                const points = [];
+                let x = 0.1, y = 0, z = 0;
+                const a = 10, b = 28, c = 8.0 / 3.0, dt = 0.01;
+
+                for (let i = 0; i < count; i++) {
+                    const dx = a * (y - x) * dt;
+                    const dy = (x * (b - z) - y) * dt;
+                    const dz = (x * y - c * z) * dt;
+                    x += dx; y += dy; z += dz;
+                    if (i > 100) { // Låt systemet "värmas upp" för att hitta attraktorn
+                        points.push(x * 0.25, y * 0.25, (z * 0.25) - 8);
+                    }
                 }
                 const geometry = new THREE.BufferGeometry(); 
                 geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3)); 
@@ -3159,6 +3163,8 @@
     </script>
 </body>
 </html>
+
+
 
 
 
