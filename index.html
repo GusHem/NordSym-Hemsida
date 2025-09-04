@@ -2036,7 +2036,8 @@
                         finalState.zoom = 25; // Harmoni-fix: Finjusterad zoom för mobil.
                         finalState.y = 4; // Harmoni-fix: HÖJER kamerans blickpunkt för att SÄNKA geometrin under sidhuvudet.
                     } else if (targetStateKey === 'WORKSHOP') {
-                        finalState.y = 5; // Harmoni-fix: Centrerar geometrin i den synliga ytan på mobilen.
+                        finalState.y = 0; // Harmoni-fix: Perfekt vertikal centrering på mobil.
+                        finalState.zoom = 24; // Harmoni-fix: Anpassad zoom för optimal visning på mobil.
                     }
                 }
                 
@@ -3195,6 +3196,7 @@
     </script>
 </body>
 </html>
+
 
 
 
