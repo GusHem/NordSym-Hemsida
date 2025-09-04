@@ -480,6 +480,10 @@
         .hero-headline-glow { animation: hero-glow-animation 5s ease-in-out infinite; }
         @keyframes hero-glow-animation { 50% { text-shadow: 0 0 12px rgba(220, 240, 255, 0.6), 0 0 24px rgba(56, 189, 248, 0.4); } }
         
+        #header-logo-link.menu-open img {
+            filter: drop-shadow(0 0 15px rgba(var(--nord-sym-cyan-rgb), 0.6));
+        }
+        
         #hero-logo-wrapper {
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
@@ -844,12 +848,9 @@
 <body class="antialiased">
     <header id="header" class="fixed w-full top-0 left-0 right-0 z-40 bg-nord-sym-deep-space-blue/80 backdrop-blur-sm transition-all duration-300">
         <div class="container mx-auto px-4 md:px-6 py-4 flex justify-between items-center"> 
-            <a href="#" id="header-logo-link" onclick="window.nord.showPage('hero'); return false;" class="flex-shrink-0">
+            <a href="#" id="header-logo-link" onclick="window.nord.handleHeaderLogoClick(event); return false;" class="flex-shrink-0">
                 <img src="https://raw.githubusercontent.com/GusHem/Logga-utan-text/refs/heads/main/Final%20logo%20no%20text.svg" alt="NordSym Logotyp" class="h-16 md:h-20 transition-all duration-300">
             </a>
-            <button id="mobile-menu-trigger" class="md:hidden z-50 text-sky-100">
-                <i class="ph ph-list text-3xl"></i>
-            </button>
             <nav aria-label="Huvudnavigation" class="hidden md:flex flex-grow justify-center space-x-5 items-center header-nav">
                 <a href="#" onclick="window.nord.showPage('hero'); return false;" data-nav="hero" class="nav-link transition-colors font-medium">Hem</a>
                 <a href="#" onclick="window.nord.showPage('om-oss'); return false;" data-nav="om-oss" class="nav-link transition-colors font-medium">Arkitektur</a>
@@ -2603,13 +2604,35 @@
             logToExternalService(error, "GlobalInitialization");
         }
 
+        window.nord.handleHeaderLogoClick = (event) => {
+            event.preventDefault();
+
+            // Använd Tailwind md breakpoint (768px)
+            if (window.innerWidth < 768) {
+                const mobileMenu = document.getElementById('mobile-menu');
+                const logoLink = document.getElementById('header-logo-link');
+                if (!mobileMenu || !logoLink) return;
+
+                mobileMenu.classList.toggle('open');
+                logoLink.classList.toggle('menu-open', mobileMenu.classList.contains('open'));
+                
+                if (mobileMenu.classList.contains('open')) {
+                    mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
+                } else {
+                    mobileMenu.style.maxHeight = '0px';
+                }
+            } else {
+                window.nord.showPage('hero');
+            }
+        };
+
         window.nord.closeMobileMenu = () => {
              const mobileMenu = document.getElementById('mobile-menu');
-             const mobileMenuTrigger = document.getElementById('mobile-menu-trigger');
-             if(mobileMenu && mobileMenuTrigger) {
+             const logoLink = document.getElementById('header-logo-link');
+             if(mobileMenu && logoLink) {
                 mobileMenu.classList.remove('open');
+                logoLink.classList.remove('menu-open');
                 mobileMenu.style.maxHeight = '0px';
-                mobileMenuTrigger.querySelector('i').className = 'ph ph-list text-3xl';
              }
         };
         window.nord.updateActiveLink = function(navId) {
@@ -2624,43 +2647,11 @@
             });
         };
         
-        const mobileMenuTrigger = document.getElementById('mobile-menu-trigger');
-        if (mobileMenuTrigger) {
-            mobileMenuTrigger.addEventListener('click', () => {
-                const mobileMenu = document.getElementById('mobile-menu');
-                const icon = mobileMenuTrigger.querySelector('i');
-                mobileMenu.classList.toggle('open');
-
-                if (mobileMenu.classList.contains('open')) {
-                    mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px";
-                    icon.className = 'ph ph-x text-3xl';
-                } else {
-                    mobileMenu.style.maxHeight = '0px';
-                    icon.className = 'ph ph-list text-3xl';
-                }
-            });
-        }
-        
-        function setupCTAInteractions() {
-            const ctaSelectors = [ '.btn-cta-revised', '.btn-secondary-on-dark', '.venn-overlap-text', '#hero-logo-wrapper', '.nav-link' ];
-            const interactiveElements = document.querySelectorAll(ctaSelectors.join(', '));
-            interactiveElements.forEach(el => {
-                const nudgeEffect = () => {
-                    if (window.UnifiedGeometryManager && window.UnifiedGeometryManager.elasticGeometry && !document.body.classList.contains('labb-active')) {
-                        window.UnifiedGeometryManager.elasticGeometry.nudge();
-                    }
-                };
-                el.addEventListener('mouseenter', nudgeEffect);
-                el.addEventListener('click', nudgeEffect);
-            });
-        }
-
         window.addEventListener('load', () => { const hash = window.location.hash.substring(1); window.nord.showPage(pageConfig[hash] ? hash : 'hero'); });
         
         new FormManager('formSkraddarsydd', 'xqabggao');
         new FormManager('jobApplicationForm', 'xblypplz');
 
-        setupCTAInteractions();
         document.getElementById('currentYear').textContent = new Date().getFullYear();
     });
 
@@ -3066,6 +3057,8 @@
     </script>
 </body>
 </html>
+
+
 
 
 
