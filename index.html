@@ -480,6 +480,15 @@
         .hero-headline-glow { animation: hero-glow-animation 5s ease-in-out infinite; }
         @keyframes hero-glow-animation { 50% { text-shadow: 0 0 12px rgba(220, 240, 255, 0.6), 0 0 24px rgba(56, 189, 248, 0.4); } }
         
+        #hero-logo-wrapper {
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        #hero-logo-wrapper:hover {
+            transform: scale(1.04);
+            filter: drop-shadow(0 0 25px rgba(var(--nord-sym-cyan-rgb), 0.5));
+        }
+
         /* --- RITBORDET LOBBY & WORKSHOP RE-ARCHITECTING --- */
         #ritbordet {
             display: flex;
@@ -931,6 +940,9 @@
                     </div>
                     <button aria-label="Föregående system i galleriet" id="galleryPrev" class="gallery-nav prev"><i class="ph-caret-left-bold"></i></button>
                     <button aria-label="Nästa system i galleriet" id="galleryNext" class="gallery-nav next"><i class="ph-caret-right-bold"></i></button>
+                </div>
+                <div class="text-center mt-12">
+                    <p class="text-lg text-sky-300 animate-pulse"><i class="ph-arrows-left-right"></i> Utforska byggstenarna <i class="ph-arrows-left-right"></i></p>
                 </div>
             </div>
         </section>
@@ -3054,6 +3066,8 @@
     </script>
 </body>
 </html>
+
+
 
 
 
