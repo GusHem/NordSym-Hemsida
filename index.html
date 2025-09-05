@@ -403,7 +403,7 @@
         }
         /* --- SYSTEM/PRICING CARD HARMONIZATION --- */
         .pricing-card {
-            background: radial-gradient(circle at 50% 0%, rgba(var(--nord-sym-mid-space-blue-rgb), 0.2), rgba(var(--nord-sym-deep-space-blue-rgb), 0.3));
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.15);
             padding: 2.5rem 2rem;
             text-align: left;
@@ -411,38 +411,6 @@
             flex-direction: column;
             border-radius: 1.5rem;
             height: 100%;
-            position: relative; /* För pseudo-element */
-            overflow: hidden; /* För pseudo-element */
-            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease, border-color 0.4s ease;
-        }
-        .pricing-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 150%;
-            height: 150%;
-            background: radial-gradient(circle at 10% 10%, rgba(var(--nord-sym-cyan-rgb), 0.1) 0%, rgba(var(--nord-sym-cyan-rgb), 0) 35%);
-            transform: translateX(-150%) translateY(-150%) rotate(45deg);
-            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-            pointer-events: none;
-        }
-        .pricing-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(var(--nord-sym-cyan-rgb), 0.5);
-            box-shadow: 0 10px 40px rgba(var(--nord-sym-cyan-rgb), 0.2);
-        }
-        .pricing-card:hover::before {
-            transform: translateX(0) translateY(0) rotate(45deg);
-        }
-        .ignite-package {
-            border-color: rgba(var(--nord-sym-cyan-rgb), 0.4);
-            box-shadow: 0 0 25px rgba(var(--nord-sym-cyan-rgb), 0.15), inset 0 0 15px rgba(var(--nord-sym-cyan-rgb), 0.1);
-            transform: scale(1.03); /* Make it slightly larger */
-        }
-        .ignite-package:hover {
-            transform: scale(1.05) translateY(-8px); /* Enhance hover effect */
-            box-shadow: 0 10px 50px rgba(var(--nord-sym-cyan-rgb), 0.3);
         }
         .pricing-card-header {
             margin-bottom: 1.5rem;
@@ -463,26 +431,6 @@
             font-size: 1rem;
             color: var(--nord-sym-text-medium);
             font-weight: 400;
-        }
-        .pricing-card ul {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 2.5rem;
-            flex-grow: 1;
-        }
-        .pricing-card li {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-            color: var(--nord-sym-text-medium);
-            line-height: 1.6;
-        }
-        .pricing-card li i {
-            color: var(--nord-sym-cyan);
-            margin-top: 0.2rem;
-            font-size: 1.25rem;
-            flex-shrink: 0;
         }
         .venn-overlap-text {
             position: absolute;
@@ -1148,9 +1096,9 @@
                 </div>
                 
                 <div class="text-center mb-16">
-                    <h3 class="section-title text-3xl md:text-4xl">Teknologi som tjänar människan.</h3>
+                    <h3 class="section-title text-3xl md:text-4xl">Er Framgång Är Vår Uppgradering.</h3>
                     <p class="mt-6 max-w-3xl mx-auto">
-                        Vårt mål är inte snabba exits eller att bli uppköpta. Vi bygger för att bestå och för att skapa långsiktiga partnerskap. Vi tror på teknologi som stärker företag och de familjer som driver dem, som skapar stabilitet och möjliggör fokus på det som verkligen betyder något. För oss är den mest avancerade teknologin den som sömlöst tjänar er, inte tvärtom.
+                        AI-utvecklingen är en ostoppbar kraft. Vi har byggt vår arkitektur för att kanalisera den direkt till er. Vår framgång är oskiljaktigt länkad till er: när ni växer, lär sig våra system. När AI-teknologin globalt tar ett kliv framåt, uppgraderas er kapacitet automatiskt. Vi bygger inte bara system ni äger; vi bygger en symbios där varje teknologiskt framsteg blir er direkta vinst.
                     </p>
                 </div>
 
@@ -3291,6 +3239,7 @@
     </script>
 </body>
 </html>
+
 
 
 
