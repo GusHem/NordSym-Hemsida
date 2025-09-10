@@ -875,6 +875,41 @@
             flex-shrink: 0;
         }
 
+        /* --- ARKITEKTUR PAGE CARD STYLING --- */
+        .arkitektur-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.15);
+            padding: 2.5rem 2rem;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            border-radius: 1.5rem;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+        .arkitektur-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(var(--nord-sym-cyan-rgb), 0.2);
+            border-color: rgba(var(--nord-sym-cyan-rgb), 0.4);
+        }
+        .arkitektur-card i {
+            color: var(--nord-sym-cyan);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            align-self: flex-start;
+        }
+        .arkitektur-card h3 {
+            font-family: 'Comfortaa', sans-serif;
+            color: var(--nord-sym-text-light);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .arkitektur-card p {
+            color: var(--nord-sym-text-medium);
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
         /* --- FORM MAKEOVER: QUANTUM HARMONY --- */
         .form-container {
             background: rgba(var(--nord-sym-mid-space-blue-rgb), 0.1);
@@ -1090,20 +1125,23 @@
                     </p>
                 </div>
 
-                <div class="text-center my-16 py-10 border-y border-sky-800/50">
-                     <h3 class="section-title text-3xl md:text-4xl">Frihet över inlåsning.</h3>
-                     <p class="mt-6 max-w-3xl mx-auto">
-                        Många bygger system som är helt beroende av en specifik AI. Vi ser det annorlunda. Vi bygger ert systems centrala nervsystem – den intelligenta arkitekturen som kodifierar er unika process och strategi. AI-modellerna är kraftfulla, men utbytbara, hjärnor som vi ansluter till denna kärna. Denna frikoppling är er strategiska fördel. När en ny, revolutionerande teknologi dyker upp är ni inte låsta i ett gammalt ekosystem. Ni integrerar den, och hela er verksamhet blir omedelbart kraftfullare. Ni investerar i en bestående tillgång, inte i en tillfällig teknologileverantör.
-                     </p>
+                <div class="grid md:grid-cols-2 gap-8 my-16">
+                    <div class="arkitektur-card">
+                        <i class="ph-lock-open"></i>
+                        <h3 class="section-title text-2xl">Frihet över inlåsning.</h3>
+                        <p>
+                            Många bygger system som är helt beroende av en specifik AI. Vi ser det annorlunda. Vi bygger ert systems centrala nervsystem – den intelligenta arkitekturen som kodifierar er unika process och strategi. AI-modellerna är kraftfulla, men utbytbara, hjärnor som vi ansluter till denna kärna. Denna frikoppling är er strategiska fördel. När en ny, revolutionerande teknologi dyker upp är ni inte låsta i ett gammalt ekosystem. Ni integrerar den, och hela er verksamhet blir omedelbart kraftfullare. Ni investerar i en bestående tillgång, inte i en tillfällig teknologileverantör.
+                        </p>
+                    </div>
+                    <div class="arkitektur-card">
+                        <i class="ph-arrows-clockwise"></i>
+                        <h3 class="section-title text-2xl">Er Framgång Är Vår Uppgradering.</h3>
+                        <p>
+                             AI-utvecklingen är en ostoppbar kraft. Vi har byggt vår arkitektur för att kanalisera den direkt till er. Vår framgång är oskiljaktigt länkad till er: när ni växer, lär sig våra system. När AI-teknologin globalt tar ett kliv framåt, uppgraderas er kapacitet automatiskt. Vi bygger inte bara system ni äger; vi bygger en symbios där varje teknologiskt framsteg blir er direkta vinst.
+                        </p>
+                    </div>
                 </div>
                 
-                <div class="text-center mb-16">
-                    <h3 class="section-title text-3xl md:text-4xl">Er Framgång Är Vår Uppgradering.</h3>
-                    <p class="mt-6 max-w-3xl mx-auto">
-                        AI-utvecklingen är en ostoppbar kraft. Vi har byggt vår arkitektur för att kanalisera den direkt till er. Vår framgång är oskiljaktigt länkad till er: när ni växer, lär sig våra system. När AI-teknologin globalt tar ett kliv framåt, uppgraderas er kapacitet automatiskt. Vi bygger inte bara system ni äger; vi bygger en symbios där varje teknologiskt framsteg blir er direkta vinst.
-                    </p>
-                </div>
-
                 <div class="arkitektur-grid content-card-transparent card-base p-8 md:p-12">
                     <div>
                         <h4 class="section-title text-2xl md:text-3xl mb-4">Grundaren</h4>
@@ -3241,6 +3279,7 @@
     </script>
 </body>
 </html>
+
 
 
 
