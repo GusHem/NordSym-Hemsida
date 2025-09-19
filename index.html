@@ -413,26 +413,90 @@
             flex-direction: column;
             border-radius: 1.5rem;
             height: 100%;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(var(--nord-sym-cyan-rgb), 0.15);
+        }
+        .ignite-package {
+            border-color: var(--nord-sym-cyan);
+            transform: scale(1.03);
+            box-shadow: 0 0 40px rgba(var(--nord-sym-cyan-rgb), 0.3);
+        }
+        .ignite-package::before {
+            /* Harmoni-fix: Byt ut till en kortare copy för att undvika text-overflow. */
+            content: 'BÄST VAL';
+            position: absolute;
+            top: 18px; /* Justerad för ny text */
+            right: -40px; /* Justerad för ny text */
+            background: var(--nord-sym-cyan);
+            color: var(--nord-sym-deep-space-blue);
+            padding: 6px 35px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            transform: rotate(45deg);
+            z-index: 1;
+            letter-spacing: 0.05em;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
         .pricing-card-header {
             margin-bottom: 1.5rem;
+            text-align: center;
         }
         .pricing-card-header h3 {
-             font-family: 'Comfortaa', sans-serif;
-            color: var(--nord-sym-light-accent);
-            font-size: 1.25rem;
+            font-family: 'Comfortaa', sans-serif;
+            color: var(--nord-sym-text-light);
+            font-size: 1.4rem;
+            font-weight: 700;
             margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .pricing-card-header p {
+            font-size: 0.875rem; /* Harmoni-fix: Minskad textstorlek för att ge mer utrymme. */
+            color: var(--nord-sym-text-medium);
+            min-height: 2.7em;
+            line-height: 1.4;
         }
         .price-display {
             font-family: 'Comfortaa', sans-serif;
-            font-size: 2.5rem;
+            font-size: 3.25rem;
             font-weight: 700;
             margin-bottom: 2rem;
+            color: var(--nord-sym-text-light);
+            text-shadow: 0 0 15px rgba(var(--nord-sym-cyan-rgb), 0.4);
+            text-align: center;
         }
         .price-period {
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: var(--nord-sym-text-medium);
             font-weight: 400;
+            margin-left: 0.25rem;
+        }
+        .pricing-card ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2rem;
+            flex-grow: 1;
+        }
+        .pricing-card ul li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.875rem; /* Harmoni-fix: Justerat avstånd. */
+            color: var(--nord-sym-text-medium);
+            font-size: 0.875rem; /* Harmoni-fix: Minskad textstorlek för att undvika text-overflow. */
+            line-height: 1.5;
+        }
+        .pricing-card ul li i {
+            color: var(--nord-sym-cyan);
+            margin-top: 0.25rem;
+            font-size: 1.1rem;
+            flex-shrink: 0;
         }
         .venn-overlap-text {
             position: absolute;
@@ -1176,10 +1240,10 @@
                         </div>
                         <div class="price-display text-center">75k <span class="price-period">SEK</span></div>
                         <ul>
-                            <li><i class="ph-check-circle"></i> En fundamental automationslösning</li>
-                            <li><i class="ph-check-circle"></i> Perfekt för att testa och validera potentialen i automation</li>
-                            <li><i class="ph-check-circle"></i> Snabb implementation för omedelbar ROI</li>
-                            <li><i class="ph-check-circle"></i> Mer än ett flöde – det är den första, fullt integrerade komponenten i ert framtida ekosystem, inklusive all nödvändig arkitektur för att växa.</li>
+                            <li><i class="ph-check-circle"></i> En fundamental automation</li>
+                            <li><i class="ph-check-circle"></i> Validerar potential, testar effekt</li>
+                            <li><i class="ph-check-circle"></i> Snabb implementation, direkt ROI</li>
+                            <li><i class="ph-check-circle"></i> Grundstenen i ert framtida ekosystem</li>
                         </ul>
                         <div class="mt-auto">
                             <a href="#" onclick="window.nord.showPage('boka-samtal-skraddarsydd'); return false;" class="btn-base btn-secondary-on-dark w-full">Starta med Grunden</a>
@@ -1192,12 +1256,13 @@
                         </div>
                         <div class="price-display text-center">250k <span class="price-period">SEK</span></div>
                          <ul>
-                            <li><i class="ph-check-circle"></i> Ett ekosystem av agenter</li>
-                            <li><i class="ph-check-circle"></i> Byggd på beprövad arkitektur</li>
-                            <li><i class="ph-check-circle"></i> Transformerar en hel avdelning eller process</li>
-                            <li><i class="ph-check-circle"></i> Inkluderar ofta ett skräddarsytt gränssnitt</li>
+                            <li><i class="ph-check-circle"></i> Ekosystem av AI-agenter</li>
+                            <li><i class="ph-check-circle"></i> Beprövad & skalbar arkitektur</li>
+                            <li><i class="ph-check-circle"></i> Transformerar hela processer</li>
+                            <li><i class="ph-check-circle"></i> Inkluderar skräddarsytt UI</li>
                         </ul>
                          <div class="mt-auto">
+                            <p class="text-center text-xs text-sky-300 mb-3">ENDAST 2 PLATSER KVAR FÖR 2025</p>
                             <a href="#" onclick="window.nord.showPage('boka-samtal-skraddarsydd'); return false;" class="btn-base btn-cta-revised w-full">Forma er Struktur</a>
                         </div>
                     </div>
@@ -1208,10 +1273,10 @@
                         </div>
                         <div class="price-display text-center">500k+ <span class="price-period">SEK</span></div>
                          <ul>
-                            <li><i class="ph-check-circle"></i> Fullskalig systemtransformation</li>
-                            <li><i class="ph-check-circle"></i> Ett intelligent ekosystem som växer med er</li>
-                            <li><i class="ph-check-circle"></i> Designad för obegränsad evolution och anpassning</li>
-                            <li><i class="ph-check-circle"></i> Er framtidsförsäkring mot teknisk obsolescence</li>
+                            <li><i class="ph-check-circle"></i> Fullskalig transformation</li>
+                            <li><i class="ph-check-circle"></i> Intelligent, växande ekosystem</li>
+                            <li><i class="ph-check-circle"></i> Designad för evig evolution</li>
+                            <li><i class="ph-check-circle"></i> Framtidssäkrad arkitektur</li>
                         </ul>
                          <div class="mt-auto">
                             <a href="#" onclick="window.nord.showPage('boka-samtal-skraddarsydd'); return false;" class="btn-base btn-secondary-on-dark w-full">Etablera er Arkitektur</a>
@@ -2885,7 +2950,7 @@
                 { icon: 'ph-rocket-launch', title: 'AKTIVERING', description: 'Systemet integreras. Era processer förvandlas till lärande intelligens.' }
             ];
             this.valueCardsData = [
-                 { type: 'default', icon: 'ph-graph', title: 'TRANSFORMATION', description: 'Intelligenta system som växer med er verksamhet och möjliggör obegränsad skalning.', buttonText: 'Läs Caset →', page: 'atom-gallery-section' },
+                 { type: 'default', icon: 'ph-graph', title: 'TRANSFORMATION', description: 'Intelligenta system som växer med er verksamhet och möjliggör obegränsad skalning.', buttonText: 'Läs Caset →', externalLink: 'https://gushem.github.io/Landningsida-Nordsym-Klara-agent/' },
                  { type: 'default', icon: 'ph-atom', title: 'KÄRNKOMPONENTER', description: 'Distribuerad intelligens byggd på era affärsregler - system som förstår er branschlogik och utvecklas med den.', buttonText: 'Utforska Arkitekturen', page: 'system', tooltip: 'Vår motor för sömlös synkronisering av intelligens.' },
                  { type: 'pricing-preview', title: 'INVESTERING', price: '75k - 500k+', description: 'Från investering till intelligent evolution. Er framtidsförsäkring börjar här.', buttonText: 'Se Paket →', page: 'system' }
             ];
@@ -2908,10 +2973,18 @@
         }
         
         createCardHTML(card) {
-            const clickHandler = `window.nord.showPage('hero'); setTimeout(() => document.getElementById('${card.page}').scrollIntoView({ behavior: 'smooth' }), 500);`;
+            // Harmoni-fix: Länken "Läs Caset" pekar nu mot den externa landningssidan.
+            // Logiken har anpassats för att hantera både interna och externa länkar.
+            let buttonHTML = '';
+            if (card.buttonText) {
+                if (card.externalLink) {
+                    buttonHTML = `<a href="${card.externalLink}" target="_blank" rel="noopener noreferrer" class="btn-base btn-secondary-on-dark text-sm">${card.buttonText}</a>`;
+                } else {
+                    const clickHandler = `window.nord.showPage('hero'); setTimeout(() => document.getElementById('${card.page}').scrollIntoView({ behavior: 'smooth' }), 500);`;
+                    buttonHTML = `<button onclick="${card.page === 'atom-gallery-section' ? clickHandler : `window.nord.showPage('${card.page}')`}" class="btn-base btn-secondary-on-dark text-sm">${card.buttonText}</button>`;
+                }
+            }
             
-            const buttonHTML = card.buttonText ? `<button onclick="${card.page === 'atom-gallery-section' ? clickHandler : `window.nord.showPage('${card.page}')`}" class="btn-base btn-secondary-on-dark text-sm">${card.buttonText}</button>` : '';
-
             if(card.type === 'pricing-preview') {
                 return `<div class="ritbordet-card pricing-preview card-base">
                             <i class="ph ph-tag"></i>
@@ -3279,6 +3352,15 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
 
 
 
