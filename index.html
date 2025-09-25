@@ -12,14 +12,15 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="NordSym AB">
     <meta property="og:locale" content="sv_SE">
-    <meta property="og:title" content="NordSym AB - System som växer med framtiden">
-    <meta property="og:description" content="Vi bygger system som bygger sig själva. Från kaos till klarhet.">
+    <meta property="og:title" content="NordSym AB - System som tänker med er.">
+    <meta property="og:description" content="System som tänker med er. Vi bygger er framtidssäkra, intelligenta AI-arkitektur.">
     <meta property="og:image" content="https://raw.githubusercontent.com/GusHem/Logga-utan-text/refs/heads/main/Final%20logo%20no%20text.svg">
     <meta property="og:url" content="https://nordsym.com">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@NordSym">
     <meta name="twitter:creator" content="@NordSym">
-    <meta name="twitter:title" content="NordSym AB - System som växer med framtiden">
+    <meta name="twitter:title" content="NordSym AB - System som tänker med er.">
+    <meta name="twitter:description" content="System som tänker med er. Vi bygger er framtidssäkra, intelligenta AI-arkitektur.">
     
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
@@ -637,12 +638,21 @@
             }
         }
         .ritbordet-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.15);
+            background: rgba(var(--nord-sym-deep-space-blue-rgb), 0.6);
+            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.2);
             padding: 1.5rem;
             text-align: left;
             display: flex;
             flex-direction: column;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+        }
+        .ritbordet-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(var(--nord-sym-cyan-rgb), 0.25);
+            border-color: var(--nord-sym-cyan);
         }
         .ritbordet-card i { font-size: 1.75rem; color: var(--nord-sym-cyan); margin-bottom: 0.75rem; }
         .ritbordet-card h4 { font-family: 'Comfortaa', sans-serif; font-size: 1rem; color: var(--nord-sym-text-light); margin-bottom: 0.5rem; }
@@ -739,9 +749,6 @@
             /* Harmoni-fix: Utrotar scroll-konflikten genom att göra joysticks helt icke-interaktiva som standard. */
             pointer-events: none;
             opacity: 0;
-        }
-        .joystick-portal.faded {
-            opacity: 0.2;
         }
         .joystick-portal.active { border-color: var(--nord-sym-cyan); color: var(--nord-sym-cyan); }
         .joystick-portal i { font-size: 2rem; }
@@ -1138,10 +1145,10 @@
                         <img src="https://raw.githubusercontent.com/GusHem/Logga-utan-text/refs/heads/main/Final%20logo%20no%20text.svg" alt="NordSym Logotyp" width="400" height="114">
                     </div>
                     <h1 class="text-5xl md:text-6xl font-bold leading-tight text-center hero-headline-glow" style="color: var(--nord-sym-light-accent);">
-                        System som bygger sig själva.
+                        System som tänker med er.
                     </h1>
                     <p class="text-lg md:text-xl text-sky-100 max-w-3xl mx-auto drop-shadow-sm text-center">
-                        Där er unika process möter vår AI-arkitektur blir er expertis en självgående tillgång. Vi skapar system som inte bara arbetar för er – de tänker med er, och förädlar er framgång till sin egen intelligens.
+                        Vi bygger er framtidssäkra, intelligenta AI-arkitektur.
                     </p>
                     <div class="flex flex-col items-center gap-6">
                         <div class="flex flex-col md:flex-row items-center gap-4 md:gap-6">
@@ -1149,7 +1156,7 @@
                             <a href="#" onclick="window.nord.showPage('ritbordet'); return false;" class="btn-base btn-secondary-on-dark w-full md:w-auto">Utforska Ritbordet</a>
                         </div>
                          <div class="flex flex-col sm:flex-row gap-4 sm:gap-8 mt-4 text-sm text-sky-300 justify-center">
-                            <span>Från Insikt till Hävstång</span>
+                            <span>Kalibrerat för er verklighet</span>
                             <span>Byggt på beprövade mönster</span>
                             <span>🇸🇪 Svensk ingenjörskonst</span>
                         </div>
@@ -1540,13 +1547,13 @@
     <!-- === UI OVERLAYS & FIXED CONTROLS (ARKITEKTONISK SEPARATION) === -->
     <div id="workshop-onboarding">
         <div class="onboarding-content">
-            <h3>Välkommen till Ritbordet</h3>
-            <p class="text-lg">Här visualiserar vi hur era processer kan transformeras till intelligenta system. Varje form representerar en unik lösningsarkitektur.</p>
+            <h3>Ert Strategiska Ritbord</h3>
+            <p class="text-lg">Här blir er vision konkret. Varje form är en levande blueprint av er framtida potential. Utforska, forma och förstå arkitekturen som kommer att driva er nästa stora evolution.</p>
             <div class="my-4 text-left max-w-xs mx-auto space-y-2">
-                <p><strong class="nord-accent-text">Transformera:</strong> Upptäck olika lösningsvägar</p>
-                <p><strong class="nord-accent-text">Rotera:</strong> Se möjligheter från nya vinklar</p>
+                <p><strong class="nord-accent-text">TRANSFORMERA:</strong> Visualisera en ny arkitektur</p>
+                <p><strong class="nord-accent-text">ROTERA:</strong> Granska potentialen från alla vinklar</p>
             </div>
-            <p class="font-semibold text-sky-200 italic">Systemtänkande i realtid.</p>
+            <p class="font-semibold text-sky-200 italic">Strategi blir struktur.</p>
             <p class="mt-4 text-xs text-sky-400 esc-hint">(Återvänd med ESC eller X)</p>
         </div>
     </div>
@@ -2144,7 +2151,6 @@
                 this.joystick[side].currentX = touch.clientX;
                 this.joystick[side].currentY = touch.clientY;
                 e.currentTarget.classList.add('active');
-                e.currentTarget.classList.add('faded');
 
                 if (side === 'right') {
                     clearTimeout(this.joystick.rightTapTimeout);
@@ -2200,7 +2206,6 @@
                         this.joystick.left.active = false;
                         const joyLeft = document.getElementById('joystick-portal-left');
                         joyLeft.classList.remove('active');
-                        joyLeft.classList.remove('faded');
                     } else if (touch.identifier === this.joystick.right.id) {
                         if (this.joystick.rightTapTimeout) {
                             clearTimeout(this.joystick.rightTapTimeout);
@@ -2208,9 +2213,9 @@
                             else this.enterBuilderMode();
                         }
                         this.joystick.right.active = false;
-                        const joyRight = document.getElementById('joystick-portal-right');
-                        joyRight.classList.remove('active');
-                        joyRight.classList.remove('faded');
+                        // Harmoni-fix: Borttagen för att höger joystick ska förbli visuellt aktiv i verkstadsläget.
+                        // const joyRight = document.getElementById('joystick-portal-right');
+                        // joyRight.classList.remove('active');
                     }
                 }
             }
@@ -2304,6 +2309,7 @@
                 this.isWorkshopBuilderActive = true;
                 document.body.classList.add('labb-active');
                 this.transitionTo('WORKSHOP');
+                document.getElementById('joystick-portal-right')?.classList.add('active');
                 
                 const onboardingEl = document.getElementById('workshop-onboarding');
                 onboardingEl?.classList.add('visible');
@@ -2336,6 +2342,7 @@
                 this.transitionTo(this.lastState === 'HIDDEN' ? 'HERO' : this.lastState);
                 this.hideOnboarding();
                 this.hideFormName();
+                document.getElementById('joystick-portal-right')?.classList.remove('active');
                 
                 // Harmoni-fix: Utrotar scroll-konflikten genom att garanterat ta bort de globala lyssnarna.
                 // Tidigare anrop hade fel syntax, vilket gjorde att de aldrig togs bort.
@@ -3412,6 +3419,13 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
 
 
 
