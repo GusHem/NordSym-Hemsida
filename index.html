@@ -265,6 +265,8 @@
                 transform: translate(-50%, -50%); /* Ingen scale på touch devices */
             }
         }
+        
+        /* --- ATOM GALLERY 2.0: THE SYNERGY UPGRADE --- */
         .gallery-container {
             position: relative;
         }
@@ -274,68 +276,75 @@
         .gallery-wrapper {
             display: flex;
             gap: 2rem;
-            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
         }
         .archetype-card {
-            background-color: rgba(var(--nord-sym-deep-space-blue), 0.7);
-            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.3);
-            backdrop-filter: blur(8px);
+            background: linear-gradient(145deg, rgba(var(--nord-sym-deep-space-blue-rgb), 0.5), rgba(var(--nord-sym-mid-space-blue-rgb), 0.15));
+            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.2);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
             border-radius: 1.5rem;
             padding: 2.5rem 2rem;
             display: flex;
             flex-direction: column;
             text-align: center;
             align-items: center;
-            min-height: 420px; /* Ensure consistent height */
-            flex-shrink: 0; /* Förhindra att korten krymper */
-            width: calc(100% / 3 - (4rem / 3)); /* 3 kort med 2rem gap */
+            min-height: 460px; /* Bigger */
+            flex-shrink: 0;
+            width: calc(100% / 3 - (4rem / 3));
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
+            overflow: hidden;
         }
-        @media (max-width: 1024px) {
-            .archetype-card { width: calc(50% - 1rem); }
+        .archetype-card::before { /* Glow effect on hover */
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 0%, rgba(var(--nord-sym-cyan-rgb), 0.2), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0;
         }
-        @media (max-width: 768px) {
-            .gallery-wrapper { 
-                scroll-snap-type: x mandatory; 
-                overflow-x: auto; 
-                gap: 1rem;
-            }
-            .archetype-card { 
-                scroll-snap-align: start; 
-                width: 90%; 
-            }
-        }
-         .archetype-card:hover {
-            box-shadow: 0 0 25px rgba(var(--nord-sym-cyan-rgb), 0.4), 0 4px 15px rgba(0,0,0,0.3);
+        .archetype-card:hover {
+            box-shadow: 0 0 35px rgba(var(--nord-sym-cyan-rgb), 0.3), 0 8px 25px rgba(0,0,0,0.3);
             border-color: var(--nord-sym-cyan);
-            transform: translateY(-5px);
+            transform: translateY(-8px) scale(1.02); /* Better */
         }
-        .archetype-card > i { /* Direct child selector for main icon */
-            font-size: 2.75rem;
+        .archetype-card:hover::before {
+            opacity: 1;
+        }
+        /* Ensure card content is above the glow */
+        .archetype-card > * {
+            position: relative;
+            z-index: 1;
+        }
+        .archetype-card > i {
+            font-size: 3rem; /* Bigger icon */
             color: var(--nord-sym-cyan);
-            margin-bottom: 1.25rem;
-            transition: transform 0.3s ease, filter 0.3s ease;
+            margin-bottom: 1.5rem;
+            transition: transform 0.4s ease, filter 0.4s ease;
         }
         .archetype-card:hover > i {
             transform: scale(1.1);
-            filter: drop-shadow(0 0 10px rgba(var(--nord-sym-cyan-rgb), 0.7));
+            filter: drop-shadow(0 0 15px rgba(var(--nord-sym-cyan-rgb), 0.8));
         }
         .archetype-card h4 {
             font-family: 'Comfortaa', sans-serif;
             color: var(--nord-sym-light-accent);
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
+            font-size: 1.375rem; /* Bigger title */
+            margin-bottom: 1rem;
         }
         .archetype-card .description {
             color: var(--nord-sym-text-medium);
-            line-height: 1.6;
-            font-size: 0.9rem;
+            line-height: 1.65;
+            font-size: 0.95rem; /* Slightly larger text */
             flex-grow: 1;
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.5rem;
         }
         .tech-signature-container {
             display: flex;
             justify-content: center;
-            gap: 1.5rem;
+            gap: 1.75rem;
             margin-bottom: 1.5rem;
             width: 100%;
         }
@@ -343,10 +352,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.25rem;
+            gap: 0.3rem;
         }
         .tech-signature-item i {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             color: var(--nord-sym-text-medium);
         }
         .tech-signature-item span {
@@ -356,7 +365,7 @@
         }
         .archetype-cta {
             margin-bottom: 1.5rem;
-            padding: 0.5rem 1.25rem;
+            padding: 0.6rem 1.5rem;
             font-size: 0.875rem;
             background: transparent;
             border: 1px solid var(--nord-sym-text-medium);
@@ -404,145 +413,68 @@
             text-transform: uppercase;
             text-shadow: 0 0 10px rgba(0,0,0,0.5);
         }
-        /* --- SYSTEM/PRICING CARD HARMONIZATION --- */
-        .pricing-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.15);
-            padding: 2.5rem 2rem;
-            text-align: left;
-            display: flex;
-            flex-direction: column;
-            border-radius: 1.5rem;
-            height: 100%;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+        @media (max-width: 1024px) {
+            .archetype-card { width: calc(50% - 1rem); }
         }
-        .pricing-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 25px rgba(var(--nord-sym-cyan-rgb), 0.15);
-        }
-        .ignite-package {
-            border-color: var(--nord-sym-cyan);
-            transform: scale(1.03);
-            box-shadow: 0 0 40px rgba(var(--nord-sym-cyan-rgb), 0.3);
-        }
-        .ignite-package::before {
-            /* Harmoni-fix: Byt ut till en kortare copy för att undvika text-overflow. */
-            content: 'BÄST VAL';
-            position: absolute;
-            top: 18px; /* Justerad för ny text */
-            right: -40px; /* Justerad för ny text */
-            background: var(--nord-sym-cyan);
-            color: var(--nord-sym-deep-space-blue);
-            padding: 6px 35px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            transform: rotate(45deg);
-            z-index: 1;
-            letter-spacing: 0.05em;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        @media (max-width: 768px) {
+            .gallery-wrapper { 
+                scroll-snap-type: x mandatory; 
+                overflow-x: auto; 
+                gap: 1.5rem; /* A bit more space */
+            }
+            .archetype-card { 
+                scroll-snap-align: start; 
+                width: 85%; /* A bit wider on mobile */
+                min-height: 440px;
+            }
         }
 
-        .pricing-card-header {
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-        .pricing-card-header h3 {
-            font-family: 'Comfortaa', sans-serif;
-            color: var(--nord-sym-text-light);
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        .pricing-card-header p {
-            font-size: 0.875rem; /* Harmoni-fix: Minskad textstorlek för att ge mer utrymme. */
-            color: var(--nord-sym-text-medium);
-            min-height: 2.7em;
-            line-height: 1.4;
-        }
-        .price-display {
-            font-family: 'Comfortaa', sans-serif;
-            font-size: 3.25rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            color: var(--nord-sym-text-light);
-            text-shadow: 0 0 15px rgba(var(--nord-sym-cyan-rgb), 0.4);
-            text-align: center;
-        }
-        .price-period {
-            font-size: 1.1rem;
-            color: var(--nord-sym-text-medium);
-            font-weight: 400;
-            margin-left: 0.25rem;
-        }
-        .pricing-card ul {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 2rem;
-            flex-grow: 1;
-        }
-        .pricing-card ul li {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            margin-bottom: 0.875rem; /* Harmoni-fix: Justerat avstånd. */
-            color: var(--nord-sym-text-medium);
-            font-size: 0.875rem; /* Harmoni-fix: Minskad textstorlek för att undvika text-overflow. */
-            line-height: 1.5;
-        }
-        .pricing-card ul li i {
-            color: var(--nord-sym-cyan);
-            margin-top: 0.25rem;
-            font-size: 1.1rem;
-            flex-shrink: 0;
-        }
-        .venn-overlap-text {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: 'Comfortaa', sans-serif;
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--nord-sym-light-accent);
-            cursor: pointer;
+        .gallery-pagination-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(var(--nord-sym-text-light), 0.2);
+            border: 1px solid rgba(var(--nord-sym-text-light), 0.3);
             transition: all 0.3s ease;
-            text-shadow: 0 0 10px rgba(var(--nord-sym-light-accent-rgb), 0.3);
-            width: 120px;
-            text-align: center;
+            cursor: pointer;
         }
-        .venn-overlap-text:hover {
-            color: var(--nord-sym-cyan);
-            filter: drop-shadow(0 0 20px rgba(var(--nord-sym-cyan-rgb), 0.9));
+        .gallery-pagination-dot:hover {
+            background-color: rgba(var(--nord-sym-cyan-rgb), 0.5);
         }
-        @keyframes venn-pulse {
-            50% { transform: scale(1.02); border-color: rgba(var(--nord-sym-cyan-rgb), 0.5); }
+        .gallery-pagination-dot.active {
+            background-color: var(--nord-sym-cyan);
+            border-color: var(--nord-sym-cyan);
+            transform: scale(1.2);
+            box-shadow: 0 0 10px rgba(var(--nord-sym-cyan-rgb), 0.5);
         }
         
-        .gallery-nav {
-            position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
-            background-color: rgba(var(--nord-sym-deep-space-blue), 0.5); backdrop-filter: blur(5px);
-            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.3); border-radius: 50%;
-            width: 44px; height: 44px; display: flex; align-items: center;
-            justify-content: center; cursor: pointer; transition: all 0.3s ease;
+        .gallery-control-btn {
+            background: rgba(var(--nord-sym-cyan-rgb), 0.1);
+            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.3);
+            border-radius: 50%;
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--nord-sym-cyan);
+            font-size: 1.75rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
-        .gallery-nav:hover { background-color: rgba(var(--nord-sym-cyan-rgb), 0.2); border-color: var(--nord-sym-cyan); }
-        .gallery-nav i { font-size: 1.75rem; color: var(--nord-sym-text-light); }
-        .gallery-nav.prev { left: -30px; }
-        .gallery-nav.next { right: -30px; }
-        @media (min-width: 640px) { .gallery-nav.prev { left: -50px; } .gallery-nav.next { right: -50px; } }
-        .gallery-nav.disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
-        @media (max-width: 768px) {
-            .gallery-nav {
-                display: flex;
-                width: 40px; height: 40px;
-            }
-            .gallery-nav i { font-size: 1.5rem; }
-            .gallery-nav.prev { left: 1rem; }
-            .gallery-nav.next { right: 1rem; }
+        .gallery-control-btn:hover:not(.disabled) {
+            background: rgba(var(--nord-sym-cyan-rgb), 0.2);
+            box-shadow: 0 0 15px rgba(var(--nord-sym-cyan-rgb), 0.4);
+            transform: scale(1.05);
         }
+        .gallery-control-btn.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: scale(1);
+            background: rgba(var(--nord-sym-cyan-rgb), 0.1);
+            box-shadow: none;
+        }
+
         #main-footer {
             border: 1px solid rgba(0, 191, 255, 0.3);
             box-shadow: 0 0 10px rgba(0, 191, 255, 0.1);
@@ -1200,12 +1132,17 @@
                             <!-- Cards are dynamically injected by JS -->
                         </div>
                     </div>
-                    <button aria-label="Föregående system i galleriet" id="galleryPrev" class="gallery-nav prev"><i class="ph-caret-left-bold"></i></button>
-                    <button aria-label="Nästa system i galleriet" id="galleryNext" class="gallery-nav next"><i class="ph-caret-right-bold"></i></button>
                 </div>
-                <div class="text-center mt-12">
-                    <p class="text-lg text-sky-300 animate-pulse"><i class="ph-arrows-left-right"></i> Utforska byggstenarna <i class="ph-arrows-left-right"></i></p>
+                <div class="flex items-center justify-center mt-16 gap-4 sm:gap-6">
+                    <button id="galleryPrev" aria-label="Föregående byggsten" class="gallery-control-btn">
+                        <i class="ph-arrow-left-bold"></i>
+                    </button>
+                    <span class="text-base sm:text-lg text-sky-300 select-none">Utforska byggstenarna</span>
+                    <button id="galleryNext" aria-label="Nästa byggsten" class="gallery-control-btn">
+                        <i class="ph-arrow-right-bold"></i>
+                    </button>
                 </div>
+                <div id="galleryPagination" class="flex justify-center mt-6 gap-3"></div>
             </div>
         </section>
 
@@ -3084,6 +3021,8 @@
     class GalleryManager {
         constructor() {
             this.isInitialMobileLoad = true; // HARMONI-FIX: Flagga för att förhindra initial scroll.
+            this.paginationContainer = document.getElementById('galleryPagination');
+            this.lastCardsPerPage = 0; // To track resize changes
             this.galleryData = [
                 {
                     icon: 'ph-robot',
@@ -3229,50 +3168,116 @@
             `;
         }
         setupGalleryControls() {
-            const galleryWrapper = document.getElementById('galleryWrapper'), nextBtn = document.getElementById('galleryNext'), prevBtn = document.getElementById('galleryPrev');
+            const galleryWrapper = document.getElementById('galleryWrapper'),
+                nextBtn = document.getElementById('galleryNext'),
+                prevBtn = document.getElementById('galleryPrev');
             if (!galleryWrapper || !nextBtn || !prevBtn) return;
+            
             let currentIndex = 0;
+            
             const getCardsPerPage = () => {
-                if (window.innerWidth > 1024) return 3;
+                if (window.innerWidth >= 1280) return 3; // Adjusted for better fit
                 if (window.innerWidth > 768) return 2;
                 return 1;
             };
+
             const totalCards = this.galleryData.length;
+
+            const updatePagination = () => {
+                if (!this.paginationContainer) return;
+                const cardsPerPage = getCardsPerPage();
+                // Only redraw if the number of pages changes
+                if (this.lastCardsPerPage !== cardsPerPage) {
+                    this.paginationContainer.innerHTML = '';
+                    const pageCount = Math.ceil(totalCards / cardsPerPage);
+                    if (pageCount <= 1) return;
+
+                    for (let i = 0; i < pageCount; i++) {
+                        const dot = document.createElement('button');
+                        dot.classList.add('gallery-pagination-dot');
+                        dot.setAttribute('aria-label', `Gå till sida ${i + 1}`);
+                        dot.addEventListener('click', () => {
+                            currentIndex = i; 
+                            updateGallery();
+                        });
+                        this.paginationContainer.appendChild(dot);
+                    }
+                    this.lastCardsPerPage = cardsPerPage;
+                }
+
+                const dots = this.paginationContainer.querySelectorAll('.gallery-pagination-dot');
+                dots.forEach((dot, index) => {
+                    const pageIndex = window.innerWidth > 768 ? Math.floor(currentIndex) : currentIndex;
+                    dot.classList.toggle('active', index === pageIndex);
+                });
+            };
+
             const updateGallery = () => {
                 const cardsPerPage = getCardsPerPage();
                 const maxIndex = totalCards - cardsPerPage;
-                if (currentIndex > maxIndex) currentIndex = maxIndex;
+                const effectiveMaxIndex = window.innerWidth <= 768 ? totalCards - 1 : maxIndex;
                 
-                const cardWidth = galleryWrapper.children[0].offsetWidth;
-                const gap = 32; // Corresponds to gap-8 (2rem)
-                const totalMove = (cardWidth + gap) * currentIndex;
+                if (currentIndex > effectiveMaxIndex) currentIndex = effectiveMaxIndex;
+                if (currentIndex < 0) currentIndex = 0;
+
+                const cardWidth = galleryWrapper.children[0]?.offsetWidth || 0;
+                if (cardWidth === 0) return;
+                
+                const gap = window.innerWidth > 768 ? 32 : 24;
 
                 if (window.innerWidth > 768) {
+                    const totalMove = (cardWidth + gap) * currentIndex;
                     galleryWrapper.style.transform = `translateX(-${totalMove}px)`;
                 } else {
                     if (!this.isInitialMobileLoad) {
                         const card = galleryWrapper.children[currentIndex];
-                        if(card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+                        if (card) {
+                            const scrollTarget = card.offsetLeft;
+                            galleryWrapper.scrollTo({ left: scrollTarget, behavior: 'smooth' });
+                        }
                     }
                     this.isInitialMobileLoad = false;
                 }
+
                 prevBtn.classList.toggle('disabled', currentIndex === 0);
-                nextBtn.classList.toggle('disabled', currentIndex >= maxIndex);
+                nextBtn.classList.toggle('disabled', currentIndex >= effectiveMaxIndex);
+                updatePagination();
             };
-            nextBtn.addEventListener('click', () => { 
+
+            nextBtn.addEventListener('click', () => {
                 const cardsPerPage = getCardsPerPage();
-                if (currentIndex < totalCards - cardsPerPage) { 
-                    currentIndex++; 
-                    updateGallery(); 
-                } 
+                const effectiveMaxIndex = window.innerWidth <= 768 ? totalCards - 1 : totalCards - cardsPerPage;
+                if (currentIndex < effectiveMaxIndex) {
+                    currentIndex++;
+                    updateGallery();
+                }
             });
-            prevBtn.addEventListener('click', () => { 
-                if (currentIndex > 0) { 
-                    currentIndex--; 
-                    updateGallery(); 
-                } 
+
+            prevBtn.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateGallery();
+                }
             });
-            window.addEventListener('resize', updateGallery);
+            
+            if (window.innerWidth <= 768) {
+                let scrollTimeout;
+                galleryWrapper.addEventListener('scroll', () => {
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        const cardWidth = galleryWrapper.children[0].offsetWidth;
+                        const gap = 24;
+                        currentIndex = Math.round(galleryWrapper.scrollLeft / (cardWidth + gap));
+                        updateGallery();
+                    }, 150);
+                });
+            }
+
+            window.addEventListener('resize', () => {
+                this.isInitialMobileLoad = true;
+                updateGallery();
+            });
+
             updateGallery();
         }
     }
@@ -3419,6 +3424,9 @@
     </script>
 </body>
 </html>
+
+
+
 
 
 
