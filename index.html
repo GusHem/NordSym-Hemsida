@@ -1556,7 +1556,7 @@
             </button>
             <i class="ph-rocket-launch text-4xl text-nord-sym-cyan mb-4"></i>
             <h3 class="text-2xl font-semibold text-white mb-2">Snart på ett ritbord nära dig!</h3>
-            <p class="text-sky-300 mb-6">Demonstrationen för NordBygg håller på att finjusteras för lansering. Tack för ditt tålamod – arkitektur av den här kalibern tar tid att perfektionera.</p>
+            <p class="text-sky-300 mb-6">Demonstrationen för Beaver håller på att finjusteras för lansering. Tack för ditt tålamod – arkitektur av den här kalibern tar tid att perfektionera.</p>
             <button onclick="window.nord.closeComingSoonModal()" class="btn-base btn-secondary-on-dark">Stäng</button>
         </div>
     </div>
@@ -1615,7 +1615,7 @@
                 </div>
             </div>
             <div class="mt-8 border-t border-sky-700/50 pt-6 text-center text-xs text-content-dark-bg space-x-4">
-                <span>© <span id="currentYear"></span> NordSym AB. Alla rättigheter förbehållna.</span>
+                <span>© <span id="currentYear"></span> NordSym. Arkitektur i rörelse.</span>
                 <a href="#privacy-policy-en" onclick="window.nord.showPage('privacy-policy-en'); return false;" class="footer-link hover:underline ml-4">Privacy Policy</a>
                 <a href="#terms-of-service-en" onclick="window.nord.showPage('terms-of-service-en'); return false;" class="footer-link hover:underline">Terms of Service</a>
             </div>
@@ -3084,33 +3084,6 @@
             window.nord.showPage(initialPage, true);
         });
         
-        // --- MODAL-LOGIK FÖR GRATIS AGENT ---
-        window.nord.openFreeAgentModal = function() {
-            const modal = document.getElementById('free-agent-modal');
-            if (modal) {
-                document.body.style.overflow = 'hidden';
-                modal.classList.add('visible');
-            }
-        };
-
-        window.nord.closeFreeAgentModal = function() {
-            const modal = document.getElementById('free-agent-modal');
-            if (modal) {
-                document.body.style.overflow = '';
-                modal.classList.remove('visible');
-            }
-        };
-
-        const freeAgentModal = document.getElementById('free-agent-modal');
-        if (freeAgentModal) {
-            freeAgentModal.addEventListener('click', function(event) {
-                // Om klicket sker på den halvtransparenta bakgrunden, stäng rutan.
-                if (event.target === freeAgentModal) {
-                    window.nord.closeFreeAgentModal();
-                }
-            });
-        }
-
         // --- MODAL-LOGIK FÖR KOMMER SNART ---
         window.nord.openComingSoonModal = function() {
             const modal = document.getElementById('coming-soon-modal');
@@ -3134,6 +3107,33 @@
                 // Om klicket sker på den halvtransparenta bakgrunden, stäng rutan.
                 if (event.target === comingSoonModal) {
                     window.nord.closeComingSoonModal();
+                }
+            });
+        }
+        
+        // --- MODAL-LOGIK FÖR GRATIS AGENT ---
+        window.nord.openFreeAgentModal = function() {
+            const modal = document.getElementById('free-agent-modal');
+            if (modal) {
+                document.body.style.overflow = 'hidden';
+                modal.classList.add('visible');
+            }
+        };
+
+        window.nord.closeFreeAgentModal = function() {
+            const modal = document.getElementById('free-agent-modal');
+            if (modal) {
+                document.body.style.overflow = '';
+                modal.classList.remove('visible');
+            }
+        };
+
+        const freeAgentModal = document.getElementById('free-agent-modal');
+        if (freeAgentModal) {
+            freeAgentModal.addEventListener('click', function(event) {
+                // Om klicket sker på den halvtransparenta bakgrunden, stäng rutan.
+                if (event.target === freeAgentModal) {
+                    window.nord.closeFreeAgentModal();
                 }
             });
         }
@@ -3266,14 +3266,14 @@
                 },
                 {
                     imageUrl: 'https://raw.githubusercontent.com/GusHem/NordSym-Logga/refs/heads/main/B%C3%A4ver%20byggledare.svg',
-                    title: 'NordBygg',
-                    description: 'Vår AI-drivna byggledare som övervakar, testar och kvalitetssäkrar era system dygnet runt. NordBygg hittar och rapporterar svagheter innan de blir problem.',
+                    title: 'Beaver',
+                    description: 'Byggbranschens intelligenta operativsystem. Synkroniserar projekt, logistik och team i en självlärande plattform.',
                     signatures: [
-                        { icon: 'ph-shield-check', text: 'Kvalitet' },
-                        { icon: 'ph-timer', text: 'Proaktiv' },
-                        { icon: 'ph-shield-check', text: 'Robusthet' }
+                        { icon: 'ph-calendar-check', text: 'Planering' },
+                        { icon: 'ph-truck', text: 'Logistik' },
+                        { icon: 'ph-chart-line-up', text: 'Effektivitet' }
                     ],
-                    indicator: 'Drivs av en hybridmotor som förenar kraften från världsledande AI med precisionen från våra egna, skräddarsydda agenter.',
+                    indicator: 'Drivs av en hybridmotor som förenar kraften från världsledande AI med precisionen från våra egna, skrädarsydda agenter.',
                     ctaText: 'Utforska Demo',
                     ctaIcon: 'ph-play-circle',
                     ctaAction: 'openComingSoonModal'
@@ -3685,6 +3685,14 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
 
 
 
