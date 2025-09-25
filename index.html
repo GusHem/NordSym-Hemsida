@@ -1124,6 +1124,21 @@
             transform: scale(1);
         }
 
+        /* --- KOMMER SNART-MODAL --- */
+        #coming-soon-modal {
+            transition: opacity 0.3s ease;
+        }
+        #coming-soon-modal .modal-content-wrapper {
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        #coming-soon-modal.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #coming-soon-modal.visible .modal-content-wrapper {
+            transform: scale(1);
+        }
+
     </style>
 </head>
 <body class="antialiased">
@@ -1534,6 +1549,18 @@
         </section>
     </main>
     
+    <div id="coming-soon-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-nord-sym-deep-space-blue/80 backdrop-blur-sm opacity-0 pointer-events-none">
+        <div class="modal-content-wrapper form-container p-8 md:p-12 max-w-lg w-full m-4 relative scale-95 text-center">
+            <button onclick="window.nord.closeComingSoonModal()" class="absolute top-4 right-4 text-sky-300 hover:text-nord-sym-cyan transition-colors text-2xl" aria-label="Stäng modal">
+                <i class="ph-x"></i>
+            </button>
+            <i class="ph-rocket-launch text-4xl text-nord-sym-cyan mb-4"></i>
+            <h3 class="text-2xl font-semibold text-white mb-2">Snart på ett ritbord nära dig!</h3>
+            <p class="text-sky-300 mb-6">Demonstrationen för NordBygg håller på att finjusteras för lansering. Tack för ditt tålamod – arkitektur av den här kalibern tar tid att perfektionera.</p>
+            <button onclick="window.nord.closeComingSoonModal()" class="btn-base btn-secondary-on-dark">Stäng</button>
+        </div>
+    </div>
+
     <div id="free-agent-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-nord-sym-deep-space-blue/80 backdrop-blur-sm opacity-0 pointer-events-none">
         <div class="modal-content-wrapper form-container p-8 md:p-12 max-w-lg w-full m-4 relative scale-95">
             <button onclick="window.nord.closeFreeAgentModal()" class="absolute top-4 right-4 text-sky-300 hover:text-nord-sym-cyan transition-colors text-2xl" aria-label="Stäng modal">
@@ -3084,40 +3111,30 @@
             });
         }
 
-        const freeAgentForm = document.getElementById('freeAgentForm');
-        if (freeAgentForm) {
-            freeAgentForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const form = e.target;
-                const modalContent = document.getElementById('free-agent-modal-content');
-                const submitButton = form.querySelector('button[type="submit"]');
-                const originalButtonText = submitButton.innerHTML;
-                submitButton.innerHTML = 'Skickar...';
-                submitButton.disabled = true;
+        // --- MODAL-LOGIK FÖR KOMMER SNART ---
+        window.nord.openComingSoonModal = function() {
+            const modal = document.getElementById('coming-soon-modal');
+            if (modal) {
+                document.body.style.overflow = 'hidden';
+                modal.classList.add('visible');
+            }
+        };
 
-                fetch('https://formspree.io/f/xqabggao', { // Använder huvudformulärets endpoint
-                    method: 'POST',
-                    body: new FormData(form),
-                    headers: { 'Accept': 'application/json' }
-                }).then(response => {
-                    if (response.ok) {
-                         modalContent.innerHTML = `<div class="form-success-container text-center py-8">
-                            <i class="ph-star-four nordsym-logo-star text-4xl mb-4"></i>
-                            <p>Tack! Vi har tagit emot din idé och börjar skissa på en prototyp. Vi hör av oss inom kort.</p>
-                         </div>`;
-                         setTimeout(() => {
-                            window.nord.closeFreeAgentModal();
-                         }, 3500); // Stänger automatiskt
-                    } else {
-                        throw new Error('Form submission failed');
-                    }
-                }).catch(() => {
-                    modalContent.innerHTML = `<div class="form-success-container text-center py-8">
-                        <i class="ph-warning-circle text-4xl mb-4 text-orange-400"></i>
-                        <p>Något gick fel. Försök igen eller kontakta oss direkt.</p>
-                        <button onclick="window.nord.closeFreeAgentModal()" class="btn-base btn-secondary-on-dark mt-6">Stäng</button>
-                     </div>`;
-                });
+        window.nord.closeComingSoonModal = function() {
+            const modal = document.getElementById('coming-soon-modal');
+            if (modal) {
+                document.body.style.overflow = '';
+                modal.classList.remove('visible');
+            }
+        };
+
+        const comingSoonModal = document.getElementById('coming-soon-modal');
+        if (comingSoonModal) {
+            comingSoonModal.addEventListener('click', function(event) {
+                // Om klicket sker på den halvtransparenta bakgrunden, stäng rutan.
+                if (event.target === comingSoonModal) {
+                    window.nord.closeComingSoonModal();
+                }
             });
         }
         
@@ -3259,7 +3276,7 @@
                     indicator: 'Drivs av en hybridmotor som förenar kraften från världsledande AI med precisionen från våra egna, skräddarsydda agenter.',
                     ctaText: 'Utforska Demo',
                     ctaIcon: 'ph-play-circle',
-                    ctaLink: '#ritbordet'
+                    ctaAction: 'openComingSoonModal'
                 },
                 {
                     icon: 'ph-chart-line',
@@ -3668,6 +3685,7 @@
     </script>
 </body>
 </html>
+
 
 
 
