@@ -324,7 +324,17 @@
             margin-bottom: 1.5rem;
             transition: transform 0.4s ease, filter 0.4s ease;
         }
-        .archetype-card:hover > i {
+        .archetype-card > .avatar-image {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+            border-radius: 50%;
+            object-fit: cover;
+            transition: transform 0.4s ease, filter 0.4s ease;
+            filter: drop-shadow(0 0 5px rgba(var(--nord-sym-cyan-rgb), 0.3));
+        }
+        .archetype-card:hover > i,
+        .archetype-card:hover > .avatar-image {
             transform: scale(1.1);
             filter: drop-shadow(0 0 15px rgba(var(--nord-sym-cyan-rgb), 0.8));
         }
@@ -1099,6 +1109,21 @@
             color: var(--nord-sym-text-light);
         }
 
+        /* --- GRATIS AGENT-MODAL --- */
+        #free-agent-modal {
+            transition: opacity 0.3s ease;
+        }
+        #free-agent-modal .modal-content-wrapper {
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        #free-agent-modal.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #free-agent-modal.visible .modal-content-wrapper {
+            transform: scale(1);
+        }
+
     </style>
 </head>
 <body class="antialiased">
@@ -1509,6 +1534,32 @@
         </section>
     </main>
     
+    <div id="free-agent-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-nord-sym-deep-space-blue/80 backdrop-blur-sm opacity-0 pointer-events-none">
+        <div class="modal-content-wrapper form-container p-8 md:p-12 max-w-lg w-full m-4 relative scale-95">
+            <button onclick="window.nord.closeFreeAgentModal()" class="absolute top-4 right-4 text-sky-300 hover:text-nord-sym-cyan transition-colors text-2xl" aria-label="Stäng modal">
+                <i class="ph-x"></i>
+            </button>
+            <div id="free-agent-modal-content">
+                <h3 class="text-2xl font-semibold text-white mb-2 text-center">Designa er Kostnadsfria Agent</h3>
+                <p class="text-center text-sky-300 mb-6">Beskriv en uppgift ni vill automatisera, så bygger vi en prototyp utan kostnad.</p>
+                <form id="freeAgentForm">
+                    <input type="hidden" name="_subject" value="Förfrågan: Gratis AI-Agent prototyp">
+                    <div>
+                        <label for="agent-description" class="form-label">Agentens Uppgift</label>
+                        <textarea name="description" id="agent-description" rows="4" class="form-textarea" required placeholder="T.ex. 'Sammanfatta dagens branschnyheter från tre källor och skicka som ett mail kl 08:00 varje morgon.'"></textarea>
+                    </div>
+                     <div>
+                        <label for="agent-email" class="form-label mt-4">Er E-post</label>
+                        <input type="email" name="email" id="agent-email" required class="form-input" placeholder="Vi skickar resultatet hit">
+                    </div>
+                    <div class="mt-8 text-center">
+                        <button type="submit" class="btn-base btn-cta-revised w-full">Skicka min idé</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
     <footer id="main-footer" class="relative bg-nord-sym-deep-space-blue">
         <div class="section-content-wrapper py-10 relative z-10">
             <div class="grid md:grid-cols-3 gap-8 text-sm">
@@ -1546,7 +1597,10 @@
     
     <!-- === UI OVERLAYS & FIXED CONTROLS (ARKITEKTONISK SEPARATION) === -->
     <div id="workshop-onboarding">
-        <div class="onboarding-content">
+        <div class="onboarding-content relative">
+            <button onclick="window.UnifiedGeometryManager.exitBuilderMode()" class="absolute top-6 right-6 w-12 h-12 rounded-full bg-nord-sym-deep-space-blue/50 flex items-center justify-center text-sky-400 hover:text-nord-sym-cyan hover:bg-nord-sym-deep-space-blue/80 transition-all text-2xl z-50" aria-label="Stäng Ritbordet">
+                <i class="ph-x"></i>
+            </button>
             <h3>Ert Strategiska Ritbord</h3>
             <p class="text-lg">Här blir er vision konkret. Varje form är en levande blueprint av er framtida potential. Utforska, forma och förstå arkitekturen som kommer att driva er nästa stora evolution.</p>
             <div class="my-4 text-left max-w-xs mx-auto space-y-2">
@@ -3003,6 +3057,70 @@
             window.nord.showPage(initialPage, true);
         });
         
+        // --- MODAL-LOGIK FÖR GRATIS AGENT ---
+        window.nord.openFreeAgentModal = function() {
+            const modal = document.getElementById('free-agent-modal');
+            if (modal) {
+                document.body.style.overflow = 'hidden';
+                modal.classList.add('visible');
+            }
+        };
+
+        window.nord.closeFreeAgentModal = function() {
+            const modal = document.getElementById('free-agent-modal');
+            if (modal) {
+                document.body.style.overflow = '';
+                modal.classList.remove('visible');
+            }
+        };
+
+        const freeAgentModal = document.getElementById('free-agent-modal');
+        if (freeAgentModal) {
+            freeAgentModal.addEventListener('click', function(event) {
+                // Om klicket sker på den halvtransparenta bakgrunden, stäng rutan.
+                if (event.target === freeAgentModal) {
+                    window.nord.closeFreeAgentModal();
+                }
+            });
+        }
+
+        const freeAgentForm = document.getElementById('freeAgentForm');
+        if (freeAgentForm) {
+            freeAgentForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const form = e.target;
+                const modalContent = document.getElementById('free-agent-modal-content');
+                const submitButton = form.querySelector('button[type="submit"]');
+                const originalButtonText = submitButton.innerHTML;
+                submitButton.innerHTML = 'Skickar...';
+                submitButton.disabled = true;
+
+                fetch('https://formspree.io/f/xqabggao', { // Använder huvudformulärets endpoint
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: { 'Accept': 'application/json' }
+                }).then(response => {
+                    if (response.ok) {
+                         modalContent.innerHTML = `<div class="form-success-container text-center py-8">
+                            <i class="ph-star-four nordsym-logo-star text-4xl mb-4"></i>
+                            <p>Tack! Vi har tagit emot din idé och börjar skissa på en prototyp. Vi hör av oss inom kort.</p>
+                         </div>`;
+                         setTimeout(() => {
+                            window.nord.closeFreeAgentModal();
+                         }, 3500); // Stänger automatiskt
+                    } else {
+                        throw new Error('Form submission failed');
+                    }
+                }).catch(() => {
+                    modalContent.innerHTML = `<div class="form-success-container text-center py-8">
+                        <i class="ph-warning-circle text-4xl mb-4 text-orange-400"></i>
+                        <p>Något gick fel. Försök igen eller kontakta oss direkt.</p>
+                        <button onclick="window.nord.closeFreeAgentModal()" class="btn-base btn-secondary-on-dark mt-6">Stäng</button>
+                     </div>`;
+                });
+            });
+        }
+        
         new FormManager('formSkraddarsydd', 'xqabggao');
         new FormManager('jobApplicationForm', 'xblypplz');
 
@@ -3096,18 +3214,52 @@
                         { icon: 'ph-chats-circle', text: 'Dialog' },
                         { icon: 'ph-file-search', text: 'Research' }
                     ],
-                    indicator: 'Bygger på 40+ validerade mönster för AI-orkestrering.'
+                    indicator: 'Bygger på 40+ validerade mönster för AI-orkestrering.',
+                    ctaText: 'Designa en gratis agent',
+                    ctaIcon: 'ph-pencil-line',
+                    ctaAction: 'openFreeAgentModal'
                 },
                 {
-                    icon: 'ph-lightning',
-                    title: 'Processautomation',
-                    description: 'Vi transformerar era manuella processer till självkörande, intelligenta arbetsflöden som lär sig och anpassar sig över tid, komplett med robust felhantering.',
+                    imageUrl: 'https://raw.githubusercontent.com/GusHem/GusHem-Ugglan-Klara/refs/heads/main/frilagd-bild.svg',
+                    title: 'Agenten Klara: Event- & Catering-specialist', 
+                    description: 'Klara hanterar allt från menyer till logistik, så att ni kan fokusera helhjärtat på era gäster. Ett strategiskt verktyg som skalar er verksamhet.',
                     signatures: [
-                        { icon: 'ph-arrows-clockwise', text: 'Självgående' },
-                        { icon: 'ph-timer', text: 'Effektivitet' },
+                        { icon: 'ph-fork-knife', text: 'Menyplanering' },
+                        { icon: 'ph-truck', text: 'Logistik' },
+                        { icon: 'ph-smiley', text: 'Gästfokus' }
+                    ],
+                    indicator: 'En specialiserad AI-agent för event- och restaurangbranschen.',
+                    ctaText: 'Utforska Demo', 
+                    ctaIcon: 'ph-play-circle',
+                    ctaLink: 'https://gushem.github.io/Landningsida-Nordsym-Klara-agent/'
+                },
+                {
+                    imageUrl: 'https://raw.githubusercontent.com/GusHem/NordSym-Logga/refs/heads/main/Gra%CC%88vling%20flownode%20avatar.svg',
+                    title: 'FlowNode',
+                    description: 'Vår egenutvecklade kärnteknologi för att binda samman system, API:er och AI-modeller till ett sömlöst, intelligent nätverk. En kraftfull komponent för att bygga ett robust och skalbart ekosystem.',
+                    signatures: [
+                        { icon: 'ph-arrows-split', text: 'Orkestrering' },
+                        { icon: 'ph-plugs-connected', text: 'Integration' },
+                        { icon: 'ph-brain', text: 'Logik' }
+                    ],
+                    indicator: 'Möjliggör portabilitet och framtidssäkrar er tekniska arkitektur.',
+                    ctaText: 'Utforska Demo',
+                    ctaIcon: 'ph-play-circle',
+                    ctaLink: 'https://gushem.github.io/FlowNode-Demo/' 
+                },
+                {
+                    imageUrl: 'https://raw.githubusercontent.com/GusHem/NordSym-Logga/refs/heads/main/B%C3%A4ver%20byggledare.svg',
+                    title: 'NordBygg',
+                    description: 'Vår AI-drivna byggledare som övervakar, testar och kvalitetssäkrar era system dygnet runt. NordBygg hittar och rapporterar svagheter innan de blir problem.',
+                    signatures: [
+                        { icon: 'ph-shield-check', text: 'Kvalitet' },
+                        { icon: 'ph-timer', text: 'Proaktiv' },
                         { icon: 'ph-shield-check', text: 'Robusthet' }
                     ],
-                    indicator: 'Drivs av en hybridmotor som förenar kraften från världsledande AI med precisionen från våra egna, skräddarsydda agenter.'
+                    indicator: 'Drivs av en hybridmotor som förenar kraften från världsledande AI med precisionen från våra egna, skräddarsydda agenter.',
+                    ctaText: 'Utforska Demo',
+                    ctaIcon: 'ph-play-circle',
+                    ctaLink: '#ritbordet'
                 },
                 {
                     icon: 'ph-chart-line',
@@ -3176,13 +3328,15 @@
                     indicator: 'Bygger på avancerade modeller för systemsimulering.'
                 },
                 {
-                    icon: 'ph-plugs-connected',
-                    title: 'FlowNode',
-                    description: 'Vår egenutvecklade kärnteknologi som binder samman alla era system, API:er och AI-modeller till ett sömlöst, intelligent nätverk. Hjärnan i ert ekosystem.',
-                    indicator: 'Möjliggör portabilitet och framtidssäkrar er tekniska arkitektur.',
-                    ctaText: 'Utforska Demo',
-                    ctaIcon: 'ph-play-circle',
-                    ctaLink: '#ritbordet' 
+                    icon: 'ph-lightning',
+                    title: 'Processautomation',
+                    description: 'Vi transformerar era manuella processer till självkörande, intelligenta arbetsflöden som lär sig och anpassar sig över tid, komplett med robust felhantering.',
+                    signatures: [
+                        { icon: 'ph-arrows-clockwise', text: 'Självgående' },
+                        { icon: 'ph-timer', text: 'Effektivitet' },
+                        { icon: 'ph-shield-check', text: 'Robusthet' }
+                    ],
+                    indicator: 'Drivs av en hybridmotor som förenar kraften från världsledande AI med precisionen från våra egna, skräddarsydda agenter.'
                 },
                 {
                     teaser: true,
@@ -3217,19 +3371,17 @@
              if (data.ctaText) {
                 const isExternal = data.ctaLink && data.ctaLink.startsWith('http');
                 const pageId = data.ctaLink && data.ctaLink.startsWith('#') ? data.ctaLink.substring(1) : data.ctaLink;
+                const action = data.ctaAction;
 
-                if (isExternal) {
-                    ctaButton = `
-                        <a href="${data.ctaLink}" target="_blank" rel="noopener noreferrer" class="archetype-cta btn-base">
-                            <i class="ph ${data.ctaIcon || 'ph-arrow-square-out'}"></i>
-                            <span>${data.ctaText}</span>
-                        </a>`;
-                } else {
-                    ctaButton = `
-                        <a href="${data.ctaLink}" onclick="event.preventDefault(); window.nord.showPage('${pageId}');" class="archetype-cta btn-base">
-                            <i class="ph ${data.ctaIcon || 'ph-play-circle'}"></i>
-                            <span>${data.ctaText}</span>
-                        </a>`;
+                const iconHTML = `<i class="ph ${data.ctaIcon || 'ph-arrow-square-out'}"></i>`;
+                const textHTML = `<span>${data.ctaText}</span>`;
+                
+                if (action) {
+                     ctaButton = `<a href="#" onclick="event.preventDefault(); window.nord['${action}']();" class="archetype-cta btn-base">${iconHTML}${textHTML}</a>`;
+                } else if (isExternal) {
+                    ctaButton = `<a href="${data.ctaLink}" target="_blank" rel="noopener noreferrer" class="archetype-cta btn-base">${iconHTML}${textHTML}</a>`;
+                } else if (pageId) {
+                    ctaButton = `<a href="${data.ctaLink}" onclick="event.preventDefault(); window.nord.showPage('${pageId}');" class="archetype-cta btn-base">${iconHTML}${textHTML}</a>`;
                 }
              }
             
@@ -3244,9 +3396,13 @@
                 </div>
             ` : '';
 
+            const imageOrIconHTML = data.imageUrl 
+                ? `<img src="${data.imageUrl}" alt="${data.title} Avatar" class="avatar-image">`
+                : `<i class="ph ${data.icon}"></i>`;
+
              return `
                 <div class="${cardClasses}">
-                    <i class="ph ${data.icon}"></i>
+                    ${imageOrIconHTML}
                     <h4>${data.title}</h4>
                     <p class="description">${data.description}</p>
                     ${signaturesHTML}
@@ -3512,6 +3668,26 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
