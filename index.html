@@ -475,6 +475,69 @@
             box-shadow: none;
         }
 
+        /* --- SYSTEM/PRICING CARD REJUVENATION --- */
+        .pricing-card {
+            background: linear-gradient(155deg, rgba(var(--nord-sym-deep-space-blue-rgb), 0.4), rgba(var(--nord-sym-mid-space-blue-rgb), 0.1));
+            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.15);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 0 30px rgba(var(--nord-sym-cyan-rgb), 0.2);
+            border-color: rgba(var(--nord-sym-cyan-rgb), 0.5);
+        }
+        .pricing-card.ignite-package {
+            border-color: var(--nord-sym-cyan);
+            box-shadow: 0 0 40px rgba(var(--nord-sym-cyan-rgb), 0.3);
+            transform: scale(1.05); /* Make it stand out */
+        }
+        .pricing-card.ignite-package:hover {
+            transform: scale(1.08) translateY(-8px); /* Enhance hover effect */
+        }
+        .pricing-card-header h3 {
+            font-family: 'Comfortaa', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--nord-sym-text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .price-display {
+            font-family: 'Comfortaa', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--nord-sym-text-light);
+            margin: 1.5rem 0;
+        }
+        .price-period {
+            font-size: 1rem;
+            color: var(--nord-sym-text-medium);
+            font-weight: 400;
+        }
+        .pricing-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 2rem 0;
+            flex-grow: 1;
+        }
+        .pricing-card li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            color: var(--nord-sym-text-medium);
+        }
+        .pricing-card li i {
+            color: var(--nord-sym-cyan);
+            font-size: 1.25rem;
+        }
+
         #main-footer {
             border: 1px solid rgba(0, 191, 255, 0.3);
             box-shadow: 0 0 10px rgba(0, 191, 255, 0.1);
@@ -3102,13 +3165,24 @@
                     indicator: 'Hanterar hela mediaproduktionen med 18+ beprövade systemflöden.'
                 },
                 {
+                    icon: 'ph-cube-focus',
+                    title: 'Digitala Tvillingar',
+                    description: 'Vi skapar dynamiska, digitala replikor av era processer. Simulera framtida scenarier, optimera i realtid och fatta beslut med oöverträffad precision.',
+                    signatures: [
+                        { icon: 'ph-virtual-reality', text: 'Simulering' },
+                        { icon: 'ph-chart-line-up', text: 'Optimering' },
+                        { icon: 'ph-brain', text: 'Insikt' }
+                    ],
+                    indicator: 'Bygger på avancerade modeller för systemsimulering.'
+                },
+                {
                     icon: 'ph-plugs-connected',
                     title: 'FlowNode',
                     description: 'Vår egenutvecklade kärnteknologi som binder samman alla era system, API:er och AI-modeller till ett sömlöst, intelligent nätverk. Hjärnan i ert ekosystem.',
                     indicator: 'Möjliggör portabilitet och framtidssäkrar er tekniska arkitektur.',
                     ctaText: 'Utforska Demo',
                     ctaIcon: 'ph-play-circle',
-                    ctaLink: '#' 
+                    ctaLink: '#ritbordet' 
                 },
                 {
                     teaser: true,
@@ -3139,11 +3213,25 @@
              const isTeaser = data.teaser || false;
              const cardClasses = `archetype-card card-base ${isTeaser ? 'teaser' : ''}`;
 
-             const ctaButton = data.ctaText ?
-                `<a href="${data.ctaLink || '#'}" target="_blank" rel="noopener noreferrer" class="archetype-cta btn-base">
-                    <i class="ph ${data.ctaIcon}"></i>
-                    <span>${data.ctaText}</span>
-                </a>` : '';
+             let ctaButton = '';
+             if (data.ctaText) {
+                const isExternal = data.ctaLink && data.ctaLink.startsWith('http');
+                const pageId = data.ctaLink && data.ctaLink.startsWith('#') ? data.ctaLink.substring(1) : data.ctaLink;
+
+                if (isExternal) {
+                    ctaButton = `
+                        <a href="${data.ctaLink}" target="_blank" rel="noopener noreferrer" class="archetype-cta btn-base">
+                            <i class="ph ${data.ctaIcon || 'ph-arrow-square-out'}"></i>
+                            <span>${data.ctaText}</span>
+                        </a>`;
+                } else {
+                    ctaButton = `
+                        <a href="${data.ctaLink}" onclick="event.preventDefault(); window.nord.showPage('${pageId}');" class="archetype-cta btn-base">
+                            <i class="ph ${data.ctaIcon || 'ph-play-circle'}"></i>
+                            <span>${data.ctaText}</span>
+                        </a>`;
+                }
+             }
             
             const signaturesHTML = data.signatures ? `
                 <div class="tech-signature-container">
@@ -3424,6 +3512,9 @@
     </script>
 </body>
 </html>
+
+
+
 
 
 
