@@ -906,6 +906,39 @@
             opacity: 1;
         }
 
+        /* NEW STYLES FOR LEGAL PAGES */
+        .legal-content-card {
+            background: rgba(var(--nord-sym-mid-space-blue-rgb), 0.1);
+            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 1.5rem;
+            padding: 2.5rem 3rem;
+        }
+        .legal-content-container h4 {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Comfortaa', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--nord-sym-text-light);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .legal-content-container h4 i {
+            font-size: 1.5rem;
+            color: var(--nord-sym-cyan);
+        }
+        .legal-content-container p, .legal-content-container ul {
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        .legal-content-container ul {
+            list-style-position: inside;
+            list-style-type: disc;
+            padding-left: 1rem;
+        }
+
         /* NEW STYLES FOR ARKITEKTUR PAGE */
         #om-oss .arkitektur-grid {
             display: grid;
@@ -1438,14 +1471,16 @@
             <div class="section-content-wrapper">
                 <div class="legal-content-container max-w-4xl mx-auto text-left">
                     <h2 class="section-title text-4xl md:text-5xl mb-8 text-center">Privacy Policy</h2>
-                    <p><strong>Last Updated: July 3, 2025</strong></p>
-                    <h4>About This Policy</h4><p>NordSym AB (Swedish Org. No. 559535-5768) values your trust and privacy. This Privacy Policy describes how we collect, use, and protect your personal data when you visit our website or use our services.</p>
-                    <h4>Who We Are</h4><p>NordSym AB<br>Organization Number: 559535-5768<br>Email: <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a><br>Website: nordsym.com</p><p>We are the data controller for the processing of personal data described in this policy.</p>
-                    <h4>What Personal Data We Collect</h4><ul><li><strong>Contact Forms and Inquiries:</strong> Name and contact details (email, phone), company information, job title, and a description of your needs.</li><li><strong>Job Applications:</strong> Name, contact details, CV, professional background, relevant links (LinkedIn, etc.), and a motivational description.</li><li><strong>Website Usage:</strong> Anonymized IP address, browser information, and user interaction via cookies.</li><li><strong>Client and Project Data:</strong> Business processes, technical requirements, and communication history necessary for project delivery.</li></ul>
-                    <h4>Why We Process Your Personal Data</h4><p>We process your data to fulfill our commitments (Art. 6.1.b GDPR), such as responding to inquiries and delivering services. We also have a legitimate interest (Art. 6.1.f GDPR) in developing our services and communicating with potential clients. For certain marketing activities, we obtain your consent (Art. 6.1.a GDPR).</p>
-                    <h4>Data Sharing and Third Parties</h4><p>We use trusted service providers such as Formspree, Google Analytics, Microsoft 365, Notion, Airtable, GitHub, and leading AI platforms (Anthropic, OpenAI) as well as automation tools (Make, n8n) to conduct our business. All providers are selected to comply with GDPR requirements. We ensure an adequate level of protection for any transfers of data outside the EU/EEA.</p>
-                    <h4>Your Rights</h4><p>You have the right to access, rectify, erase, restrict, and port your personal data, and to object to its processing. You can also withdraw your consent at any time. Contact <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a> to exercise your rights.</p>
-                    <h4>Contact and Complaints</h4><p>For questions, contact us at <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a>. Complaints can be filed with the Swedish Authority for Privacy Protection (IMY).</p>
+                    <div class="legal-content-card">
+                        <p><strong>Last Updated: July 3, 2025</strong></p>
+                        <h4><i class="ph-info"></i>About This Policy</h4><p>NordSym AB (Swedish Org. No. 559535-5768) values your trust and privacy. This Privacy Policy describes how we collect, use, and protect your personal data when you visit our website or use our services.</p>
+                        <h4><i class="ph-user-circle"></i>Who We Are</h4><p>NordSym AB<br>Organization Number: 559535-5768<br>Email: <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a><br>Website: nordsym.com</p><p>We are the data controller for the processing of personal data described in this policy.</p>
+                        <h4><i class="ph-database"></i>What Personal Data We Collect</h4><ul><li><strong>Contact Forms and Inquiries:</strong> Name and contact details (email, phone), company information, job title, and a description of your needs.</li><li><strong>Job Applications:</strong> Name, contact details, CV, professional background, relevant links (LinkedIn, etc.), and a motivational description.</li><li><strong>Website Usage:</strong> Anonymized IP address, browser information, and user interaction via cookies.</li><li><strong>Client and Project Data:</strong> Business processes, technical requirements, and communication history necessary for project delivery.</li></ul>
+                        <h4><i class="ph-arrows-clockwise"></i>Why We Process Your Personal Data</h4><p>We process your data to fulfill our commitments (Art. 6.1.b GDPR), such as responding to inquiries and delivering services. We also have a legitimate interest (Art. 6.1.f GDPR) in developing our services and communicating with potential clients. For certain marketing activities, we obtain your consent (Art. 6.1.a GDPR).</p>
+                        <h4><i class="ph-share-network"></i>Data Sharing and Third Parties</h4><p>We use trusted service providers such as Formspree, Google Analytics, Microsoft 365, Notion, Airtable, GitHub, and leading AI platforms (Anthropic, OpenAI) as well as automation tools (Make, n8n) to conduct our business. All providers are selected to comply with GDPR requirements. We ensure an adequate level of protection for any transfers of data outside the EU/EEA.</p>
+                        <h4><i class="ph-shield-check"></i>Your Rights</h4><p>You have the right to access, rectify, erase, restrict, and port your personal data, and to object to its processing. You can also withdraw your consent at any time. Contact <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a> to exercise your rights.</p>
+                        <h4><i class="ph-chats-circle"></i>Contact and Complaints</h4><p>For questions, contact us at <a href="mailto:gustav@nordsym.com">gustav@nordsym.com</a>. Complaints can be filed with the Swedish Authority for Privacy Protection (IMY).</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1454,12 +1489,14 @@
             <div class="section-content-wrapper">
                 <div class="legal-content-container max-w-4xl mx-auto text-left">
                     <h2 class="section-title text-4xl md:text-5xl mb-8 text-center">Terms of Service</h2>
-                    <p><strong>Last Updated: July 3, 2025</strong></p>
-                    <h4>General</h4><p>These Terms of Service govern your use of the NordSym AB ("we", "us", "NordSym") website (nordsym.com) and services. By using our services, you accept these terms.</p>
-                    <h4>User Responsibilities</h4><p>You are responsible for providing accurate information and for not using our services for illegal purposes. You may not reverse engineer our systems or resell our services without written approval.</p>
-                    <h4>Intellectual Property and Data Ownership</h4><p>NordSym äger våra algoritmer, metoder och ramverk. Du som kund behåller full äganderätt till dina affärsdata och de specifika resultat som genereras av dina data. För skräddarsydda AI-agenter utvecklade specifikt för dig, tillhör äganderätten dig, medan den underliggande tekniska plattformen förblir vår egendom.</p>
-                    <h4>Limitation of Liability</h4><p>We are not liable for indirect damages such as lost profits or data. Our total liability is limited to the amount paid for the specific service. We do not guarantee specific business results or ROI, although that is our goal.</p>
-                    <h4>Governing Law and Disputes</h4><p>These terms are governed by Swedish law. Disputes shall primarily be resolved through negotiation. If an agreement cannot be reached, the dispute shall be settled by a Swedish court.</p>
+                    <div class="legal-content-card">
+                        <p><strong>Last Updated: July 3, 2025</strong></p>
+                        <h4><i class="ph-file-text"></i>General</h4><p>These Terms of Service govern your use of the NordSym AB ("we", "us", "NordSym") website (nordsym.com) and services. By using our services, you accept these terms.</p>
+                        <h4><i class="ph-user-gear"></i>User Responsibilities</h4><p>You are responsible for providing accurate information and for not using our services for illegal purposes. You may not reverse engineer our systems or resell our services without written approval.</p>
+                        <h4><i class="ph-detective"></i>Intellectual Property and Data Ownership</h4><p>NordSym äger våra algoritmer, metoder och ramverk. Du som kund behåller full äganderätt till dina affärsdata och de specifika resultat som genereras av dina data. För skräddarsydda AI-agenter utvecklade specifikt för dig, tillhör äganderätten dig, medan den underliggande tekniska plattformen förblir vår egendom.</p>
+                        <h4><i class="ph-scales"></i>Limitation of Liability</h4><p>We are not liable for indirect damages such as lost profits or data. Our total liability is limited to the amount paid for the specific service. We do not guarantee specific business results or ROI, although that is our goal.</p>
+                        <h4><i class="ph-gavel"></i>Governing Law and Disputes</h4><p>These terms are governed by Swedish law. Disputes shall primarily be resolved through negotiation. If an agreement cannot be reached, the dispute shall be settled by a Swedish court.</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1707,6 +1744,14 @@
         };
 
         window.nord.showPage = function(pageId, isPoppingState = false) {
+            // Harmoni-fix: URL-hantering med History API
+            if (!isPoppingState) {
+                const currentHash = window.location.hash.substring(1);
+                if (currentHash !== pageId) {
+                    history.pushState({ page: pageId }, '', '#' + pageId);
+                }
+            }
+            
             // Harmoni-fix: Geometrin svarar på varje interaktion.
             if (window.UnifiedGeometryManager && !isPoppingState) {
                 window.UnifiedGeometryManager.nudgeGeometry();
@@ -2934,7 +2979,22 @@
             });
         };
         
-        window.addEventListener('load', () => { const hash = window.location.hash.substring(1); window.nord.showPage(pageConfig[hash] ? hash : 'hero'); });
+        // Uppdaterad sidladdning och popstate-hantering
+        window.addEventListener('popstate', (event) => {
+            const page = (event.state && event.state.page) ? event.state.page : 'hero';
+            window.nord.showPage(page, true);
+        });
+
+        window.addEventListener('load', () => { 
+            const hash = window.location.hash.substring(1); 
+            const initialPage = pageConfig[hash] ? hash : 'hero';
+
+            // Sätt initial historik-status korrekt
+            history.replaceState({ page: initialPage }, '', '#' + initialPage);
+
+            // Visa sidan utan att skapa en ny historik-post
+            window.nord.showPage(initialPage, true);
+        });
         
         new FormManager('formSkraddarsydd', 'xqabggao');
         new FormManager('jobApplicationForm', 'xblypplz');
@@ -3352,6 +3412,7 @@
     </script>
 </body>
 </html>
+
 
 
 
