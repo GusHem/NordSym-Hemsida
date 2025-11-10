@@ -1139,6 +1139,191 @@
             transform: scale(1);
         }
 
+        /* --- CHAT WIDGET STYLES --- */
+        #chat-widget-container {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            pointer-events: none;
+        }
+        #chat-widget-container.visible {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+        #chat-bubble {
+            background: radial-gradient(circle, var(--nord-sym-cyan) 0%, var(--nord-sym-mid-space-blue) 100%);
+            box-shadow: 0 0 25px rgba(var(--nord-sym-cyan-rgb), 0.4);
+            animation: chat-bubble-pulse 2.5s infinite ease-in-out;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        #chat-bubble:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 35px rgba(var(--nord-sym-cyan-rgb), 0.7);
+        }
+        #chat-bubble.hidden {
+            transform: scale(0);
+            opacity: 0;
+            pointer-events: none;
+        }
+        @keyframes chat-bubble-pulse {
+            50% { transform: scale(1.05); }
+        }
+
+        #chat-window {
+            background: rgba(var(--nord-sym-deep-space-blue-rgb), 0.85);
+            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.3);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        #chat-window.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        #chat-header {
+            background: rgba(var(--nord-sym-mid-space-blue-rgb), 0.2);
+            border-bottom: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.2);
+        }
+
+        #chat-messages {
+            scrollbar-width: thin;
+            scrollbar-color: var(--nord-sym-cyan) transparent;
+        }
+        #chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+        #chat-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        #chat-messages::-webkit-scrollbar-thumb {
+            background-color: var(--nord-sym-cyan);
+            border-radius: 6px;
+        }
+        .message {
+            max-width: 80%;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .message p {
+            padding: 0.75rem 1rem;
+            border-radius: 1.25rem;
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+        .bot-message {
+            align-items: flex-start;
+        }
+        .bot-message p {
+            background: rgba(var(--nord-sym-mid-space-blue-rgb), 0.4);
+            color: var(--nord-sym-text-light);
+            border-bottom-left-radius: 0.25rem;
+        }
+        .user-message {
+            align-items: flex-end;
+            margin-left: auto;
+        }
+        .user-message p {
+            background: var(--nord-sym-cyan);
+            color: var(--nord-sym-deep-space-blue);
+            font-weight: 500;
+            border-bottom-right-radius: 0.25rem;
+        }
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            /* NY ÄNDRING: Startar med cyan-färg, men nedtonad */
+            background-color: rgba(var(--nord-sym-cyan-rgb), 0.3);
+            border-radius: 50%;
+            /* NY ÄNDRING: Byter till 'typing-glow' och justerar tiden */
+            animation: typing-glow 1.5s infinite ease-in-out;
+            /* NY ÄNDRING: Lägger till en matchande box-shadow och mjuk övergång */
+            box-shadow: 0 0 4px rgba(var(--nord-sym-cyan-rgb), 0.3);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.25s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.5s; }
+
+        /* NY ÄNDRING: Ersätter 'typing-pulse' med 'typing-glow' */
+        @keyframes typing-glow {
+            0%, 100% {
+                /* Start/slut-läge: svag */
+                background-color: rgba(var(--nord-sym-cyan-rgb), 0.2);
+                box-shadow: 0 0 4px rgba(var(--nord-sym-cyan-rgb), 0.2);
+                transform: scale(0.9);
+            }
+            50% {
+                /* Mitten-läge: stark */
+                background-color: rgba(var(--nord-sym-cyan-rgb), 1);
+                box-shadow: 0 0 8px rgba(var(--nord-sym-cyan-rgb), 0.7);
+                transform: scale(1);
+            }
+        }
+
+        #chat-input-area {
+            border-top: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.2);
+        }
+        #chat-input {
+            background-color: rgba(var(--nord-sym-deep-space-blue-rgb), 0.8);
+            border: 1px solid rgba(var(--nord-sym-text-light), 0.2);
+            color: var(--nord-sym-text-light);
+        }
+        #chat-input:focus {
+            outline: none;
+            border-color: var(--nord-sym-cyan);
+            box-shadow: 0 0 10px rgba(var(--nord-sym-cyan-rgb), 0.3);
+        }
+        #chat-send-btn {
+            background-color: var(--nord-sym-cyan);
+            color: var(--nord-sym-deep-space-blue);
+            transition: transform 0.2s ease;
+        }
+        #chat-send-btn:hover {
+            transform: scale(1.1);
+        }
+        @media (max-width: 480px) {
+            #chat-widget-container {
+                bottom: 1rem;
+                right: 1rem;
+                width: calc(100% - 2rem);
+            }
+            #chat-bubble {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+            }
+            #chat-window {
+                width: 100%;
+                height: 70vh; /* Use viewport height for mobile */
+                height: 70dvh;
+                max-height: 600px;
+            }
+        }
+
+        #chat-close-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--nord-sym-text-medium);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        #chat-close-btn:hover {
+            background-color: rgba(var(--nord-sym-cyan-rgb), 0.15);
+            color: var(--nord-sym-cyan);
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -1427,7 +1612,7 @@
                 <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-8">Vilka är vi?</h2>
                 <div class="max-w-2xl mx-auto text-left text-sky-100">
                      <p class="text-lg mb-6">
-                        Vi är <strong>arkitekter av intelligenta ekosystem</strong>. Vårt fokus är att bygga AI-drivna system som är designade att samverka och förstärka varandra. Vår vision är "Framtiden Förenklad", där avancerad teknologi blir ett kraftfullt och tillgängligt verktyg för företag som vill ligga i framkant.
+                        Vi är <strong>arkitekter av intelligenta ekosystem</strong>. Vårt fokus är att bygga AI-drivna system som är designade att samverka och förstärka varandra. Vår vision är att avancerad teknologi ska vara ett kraftfullt och tillgängligt verktyg för företag som vill ligga i framkant.
                     </p>
                      <p class="text-lg mb-10">
                         Är du redo att ansluta dig till ett team som drivs av "Nordisk Atom-Optimism"?
@@ -1622,6 +1807,53 @@
         </div>
     </footer>
     
+    <!-- CHAT WIDGET START -->
+    <div id="chat-widget-container" class="fixed bottom-6 right-6 z-50">
+        <!-- Chat Bubble -->
+        <button id="chat-bubble" class="w-16 h-16 rounded-full flex items-center justify-center text-white shadow-lg" aria-label="Öppna chatt">
+            <i class="ph-chats-circle-bold text-4xl"></i>
+        </button>
+    
+        <!-- Chat Window -->
+        <div id="chat-window" class="absolute bottom-20 right-0 w-[350px] h-[500px] flex flex-col rounded-2xl shadow-2xl overflow-hidden origin-bottom-right">
+            <!-- Header -->
+            <div id="chat-header" class="flex items-center justify-between p-4 flex-shrink-0">
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <i class="ph-robot text-2xl text-nord-sym-cyan"></i>
+                        <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-400 rounded-full border-2 border-[var(--nord-sym-deep-space-blue)]"></span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base text-white">Digital Assistent</h3>
+                        <p class="text-xs text-green-400">Online</p>
+                    </div>
+                </div>
+                <button id="chat-close-btn" aria-label="Minimera chatt">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128Z"></path></svg>
+                </button>
+            </div>
+    
+            <!-- Messages -->
+            <div id="chat-messages" class="flex-grow p-4 overflow-y-auto">
+                <!-- Bot welcome message -->
+                <div class="message bot-message">
+                    <p>Hej! Hur kan jag hjälpa dig att utforska framtiden för er verksamhet idag?</p>
+                </div>
+            </div>
+    
+            <!-- Input -->
+            <div id="chat-input-area" class="p-4 flex-shrink-0">
+                <div class="relative">
+                    <input type="text" id="chat-input" placeholder="Skriv ditt meddelande..." class="w-full rounded-full py-3 pl-4 pr-12 text-sm">
+                    <button id="chat-send-btn" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center" aria-label="Skicka meddelande">
+                        <i class="ph-paper-plane-tilt-bold text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- CHAT WIDGET END -->
+
     <!-- === UI OVERLAYS & FIXED CONTROLS (ARKITEKTONISK SEPARATION) === -->
     <div id="workshop-onboarding">
         <div class="onboarding-content relative">
@@ -1832,6 +2064,16 @@
         };
 
         window.nord.showPage = function(pageId, isPoppingState = false) {
+            // New chat visibility logic
+            const chatContainer = document.getElementById('chat-widget-container');
+            const homePageIds = ['hero', 'home-diagram-section', 'atom-gallery-section', 'home-contact-section'];
+            const configForPage = pageConfig[pageId];
+            const isHomePage = configForPage && configForPage.isMultiPart && configForPage.parts.some(p => homePageIds.includes(p));
+            
+            if (chatContainer) {
+                chatContainer.classList.toggle('visible', isHomePage);
+            }
+
             // Harmoni-fix: URL-hantering med History API
             if (!isPoppingState) {
                 const currentHash = window.location.hash.substring(1);
@@ -3140,6 +3382,7 @@
         
         new FormManager('formSkraddarsydd', 'xqabggao');
         new FormManager('jobApplicationForm', 'xblypplz');
+        new ChatManager(); // Instantiate the new chat manager
 
         document.getElementById('currentYear').textContent = new Date().getFullYear();
     });
@@ -3543,6 +3786,145 @@
         }
     }
 
+    class ChatManager {
+        constructor() {
+            this.elements = {
+                container: document.getElementById('chat-widget-container'),
+                bubble: document.getElementById('chat-bubble'),
+                window: document.getElementById('chat-window'),
+                closeBtn: document.getElementById('chat-close-btn'),
+                messages: document.getElementById('chat-messages'),
+                input: document.getElementById('chat-input'),
+                sendBtn: document.getElementById('chat-send-btn')
+            };
+            if (!this.elements.container) return; // Don't run if HTML isn't there
+            this.isOpen = false;
+            
+            // NYTT: Lägg till sessionId-hantering
+            this.sessionId = localStorage.getItem('nordsym_chat_session_id') || this.generateUUID();
+            localStorage.setItem('nordsym_chat_session_id', this.sessionId);
+            
+            this.initEventListeners();
+        }
+
+        initEventListeners() {
+            this.elements.bubble.addEventListener('click', () => this.toggleChat(true));
+            this.elements.closeBtn.addEventListener('click', () => this.toggleChat(false));
+            this.elements.sendBtn.addEventListener('click', () => this.sendMessage());
+            this.elements.input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    this.sendMessage();
+                }
+            });
+        }
+
+        // NYTT: Enkel UUID-generator
+        generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        toggleChat(forceOpen) {
+            if (typeof forceOpen === 'boolean') {
+                this.isOpen = forceOpen;
+            } else {
+                this.isOpen = !this.isOpen;
+            }
+            
+            this.elements.window.classList.toggle('visible', this.isOpen);
+            this.elements.bubble.classList.toggle('hidden', this.isOpen);
+        }
+
+        sendMessage() {
+            const messageText = this.elements.input.value.trim();
+            if (messageText === '') return;
+
+            this.addMessage(messageText, 'user');
+            this.elements.input.value = '';
+            this.elements.input.focus();
+
+            this.showTypingIndicator();
+            
+            // MODIFIED: Call getBotResponse directly, which is now async
+            this.getBotResponse(messageText);
+        }
+
+        addMessage(text, sender) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', `${sender}-message`);
+            
+            const p = document.createElement('p');
+            p.textContent = text;
+            messageElement.appendChild(p);
+            
+            this.elements.messages.appendChild(messageElement);
+            this.scrollToBottom();
+        }
+
+        showTypingIndicator() {
+            const typingElement = document.createElement('div');
+            typingElement.classList.add('message', 'bot-message', 'typing-indicator');
+            typingElement.innerHTML = `<span></span><span></span><span></span>`;
+            this.elements.messages.appendChild(typingElement);
+            this.scrollToBottom();
+        }
+
+        removeTypingIndicator() {
+            const indicator = this.elements.messages.querySelector('.typing-indicator');
+            if (indicator) {
+                indicator.remove();
+            }
+        }
+
+        async getBotResponse(userInput) { // MODIFIED: Made async
+            const webhookUrl = "https://nordsym.app.n8n.cloud/webhook/399ddc2e-9a3c-4b72-9757-079b730a782c/chat";
+
+            try {
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    // MODIFIERAD: Skicka med både meddelande och sessionId
+                    body: JSON.stringify({ 
+                        message: userInput,
+                        sessionId: this.sessionId 
+                    })
+                });
+
+                this.removeTypingIndicator(); // Remove typing indicator *after* fetch
+
+                if (!response.ok) {
+                    throw new Error(`Webhook response was not ok: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                
+                // MODIFIERAD: Parsa den nya, platta svarsstrukturen från n8n ("output")
+                const responseText = data?.output;
+
+                if (responseText) {
+                    this.addMessage(responseText, 'bot');
+                } else {
+                    console.error('Oväntat svarsformat från n8n:', data);
+                    this.addMessage("Kunde inte tolka svaret från assistenten. Försök igen.", 'bot');
+                }
+
+            } catch (error) {
+                this.removeTypingIndicator(); // Se till att ta bort den även vid fel
+                console.error("Fel vid anrop till webhook:", error);
+                this.addMessage("Ursäkta, jag har problem med anslutningen just nu. Försök igen om en liten stund.", 'bot');
+            }
+        }
+
+        scrollToBottom() {
+            this.elements.messages.scrollTop = this.elements.messages.scrollHeight;
+        }
+    }
+
     class FormManager {
         constructor(formId, formspreeId) {
             this.formId = formId;
@@ -3685,6 +4067,17 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
