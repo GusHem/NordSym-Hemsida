@@ -725,6 +725,101 @@
         }
 
 
+        /* --- RITBORDET LOBBY (Blåkopia) --- */
+        body.light-theme .ritbordet-card {
+            background: var(--nord-sym-blueprint-bg);
+            border: 1px solid var(--nord-sym-blueprint-lines);
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.04);
+        }
+        body.light-theme .ritbordet-card:hover {
+            border-color: var(--nord-sym-blueprint-cyan);
+            box-shadow: 0 0 20px rgba(var(--nord-sym-blueprint-cyan-rgb), 0.2);
+        }
+        body.light-theme .ritbordet-card i {
+            color: var(--nord-sym-blueprint-cyan);
+        }
+        body.light-theme .ritbordet-card h4 {
+            color: var(--nord-sym-blueprint-ink);
+        }
+        body.light-theme .ritbordet-card p {
+            color: var(--nord-sym-blueprint-ink);
+            opacity: 0.8;
+        }
+        /* Pris-preview-kortet i lobbyn */
+        body.light-theme .ritbordet-card.pricing-preview .price-range {
+            color: var(--nord-sym-blueprint-ink);
+            border-color: var(--nord-sym-blueprint-lines-faint);
+        }
+
+        /* Centrala CTA-knappen (Blåkopia) */
+        body.light-theme #geometry-cta {
+            background: transparent;
+            border: 2px solid var(--nord-sym-blueprint-ink);
+        }
+        body.light-theme #geometry-cta:hover {
+            background: rgba(var(--nord-sym-blueprint-cyan-rgb), 0.1);
+            border-color: var(--nord-sym-blueprint-cyan);
+            box-shadow: 0 0 30px rgba(var(--nord-sym-blueprint-cyan-rgb), 0.3);
+        }
+        body.light-theme #geometry-cta i {
+            color: var(--nord-sym-blueprint-ink);
+            transition: all 0.3s ease; /* Säkerställ transition */
+        }
+        body.light-theme #geometry-cta .cta-text {
+            color: var(--nord-sym-blueprint-ink);
+            transition: all 0.3s ease;
+        }
+        body.light-theme #geometry-cta:hover i {
+            color: var(--nord-sym-blueprint-cyan);
+            /* transform: rotate(45deg) scale(1.1); *//* Behåll rotation från dark mode */
+        }
+        body.light-theme #geometry-cta:hover .cta-text {
+            color: var(--nord-sym-blueprint-cyan);
+        }
+
+        /* Mobil "Enter Workshop"-knapp (Blåkopia) */
+        body.light-theme #mobile-enter-workshop-btn {
+            background: rgba(var(--nord-sym-blueprint-bg-rgb), 0.8);
+            backdrop-filter: blur(5px);
+            border: 2px solid var(--nord-sym-blueprint-cyan);
+            color: var(--nord-sym-blueprint-cyan);
+            box-shadow: 0 0 20px rgba(var(--nord-sym-blueprint-cyan-rgb), 0.3);
+        }
+
+        /* Onboarding Modal (Blåkopia) */
+        body.light-theme #workshop-onboarding {
+            background: rgba(var(--nord-sym-blueprint-bg-rgb), 0.8);
+            backdrop-filter: blur(10px);
+        }
+        body.light-theme .onboarding-content {
+            background: var(--nord-sym-blueprint-bg);
+            border: 1px solid var(--nord-sym-blueprint-cyan);
+            box-shadow: 0 0 30px rgba(var(--nord-sym-blueprint-cyan-rgb), 0.3);
+        }
+        body.light-theme .onboarding-content h3 {
+            color: var(--nord-sym-blueprint-ink);
+        }
+        body.light-theme .onboarding-content p {
+            color: var(--nord-sym-blueprint-ink);
+            opacity: 0.9;
+        }
+        body.light-theme .onboarding-content .nord-accent-text {
+            color: var(--nord-sym-blueprint-cyan);
+        }
+        body.light-theme #workshop-onboarding button { /* Stäng-knappen */
+            background: rgba(var(--nord-sym-blueprint-lines-faint), 0.5);
+            color: var(--nord-sym-blueprint-ink);
+            opacity: 0.7;
+        }
+        body.light-theme #workshop-onboarding button:hover {
+            background: rgba(var(--nord-sym-blueprint-cyan-rgb), 0.1);
+            color: var(--nord-sym-blueprint-cyan);
+            opacity: 1;
+        }
+
+
         /* --- VENNDIAGRAM-HARMONISERING --- */
         .venn-diagram-container {
             display: flex; justify-content: center; align-items: center;
