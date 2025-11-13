@@ -2980,29 +2980,27 @@
                 }
             }
 
-            setGlobalTheme(theme, isInitialLoad = false) {
-                this.globalTheme = theme;
+            setGlobalTheme(theme) {
                 if (!this.isInitialized) return;
                 
-                const duration = isInitialLoad ? 0 : 1.5;
-
-                if (theme === 'serene') {
-                    if (this.composer) {
-                        const bloomPass = this.composer.passes[1];
-                        if (bloomPass) gsap.to(bloomPass, { strength: 0.9, radius: 0.35, duration });
-                    }
-                    if (this.scene.fog) {
-                        // #111827 -> rgb(17, 24, 39) -> (0.066, 0.094, 0.153)
-                        gsap.to(this.scene.fog.color, { r: 0.066, g: 0.094, b: 0.153, duration });
-                    }
-                } else { // synergy theme
-                    if (this.composer) {
-                        const bloomPass = this.composer.passes[1];
-                        if (bloomPass) gsap.to(bloomPass, { strength: 1.3, radius: 0.4, duration });
-                    }
-                    if (this.scene.fog) {
-                        // #0c1427 -> rgb(12, 20, 39) -> (0.047, 0.078, 0.153)
-                        gsap.to(this.scene.fog.color, { r: 0.047, g: 0.078, b: 0.153, duration });
+                const isLight = theme === 'light';
+                
+                if (this.elasticGeometry) {
+                    this.elasticGeometry.updateMaterialsForTheme(isLight);
+                }
+    
+                // Uppdatera dimma och bloom
+                const fogTargetColor = isLight ? new THREE.Color(0xFDFDFD) : new THREE.Color(0x0c1427);
+                const fogTargetDensity = isLight ? 0.005 : 0.015; 
+                if (this.scene.fog) {
+                    gsap.to(this.scene.fog, { color: fogTargetColor, density: fogTargetDensity, duration: 1.5 });
+                }
+    
+                if (this.composer) {
+                    const bloomPass = this.composer.passes[1];
+                    if (bloomPass) {
+                        const bloomTarget = isLight ? { strength: 0.6, radius: 0.5 } : { strength: 1.3, radius: 0.4 };
+                        gsap.to(bloomPass, { ...bloomTarget, duration: 1.5 });
                     }
                 }
             }
@@ -3700,9 +3698,39 @@
             }
             initMaterials() {
                 const nebulaShader = {
-                    uniforms: { time: { value: 0 }, rotation: { value: 0}, opacity: { value: 1.0 }, pointSize: { value: 2.5 }, morphProgress: { value: 0.0 }, pulseIntensity: { value: 1.0 } },
+                    uniforms: { time: { value: 0 }, rotation: { value: 0}, opacity: { value: 1.0 }, pointSize: { value: 2.5 }, morphProgress: { value: 0.0 }, pulseIntensity: { value: 1.0 }, u_isLightTheme: { value: 0.0 } },
                     vertexShader: `attribute vec3 color; attribute float life; attribute vec3 morphTarget; uniform float time; uniform float rotation; uniform float pointSize; uniform float morphProgress; varying vec3 vColor; varying float vLife; void main() { vColor = color; vLife = life; vec3 p = mix(position, morphTarget, morphProgress); mat2 rot = mat2(cos(rotation), -sin(rotation), sin(rotation), cos(rotation)); p.xz = rot * p.xz; vec4 mvPosition = modelViewMatrix * vec4(p, 1.0); gl_PointSize = pointSize * (20.0 / -mvPosition.z); gl_Position = projectionMatrix * mvPosition; }`,
-                    fragmentShader: `uniform float time; uniform float opacity; uniform float pulseIntensity; varying vec3 vColor; varying float vLife; void main() { float dist = length(gl_PointCoord - vec2(0.5)); if (dist > 0.45) discard; float pulse = 0.8 + 0.2 * sin(time * 3.0 + vLife); gl_FragColor = vec4(vColor * pulse * pulseIntensity, smoothstep(0.45, 0.1, dist) * opacity); }`,
+                    fragmentShader: `
+                        uniform float time;
+                        uniform float opacity;
+                        uniform float pulseIntensity;
+                        uniform float u_isLightTheme;
+                        varying vec3 vColor;
+                        varying float vLife;
+                        
+                        // Blueprint Ink Color (RGB: 10, 37, 64)
+                        const vec3 inkColor = vec3(10.0/255.0, 37.0/255.0, 64.0/255.0);
+                        
+                        void main() {
+                            float dist = length(gl_PointCoord - vec2(0.5));
+                            if (dist > 0.45) discard;
+                            
+                            vec3 finalColor;
+                            float pulse;
+            
+                            if (u_isLightTheme > 0.5) {
+                                // LIGHT THEME: Use Normal Blending (set in JS) and Ink Color
+                                pulse = 0.5 + 0.5 * sin(time * 3.0 + vLife);
+                                finalColor = inkColor;
+                            } else {
+                                // DARK THEME: Use Additive Blending (set in JS) and vColor
+                                pulse = 0.8 + 0.2 * sin(time * 3.0 + vLife);
+                                finalColor = vColor;
+                            }
+                            
+                            gl_FragColor = vec4(finalColor * pulse * pulseIntensity, smoothstep(0.45, 0.1, dist) * opacity);
+                        }
+                    `,
                     transparent: true, blending: THREE.AdditiveBlending, depthWrite: false
                 };
                 this.materials = {
@@ -3745,6 +3773,19 @@
                     if (currentScene) currentScene.add(this.mesh);
                 } else {
                     this.mesh.material = newMat;
+                }
+            }
+
+            updateMaterialsForTheme(isLight) {
+                const nebulaMat = this.materials.nebula;
+                if (!nebulaMat) return;
+    
+                if (isLight) {
+                    nebulaMat.blending = THREE.NormalBlending;
+                    nebulaMat.uniforms.u_isLightTheme.value = 1.0;
+                } else {
+                    nebulaMat.blending = THREE.AdditiveBlending;
+                    nebulaMat.uniforms.u_isLightTheme.value = 0.0;
                 }
             }
 
@@ -4067,6 +4108,14 @@
             this.themeToggleBtns.forEach(btn => {
                 btn.addEventListener('click', () => this.toggleTheme());
             });
+            
+            // Meddela UnifiedGeometryManager om det initiala temat
+            // Vi lägger en liten fördröjning för att säkerställa att three.js har initierats
+            setTimeout(() => {
+                if (window.UnifiedGeometryManager) {
+                    window.UnifiedGeometryManager.setGlobalTheme(this.currentTheme);
+                }
+            }, 100);
         }
 
         toggleTheme() {
@@ -4082,6 +4131,11 @@
             // Spara valet
             localStorage.setItem('theme', theme);
             this.currentTheme = theme;
+
+            // Meddela UnifiedGeometryManager om ändringen
+            if (window.UnifiedGeometryManager) {
+                window.UnifiedGeometryManager.setGlobalTheme(theme);
+            }
 
             // Uppdatera ikon på båda knapparna
             const iconClass = theme === 'light' ? 'ph-moon' : 'ph-sun';
