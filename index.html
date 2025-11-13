@@ -105,6 +105,14 @@
             --nord-sym-light-accent-rgb: 125, 211, 252;
             --nord-sym-deep-space-blue-rgb: 12, 20, 39;
             --nord-sym-mid-space-blue-rgb: 30, 58, 138;
+            
+            /* NYA FÄRGER: Blåkopia Tema */
+            --nord-sym-blueprint-bg: #FDFDFD; /* Pappersvit */
+            --nord-sym-blueprint-ink: #0A2540; /* Mörk teknisk bläckblå */
+            --nord-sym-blueprint-lines: #D2D6DC; /* Ljusgrå för linjer */
+            --nord-sym-blueprint-lines-faint: #E5E7EB; /* Svagare linjer för rutnät */
+            --nord-sym-blueprint-cyan: #00BFFF; /* En djupare, skarpare cyan */
+            --nord-sym-blueprint-cyan-rgb: 0, 191, 255;
         }
         .nord-accent-text { color: var(--nord-sym-cyan); }
         h1, h2, .section-title { font-family: 'Comfortaa', sans-serif; }
@@ -168,6 +176,271 @@
                         inset 0px -1px 2px rgba(255,255,255,0.08);
         }
         
+        /* --- KNAPP FÖR LJUS/MÖRKT TEMA --- */
+        .theme-toggle-btn {
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--nord-sym-text-medium);
+            background-color: transparent;
+            font-size: 1.5rem; /* 24px */
+            transition: all 0.3s ease;
+            cursor: pointer;
+            flex-shrink: 0; /* Förhindra att knappen krymper */
+        }
+        .theme-toggle-btn:hover {
+            color: var(--nord-sym-cyan);
+            background-color: rgba(var(--nord-sym-mid-space-blue-rgb), 0.5);
+            transform: scale(1.1) rotate(15deg);
+        }
+        .theme-toggle-btn i {
+             transition: transform 0.3s ease-out;
+        }
+        .theme-toggle-btn:hover i {
+            transform: scale(1.1);
+        }
+
+        /* --- STILAR FÖR LIGHT THEME (BLÅKOPIA) --- */
+        /* Här kommer vi att lägga till alla våra ljusa temastilar sen */
+        body.light-theme {
+            background-color: var(--nord-sym-blueprint-bg);
+            color: var(--nord-sym-blueprint-ink);
+            
+            /* Det svaga rutnätet från vår vision */
+            background-image: 
+                linear-gradient(var(--nord-sym-blueprint-lines-faint) 1px, transparent 1px),
+                linear-gradient(to right, var(--nord-sym-blueprint-lines-faint) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: center center;
+        }
+        
+        /* Header */
+        body.light-theme #header {
+            background-color: var(--nord-sym-blueprint-bg);
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            border-bottom: 1px solid var(--nord-sym-blueprint-lines);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02); /* Mycket subtil skugga */
+        }
+        
+        /* Nav-länkar */
+        body.light-theme .nav-link {
+            color: var(--nord-sym-blueprint-ink);
+            opacity: 0.8;
+        }
+        body.light-theme .nav-link:hover {
+            color: var(--nord-sym-blueprint-cyan);
+            opacity: 1;
+        }
+        body.light-theme .nav-link.active {
+            color: var(--nord-sym-blueprint-cyan);
+            font-weight: 700;
+            opacity: 1;
+        }
+        
+        /* Temaknapp (Ljust läge) */
+        body.light-theme .theme-toggle-btn {
+            color: var(--nord-sym-blueprint-ink);
+            opacity: 0.7;
+        }
+        body.light-theme .theme-toggle-btn:hover {
+            color: var(--nord-sym-blueprint-cyan);
+            background-color: rgba(var(--nord-sym-blueprint-cyan-rgb), 0.1);
+            transform: scale(1.1) rotate(-15deg); /* Roterar åt andra hållet */
+            opacity: 1;
+        }
+        
+        /* Header CTA-knapp */
+        body.light-theme .btn-cta-revised {
+            background: transparent;
+            border: 2px solid var(--nord-sym-blueprint-ink);
+            color: var(--nord-sym-blueprint-ink);
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            box-shadow: none;
+        }
+        body.light-theme .btn-cta-revised:hover {
+            background: rgba(var(--nord-sym-blueprint-cyan-rgb), 0.1);
+            border-color: var(--nord-sym-blueprint-cyan);
+            color: var(--nord-sym-blueprint-cyan);
+            box-shadow: 0 0 15px rgba(var(--nord-sym-blueprint-cyan-rgb), 0.3);
+            transform: translateY(-3px) scale(1.03); /* Behåll hover-effekt */
+        }
+        
+        /* Mobilmeny-bakgrund */
+        body.light-theme #mobile-menu {
+            background-color: var(--nord-sym-blueprint-bg);
+            backdrop-filter: none;
+        }
+        body.light-theme #mobile-menu a {
+            color: var(--nord-sym-blueprint-ink);
+            opacity: 0.8;
+            border-color: var(--nord-sym-blueprint-lines-faint);
+        }
+         body.light-theme #mobile-menu a:hover {
+            background-color: rgba(var(--nord-sym-blueprint-cyan-rgb), 0.05);
+            color: var(--nord-sym-blueprint-cyan);
+            opacity: 1;
+        }
+
+        /* Allmänna sektionsstilar (Blåkopia) */
+        body.light-theme .section-title {
+            color: var(--nord-sym-blueprint-ink);
+        }
+        body.light-theme .section-title-accent {
+            color: var(--nord-sym-blueprint-cyan);
+            text-shadow: none; /* Ta bort glöd */
+        }
+        body.light-theme p,
+        body.light-theme span {
+            color: var(--nord-sym-blueprint-ink);
+            opacity: 0.9;
+        }
+        body.light-theme .text-sky-100,
+        body.light-theme .text-sky-200,
+        body.light-theme .text-sky-300,
+        body.light-theme .text-white {
+            /* Använder !important för att säkert skriva över Tailwind utility-klasser */
+            color: var(--nord-sym-blueprint-ink) !important;
+            opacity: 0.9;
+        }
+        body.light-theme .text-lg,
+        body.light-theme .text-xl {
+             color: var(--nord-sym-blueprint-ink);
+        }
+        body.light-theme .hero-headline-glow {
+            color: var(--nord-sym-blueprint-ink); /* Huvudrubrik */
+            animation: none; /* Ta bort glöd */
+        }
+        body.light-theme .btn-secondary-on-dark {
+            background: transparent;
+            border: 2px solid var(--nord-sym-blueprint-ink);
+            color: var(--nord-sym-blueprint-ink);
+            box-shadow: none;
+        }
+        body.light-theme .btn-secondary-on-dark:hover {
+            background: rgba(var(--nord-sym-blueprint-cyan-rgb), 0.1);
+            border-color: var(--nord-sym-blueprint-cyan);
+            color: var(--nord-sym-blueprint-cyan);
+            box-shadow: 0 0 15px rgba(var(--nord-sym-blueprint-cyan-rgb), 0.3);
+            transform: translateY(-3px) scale(1.03);
+        }
+        body.light-theme .inline-block.bg-sky-800\/50 { /* "Vår Arkitektur" / "System" badge */
+             background-color: rgba(var(--nord-sym-blueprint-cyan-rgb), 0.1) !important;
+             color: var(--nord-sym-blueprint-cyan) !important;
+        }
+
+        /* Venn Diagram (Blåkopia) */
+        body.light-theme .venn-circle {
+            background: transparent;
+            border: 2px solid var(--nord-sym-blueprint-ink);
+            box-shadow: none;
+            animation: none; /* Ta bort puls */
+        }
+        body.light-theme .venn-circle-text {
+            color: var(--nord-sym-blueprint-ink);
+            opacity: 0.8;
+        }
+        body.light-theme .venn-overlap-text {
+            color: var(--nord-sym-blueprint-cyan);
+            text-shadow: none;
+        }
+        body.light-theme .venn-overlap-text:hover {
+            color: var(--nord-sym-blueprint-cyan);
+            filter: none;
+            transform: translate(-50%, -50%) scale(1.05);
+        }
+
+        /* Atom Gallery (Blåkopia) */
+        body.light-theme .archetype-card {
+            background: var(--nord-sym-blueprint-bg);
+            border: 1px solid var(--nord-sym-blueprint-lines);
+            backdrop-filter: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.04);
+        }
+        body.light-theme .archetype-card::before { /* Ta bort glöd */
+            background: none;
+            opacity: 0;
+        }
+        body.light-theme .archetype-card:hover {
+            border-color: var(--nord-sym-blueprint-cyan);
+            box-shadow: 0 0 20px rgba(var(--nord-sym-blueprint-cyan-rgb), 0.2);
+            transform: translateY(-8px) scale(1.02);
+        }
+        body.light-theme .archetype-card > i {
+            color: var(--nord-sym-blueprint-cyan);
+        }
+        body.light-theme .archetype-card h4 {
+            color: var(--nord-sym-blueprint-ink);
+        }
+        body.light-theme .archetype-card .description,
+        body.light-theme .archetype-card .indicator,
+        body.light-theme .tech-signature-item i,
+        body.light-theme .tech-signature-item span {
+            color: var(--nord-sym-blueprint-ink);
+            opacity: 0.8;
+        }
+        body.light-theme .archetype-card .avatar-image {
+             filter: drop-shadow(0 0 3px rgba(var(--nord-sym-blueprint-ink), 0.2));
+        }
+        body.light-theme .archetype-card:hover > i,
+        body.light-theme .archetype-card:hover > .avatar-image {
+            filter: drop-shadow(0 0 10px rgba(var(--nord-sym-blueprint-cyan-rgb), 0.7));
+        }
+        body.light-theme .archetype-card .indicator {
+            border-top-color: var(--nord-sym-blueprint-lines-faint);
+        }
+        body.light-theme .archetype-cta {
+            border-color: var(--nord-sym-blueprint-lines);
+            color: var(--nord-sym-blueprint-ink);
+            box-shadow: none;
+        }
+        body.light-theme .archetype-cta:hover {
+            border-color: var(--nord-sym-blueprint-cyan);
+            color: var(--nord-sym-blueprint-cyan);
+            background: rgba(var(--nord-sym-blueprint-cyan-rgb), 0.1);
+            box-shadow: 0 0 15px rgba(var(--nord-sym-blueprint-cyan-rgb), 0.3);
+        }
+        body.light-theme .archetype-card.teaser > * {
+            filter: blur(4px);
+            opacity: 0.3;
+        }
+        body.light-theme .archetype-card.teaser::after { /* "Under utveckling" text */
+            color: rgba(var(--nord-sym-blueprint-ink-rgb), 0.05);
+            text-shadow: none;
+        }
+
+        /* Galleri-kontroller (Blåkopia) */
+        body.light-theme .gallery-control-btn {
+            background: transparent;
+            border: 1px solid var(--nord-sym-blueprint-lines);
+            color: var(--nord-sym-blueprint-ink);
+            opacity: 0.7;
+        }
+        body.light-theme .gallery-control-btn:hover:not(.disabled) {
+            background: rgba(var(--nord-sym-blueprint-cyan-rgb), 0.1);
+            border-color: var(--nord-sym-blueprint-cyan);
+            color: var(--nord-sym-blueprint-cyan);
+            opacity: 1;
+        }
+        body.light-theme .gallery-control-btn.disabled {
+            background: transparent;
+            opacity: 0.3;
+        }
+        body.light-theme .gallery-pagination-dot {
+            background-color: var(--nord-sym-blueprint-lines-faint);
+            border-color: var(--nord-sym-blueprint-lines);
+        }
+        body.light-theme .gallery-pagination-dot:hover {
+            background-color: var(--nord-sym-blueprint-lines);
+        }
+        body.light-theme .gallery-pagination-dot.active {
+            background-color: var(--nord-sym-blueprint-cyan);
+            border-color: var(--nord-sym-blueprint-cyan);
+            box-shadow: 0 0 10px rgba(var(--nord-sym-blueprint-cyan-rgb), 0.5);
+        }
+
+
         /* --- VENNDIAGRAM-HARMONISERING --- */
         .venn-diagram-container {
             display: flex; justify-content: center; align-items: center;
@@ -1341,7 +1614,17 @@
             </nav>
             <div class="hidden md:flex items-center gap-x-4 flex-shrink-0 header-cta"> 
                 <a href="#" onclick="window.nord.showPage('boka-samtal-skraddarsydd'); return false;" class="btn-base btn-cta-revised text-sm">Framtidsförsäkra er verksamhet</a>
+                <!-- NY TEMAKNAPP (DESKTOP) -->
+                <button id="theme-toggle-btn-desktop" class="theme-toggle-btn" aria-label="Växla ljus/mörkt tema">
+                    <i class="ph ph-sun"></i>
+                </button>
             </div>
+            
+            <!-- NY TEMAKNAPP (MOBIL) -->
+            <button id="theme-toggle-btn-mobile" class="theme-toggle-btn md:hidden" aria-label="Växla ljus/mörkt tema">
+                <i class="ph ph-sun"></i>
+            </button>
+
             <!-- Form Name Display flyttad utanför grid-flödet för absolut centrering -->
             <div id="form-name-display"></div>
         </div>
@@ -3383,9 +3666,62 @@
         new FormManager('formSkraddarsydd', 'xqabggao');
         new FormManager('jobApplicationForm', 'xblypplz');
         new ChatManager(); // Instantiate the new chat manager
+        new ThemeManager(); // <-- NY TEMAHANTERARE
 
         document.getElementById('currentYear').textContent = new Date().getFullYear();
     });
+
+    class ThemeManager {
+        constructor() {
+            this.themeToggleBtns = document.querySelectorAll('.theme-toggle-btn');
+            this.body = document.body;
+            this.currentTheme = localStorage.getItem('theme') || 'dark';
+            
+            this.init();
+        }
+
+        init() {
+            // Sätt det sparade temat direkt vid laddning
+            this.setTheme(this.currentTheme);
+
+            // Lägg till klick-lyssnare på båda knapparna
+            this.themeToggleBtns.forEach(btn => {
+                btn.addEventListener('click', () => this.toggleTheme());
+            });
+        }
+
+        toggleTheme() {
+            const newTheme = this.body.classList.contains('light-theme') ? 'dark' : 'light';
+            this.setTheme(newTheme);
+        }
+
+        setTheme(theme) {
+            // Ta bort gammal klass, lägg till ny
+            this.body.classList.remove('light-theme', 'dark-theme');
+            this.body.classList.add(`${theme}-theme`);
+            
+            // Spara valet
+            localStorage.setItem('theme', theme);
+            this.currentTheme = theme;
+
+            // Uppdatera ikon på båda knapparna
+            const iconClass = theme === 'light' ? 'ph-moon' : 'ph-sun';
+            this.themeToggleBtns.forEach(btn => {
+                btn.innerHTML = `<i class="ph ${iconClass}"></i>`;
+            });
+
+            // Uppdatera aria-label för tillgänglighet
+            const newLabel = theme === 'light' ? 'Växla till mörkt tema' : 'Växla till ljust tema';
+            this.themeToggleBtns.forEach(btn => {
+                btn.setAttribute('aria-label', newLabel);
+            });
+
+            // Meddela UnifiedGeometryManager om ändringen (vi bygger denna funktion sen)
+            // if (window.UnifiedGeometryManager) {
+            //     window.UnifiedGeometryManager.setGlobalTheme(theme);
+            // }
+        }
+    }
 
     class RitbordetManager {
         constructor() {
@@ -4067,169 +4403,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
