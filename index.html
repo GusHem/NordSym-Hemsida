@@ -1535,7 +1535,7 @@
         }
         #unified-geometry-canvas.interactive {
             cursor: grab;
-            pointer-events: auto;
+            pointer-events: auto !important; /* VIKTIGT: !important krävs för att skriva över basstilen. */
         }
         #unified-geometry-canvas.interactive:active {
             cursor: grabbing;
@@ -2110,44 +2110,47 @@
         <section id="om-oss" class="space-background-section page-content-padding" style="display: none;">
             <div class="section-content-wrapper max-w-5xl mx-auto text-lg text-sky-100 leading-relaxed">
                 <div class="text-center mb-16">
-                    <h2 class="section-title text-4xl md:text-5xl">Vi bygger system för morgondagen.</h2>
+                    <h2 class="section-title text-4xl md:text-5xl">Vår Arkitektur: Ert Osynliga Konkurrensmedel</h2>
                     <p class="mt-6 max-w-3xl mx-auto">
-                        I en värld av snabba teknologiskiften designar NordSym intelligenta system byggda för att bestå. Vår grundfilosofi är enkel: teknologisk frihet är att äga sin egen framtid. Därför bygger vi en modulär arkitektur som växer och anpassar sig med ert företag – inte låser in det.
+                        Standardutveckling är långsam och fragmenterad. Vår AI-drivna arkitektur är raka motsatsen. Vi har byggt ett operativsystem för affärsutveckling som eliminerar 90% av traditionellt kontextbortfall. Resultatet är oöverträffad hastighet, total precision och ett system som är en levande, intelligent del av er verksamhet – inte en statisk kodbas.
                     </p>
                 </div>
 
                 <div class="grid md:grid-cols-2 gap-8 my-16">
                     <div class="arkitektur-card">
-                        <i class="ph-lock-open"></i>
-                        <h3 class="section-title text-2xl">Frihet över inlåsning.</h3>
+                        <i class="ph-rocket-launch"></i>
+                        <h3 class="section-title text-2xl">Från Idé till Värde på Rekordtid</h3>
                         <p>
-                            Många bygger system som är helt beroende av en specifik AI. Vi ser det annorlunda. Vi bygger ert systems centrala nervsystem – den intelligenta arkitekturen som kodifierar er unika process och strategi. AI-modellerna är kraftfulla, men utbytbara, hjärnor som vi ansluter till denna kärna. Denna frikoppling är er strategiska fördel. När en ny, revolutionerande teknologi dyker upp är ni inte låsta i ett gammalt ekosystem. Ni integrerar den, och hela er verksamhet blir omedelbart kraftfullare. Ni investerar i en bestående tillgång, inte i en tillfällig teknologileverantör.
+                            Traditionella projekt drunknar i "context restoration". Vårt system har noll kontextförlust. Varje specifikation, varje kodrad, varje affärsbeslut är omedelbart tillgängligt för våra AI-arkitekter. Vi lägger 98% av tiden på att <strong>bygga värde</strong>, inte på att leta efter filer.
                         </p>
                     </div>
                     <div class="arkitektur-card">
-                        <i class="ph-arrows-clockwise"></i>
-                        <h3 class="section-title text-2xl">Er Framgång Är Vår Uppgradering.</h3>
+                        <i class="ph-brain"></i>
+                        <h3 class="section-title text-2xl">Total Nätverksintelligens</h3>
                         <p>
-                             AI-utvecklingen är en ostoppbar kraft. Vi har byggt vår arkitektur för att kanalisera den direkt till er. Vår framgång är oskiljaktigt länkad till er: när ni växer, lär sig våra system. När AI-teknologin globalt tar ett kliv framåt, uppgraderas er kapacitet automatiskt. Vi bygger inte bara system ni äger; vi bygger en symbios där varje teknologiskt framsteg blir er direkta vinst.
+                            Vi ser hela er affär. Våra AI-verktyg har full insyn i hela er tekniska och affärsmässiga stack – från era automationsflöden (n8n) till era betalningssystem (Stripe). Vi bygger inte isolerade funktioner; vi optimerar hela ert värdeflöde.
+                        </p>
+                    </div>
+                     <div class="arkitektur-card">
+                        <i class="ph-arrows-clockwise"></i>
+                        <h3 class="section-title text-2xl">En Levande, Spårbar Arkitektur</h3>
+                        <p>
+                           Glöm 'version 1.0'. Er arkitektur är en levande organism. Varje beslut och varje ändring är spårbar, reviderbar och omedelbart driftsatt. Ni har en perfekt 'audit trail' för regelefterlevnad och en arkitektur som utvecklas dagligen, inte kvartalsvis.
+                        </p>
+                    </div>
+                    <div class="arkitektur-card">
+                        <i class="ph-lock-open"></i>
+                        <h3 class="section-title text-2xl">Byggt för Frihet, Inte Inlåsning</h3>
+                        <p>
+                            Vi bygger ert centrala nervsystem, frikopplat från enskilda AI-leverantörer. När en ny, kraftfullare AI-modell släpps, byter vi den. Er kärnlogik – ert sanna värde – förblir er egendom. Systemet ackumulerar kunskap och blir exponentiellt smartare över tid.
                         </p>
                     </div>
                 </div>
                 
-                <div class="arkitektur-grid content-card-transparent card-base p-8 md:p-12">
-                    <div>
-                        <h4 class="section-title text-2xl md:text-3xl mb-4">Grundaren</h4>
-                        <p>
-                            <strong>Gustav Hemmingsson</strong> grundade NordSym för att översätta teknologisk potential till strategisk verklighet. Han såg hur företag fastnade i komplexitet istället för att accelerera med innovation. Med en sällsynt kombination av djup systemarkitektur och strategisk affärsförståelse, bygger han inte bara system – han bygger er framtida konkurrenskraft. Hans mission är att göra avancerad teknologi till ert mest kraftfulla, och självklara, verktyg.
-                        </p>
-                    </div>
-                    <div>
-                        <h4 class="section-title text-2xl md:text-3xl mb-4">Ett fundament att lita på</h4>
-                        <ul class="arkitektur-list">
-                            <li><i class="ph-leaf"></i> <div><strong>Organisk Tillväxt:</strong> Byggt på förtroende och resultat, fritt från yttre investerarkrav.</div></li>
-                            <li><i class="ph-stack"></i> <div><strong>Beprövad Teknologi:</strong> En kärna av n8n-automation, flexibel AI-integration och nordisk precision i varje detalj.</div></li>
-                            <li><i class="ph-target"></i> <div><strong>Kundcentrerad Optimering:</strong> Vi är inte bundna till en specifik teknik; vi är bundna till att bygga den bästa, mest hållbara lösningen för er.</div></li>
-                        </ul>
-                    </div>
+                <div class="text-center mt-16 border-t border-sky-800/50 pt-16">
+                    <h3 class="text-3xl font-bold text-white">Redo att bygga med 4x hastighet?</h3>
+                    <p class="text-lg text-content-dark-bg max-w-2xl mx-auto mt-4 mb-8">Låt oss visa er vad vår arkitektur kan göra för er. Boka ett strategisamtal idag och upplev skillnaden med noll kontextförlust.</p>
+                    <a href="#" onclick="window.nord.showPage('boka-samtal-skraddarsydd'); return false;" class="btn-base btn-cta-revised px-10 py-4 text-lg">Boka Strategisamtal</a>
                 </div>
             </div>
         </section>
@@ -2523,12 +2526,14 @@
                 <i class="ph-x"></i>
             </button>
             <h3>Ert Strategiska Ritbord</h3>
-            <p class="text-lg">Här blir er vision konkret. Varje form är en levande blueprint av er framtida potential. Utforska, forma och förstå arkitekturen som kommer att driva er nästa stora evolution.</p>
+            <p class="text-lg">
+                Välkommen. Ni ser nu en live-visualisering av ett intelligent system. Varje form är en interaktiv blueprint som representerar en specifik arkitektur – från ett stabilt ramverk till ett dynamiskt flöde.
+            </p>
             <div class="my-4 text-left max-w-xs mx-auto space-y-2">
-                <p><strong class="nord-accent-text">TRANSFORMERA:</strong> Visualisera en ny arkitektur</p>
-                <p><strong class="nord-accent-text">ROTERA:</strong> Granska potentialen från alla vinklar</p>
+                <p><strong class="nord-accent-text">MORFA (Scroll/Touch):</strong> Transformera systemets arketyper.</p>
+                <p><strong class="nord-accent-text">ROTERA (Mus/Touch):</strong> Granska systemet från alla vinklar.</p>
             </div>
-            <p class="font-semibold text-sky-200 italic">Strategi blir struktur.</p>
+            <p class="font-semibold text-sky-200 italic">Från strategi till manifesterad struktur.</p>
             <p class="mt-4 text-xs text-sky-400 esc-hint">(Återvänd med ESC eller X)</p>
         </div>
     </div>
@@ -2929,14 +2934,22 @@
                 };
 
                 this.boundWheelHandler = this.handleWheel.bind(this);
-                this.boundJoystickTouchStart = this.handleJoystickTouchStart.bind(this);
-                this.boundJoystickTouchMove = this.handleJoystickTouchMove.bind(this);
-                this.boundJoystickTouchEnd = this.handleJoystickTouchEnd.bind(this);
-                this.boundHideOnboarding = null;
-                this.clock = new THREE.Clock();
-            }
+            this.boundJoystickTouchStart = this.handleJoystickTouchStart.bind(this);
+            this.boundJoystickTouchMove = this.handleJoystickTouchMove.bind(this);
+            this.boundJoystickTouchEnd = this.handleJoystickTouchEnd.bind(this);
+            this.boundHideOnboarding = null;
+            this.clock = new THREE.Clock();
 
-            setTheme(themeKey) {
+            // NYA BINDNINGAR FÖR MUS-ROTATION
+            this.boundMouseDown = this.handleMouseDown.bind(this);
+            this.boundMouseMove = this.handleMouseMove.bind(this);
+            this.boundMouseUp = this.handleMouseUp.bind(this);
+            this.isDragging = false;
+            this.lastMouseX = 0;
+            this.lastMouseY = 0;
+        }
+
+        setTheme(themeKey) {
                 this.activeThemeKey = themeKey;
                 if (this.elasticGeometry) {
                     const theme = SACRED_GEOMETRY_LIBRARY[this.activeThemeKey];
@@ -3049,6 +3062,12 @@
                 } else {
                     // Specifika listeners för desktop (mus & hjul)
                     window.addEventListener('wheel', this.boundWheelHandler, { passive: false });
+                    
+                    // NYA LISTENERS FÖR MUS-ROTATION
+                    this.canvas.addEventListener('mousedown', this.boundMouseDown);
+                    window.addEventListener('mousemove', this.boundMouseMove);
+                    window.addEventListener('mouseup', this.boundMouseUp);
+                    
                     if (joystickRight) {
                         joystickRight.addEventListener('click', () => {
                          if (document.body.classList.contains('labb-active')) { this.exitBuilderMode(); }
@@ -3086,6 +3105,34 @@
                     });
                 }
             }
+
+            // NYA HANDLERS FÖR MUS-ROTATION
+            handleMouseDown(e) {
+                if (!this.isWorkshopBuilderActive) return;
+                e.preventDefault();
+                this.isDragging = true;
+                this.lastMouseX = e.clientX;
+                this.lastMouseY = e.clientY;
+            }
+
+            handleMouseMove(e) {
+                if (!this.isDragging || !this.isWorkshopBuilderActive) return;
+                e.preventDefault();
+                const deltaX = e.clientX - this.lastMouseX;
+                const deltaY = e.clientY - this.lastMouseY;
+                
+                this.interaction.targetRotationY += deltaX * 0.005;
+                this.interaction.targetRotationX -= deltaY * 0.005;
+                this.interaction.targetRotationX = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, this.interaction.targetRotationX));
+                
+                this.lastMouseX = e.clientX;
+                this.lastMouseY = e.clientY;
+            }
+
+            handleMouseUp() {
+                this.isDragging = false;
+            }
+            // SLUT PÅ NYA HANDLERS
 
             handleWheel(e) {
                 if (!this.isWorkshopBuilderActive) return;
@@ -3316,6 +3363,11 @@
                 this.transitionTo('WORKSHOP');
                 document.getElementById('joystick-portal-right')?.classList.add('active');
                 
+                // Gör canvasen interaktiv för musen på desktop
+                if (!window.matchMedia('(pointer: coarse)').matches) {
+                    this.canvas.classList.add('interactive');
+                }
+
                 const onboardingEl = document.getElementById('workshop-onboarding');
                 onboardingEl?.classList.add('visible');
                 
@@ -3347,6 +3399,11 @@
                 document.body.classList.remove('labb-active');
                 document.body.classList.remove('toolbar-open'); // Harmoni-fix: Säkerställ att verktygsfältet stängs.
                 this.transitionTo(this.lastState === 'HIDDEN' ? 'HERO' : this.lastState);
+                
+                // Nollställ mus-interaktion
+                this.isDragging = false;
+                this.canvas.classList.remove('interactive');
+                
                 this.hideOnboarding();
                 this.hideFormName();
                 document.getElementById('joystick-portal-right')?.classList.remove('active');
