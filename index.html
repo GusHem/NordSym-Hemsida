@@ -1178,19 +1178,48 @@
             flex-direction: column;
             height: 100%;
             transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative; /* <-- NY: För ::before */
+            overflow: hidden; /* <-- NY: För ::before */
+        }
+        .pricing-card::before { /* <-- NY: Glow effect (från archetype-card) */
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 0%, rgba(var(--nord-sym-cyan-rgb), 0.2), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 0; /* Bakom innehållet */
+        }
+        /* NY: Säkerställ att innehållet är ovanför glöden */
+        .pricing-card > * {
+            position: relative;
+            z-index: 1;
         }
         .pricing-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 0 30px rgba(var(--nord-sym-cyan-rgb), 0.2);
-            border-color: rgba(var(--nord-sym-cyan-rgb), 0.5);
+            /* UPPDATERAD: Starkare skugga, matchar archetype-card */
+            box-shadow: 0 0 35px rgba(var(--nord-sym-cyan-rgb), 0.3), 0 8px 25px rgba(0,0,0,0.3);
+            border-color: var(--nord-sym-cyan); /* UPPDATERAD: Starkare border-färg */
+        }
+        .pricing-card:hover::before { /* <-- NY: Visa glöd vid hover */
+            opacity: 1;
         }
         .pricing-card.ignite-package {
             border-color: var(--nord-sym-cyan);
-            box-shadow: 0 0 40px rgba(var(--nord-sym-cyan-rgb), 0.3);
+            /* UPPDATERAD: Ännu starkare skugga för att poppa */
+            box-shadow: 0 0 45px rgba(var(--nord-sym-cyan-rgb), 0.35), 0 10px 30px rgba(0,0,0,0.3);
             transform: scale(1.05); /* Make it stand out */
+        }
+        .pricing-card.ignite-package::before { /* <-- NY: Permanent, starkare glöd för ignite */
+            opacity: 1;
+            background: radial-gradient(circle at 50% 0%, rgba(var(--nord-sym-cyan-rgb), 0.3), transparent 70%);
         }
         .pricing-card.ignite-package:hover {
             transform: scale(1.08) translateY(-8px); /* Enhance hover effect */
+        }
+        .pricing-card.ignite-package:hover::before { /* <-- NY: Extra stark glöd vid hover */
+            background: radial-gradient(circle at 50% 0%, rgba(var(--nord-sym-cyan-rgb), 0.4), transparent 70%);
         }
         .pricing-card-header h3 {
             font-family: 'Comfortaa', sans-serif;
@@ -2227,14 +2256,13 @@
                     <div class="pricing-card card-base">
                         <div class="pricing-card-header text-center">
                             <h3>GRUND</h3>
-                             <p class="text-sm text-sky-300 mt-2">En fokuserad transformation. Mätbart resultat.</p>
+                             <p class="text-sm text-sky-300 mt-2">Från en process till bevisat värde.</p>
                         </div>
                         <div class="price-display text-center">75k <span class="price-period">SEK</span></div>
                         <ul>
-                            <li><i class="ph-check-circle"></i> En fundamental automation</li>
-                            <li><i class="ph-check-circle"></i> Validerar potential, testar effekt</li>
-                            <li><i class="ph-check-circle"></i> Snabb implementation, direkt ROI</li>
-                            <li><i class="ph-check-circle"></i> Grundstenen i ert framtida ekosystem</li>
+                            <li><i class="ph-check-circle"></i> <strong>Enskild process-automation:</strong> Vi väljer *en* högvärdig process och transformerar den.</li>
+                            <li><i class="ph-check-circle"></i> <strong>Snabb validering:</strong> Bevisar konceptet och levererar mätbar ROI snabbt.</li>
+                            <li><i class="ph-check-circle"></i> <strong>Grundplatta:</strong> Etablerar den tekniska grunden för ert framtida, intelligenta ekosystem.</li>
                         </ul>
                         <div class="mt-auto">
                             <a href="#" onclick="window.nord.showPage('boka-samtal-skraddarsydd'); return false;" class="btn-base btn-secondary-on-dark w-full">Starta med Grunden</a>
@@ -2243,14 +2271,13 @@
                     <div class="pricing-card card-base ignite-package">
                          <div class="pricing-card-header text-center">
                             <h3>STRUKTUR</h3>
-                             <p class="text-sm text-sky-300 mt-2">Sammankopplade system. Exponentiell effekt.</p>
+                             <p class="text-sm text-sky-300 mt-2">Från isolerade system till ett intelligent nätverk.</p>
                         </div>
                         <div class="price-display text-center">250k <span class="price-period">SEK</span></div>
                          <ul>
-                            <li><i class="ph-check-circle"></i> Ekosystem av AI-agenter</li>
-                            <li><i class="ph-check-circle"></i> Beprövad & skalbar arkitektur</li>
-                            <li><i class="ph-check-circle"></i> Transformerar hela processer</li>
-                            <li><i class="ph-check-circle"></i> Inkluderar skräddarsytt UI</li>
+                            <li><i class="ph-check-circle"></i> <strong>Multi-agent Ekosystem:</strong> Flera AI-agenter som samarbetar och delar kontext.</li>
+                            <li><i class="ph-check-circle"></i> <strong>Beprövad Arkitektur:</strong> En skalbar och framtidssäkrad plattform (MCP).</li>
+                            <li><i class="ph-check-circle"></i> <strong>Intelligent Gränssnitt:</strong> Ett skräddarsytt UI/dashboard för att styra och övervaka systemet.</li>
                         </ul>
                          <div class="mt-auto">
                             <p class="text-center text-xs text-sky-300 mb-3">ENDAST 2 PLATSER KVAR FÖR 2025</p>
@@ -2260,14 +2287,13 @@
                     <div class="pricing-card card-base">
                          <div class="pricing-card-header text-center">
                             <h3>ARKITEKTUR</h3>
-                             <p class="text-sm text-sky-300 mt-2">En komplett, framtidssäkrad systemarkitektur.</p>
+                             <p class="text-sm text-sky-300 mt-2">Ert nya, självlärande operativsystem.</p>
                         </div>
                         <div class="price-display text-center">500k+ <span class="price-period">SEK</span></div>
                          <ul>
-                            <li><i class="ph-check-circle"></i> Fullskalig transformation</li>
-                            <li><i class="ph-check-circle"></i> Intelligent, växande ekosystem</li>
-                            <li><i class="ph-check-circle"></i> Designad för evig evolution</li>
-                            <li><i class="ph-check-circle"></i> Framtidssäkrad arkitektur</li>
+                            <li><i class="ph-check-circle"></i> <strong>AI-First Transformation:</strong> Vi designar om er kärnverksamhet med AI som operativsystem.</li>
+                            <li><i class="ph-check-circle"></i> <strong>Full Autonomi:</strong> Ett komplett, självgående och evolverande ekosystem.</li>
+                            <li><i class="ph-check-circle"></i> <strong>Evig Evolution:</strong> Systemet är byggt för att kontinuerligt lära sig och integrera ny teknik.</li>
                         </ul>
                          <div class="mt-auto">
                             <a href="#" onclick="window.nord.showPage('boka-samtal-skraddarsydd'); return false;" class="btn-base btn-secondary-on-dark w-full">Etablera er Arkitektur</a>
