@@ -2682,6 +2682,7 @@
         ekosystem: { 
             material: 'nebula',
             forms: [
+                { name: 'fibonacci_spiral', displayName: 'Fibonaccispiral' },
                 { name: 'galaxy_spiral', displayName: 'Galaxspiral' }, 
                 { name: 'galactic_arm', displayName: 'Galaktisk Arm' }, 
                 { name: 'cosmic_web', displayName: 'Kosmiskt Nät' }, 
@@ -2894,8 +2895,8 @@
             this.targetState = this.states.HIDDEN;
             
             // State Management Refactor
-            this.activeThemeKey = 'fundamental';
-            this.isParticleModeActive = false;
+            this.activeThemeKey = 'ekosystem';
+            this.isParticleModeActive = true; 
             this.attractorParams = { a: 10, b: 28, c: 8.0 / 3.0, dt: 0.01 };
             
             this.isMorphing = false;
@@ -2914,7 +2915,8 @@
                 this.interaction = {
                     targetRotationX: 0.5, targetRotationY: 0,
                     actualRotationX: 0.5, actualRotationY: 0,
-                    targetZoom: this.states.HIDDEN.zoom, actualZoom: this.states.HIDDEN.zoom,
+                    targetZoom: this.states.HIDDEN.zoom, 
+                    actualZoom: this.states.HIDDEN.zoom,
                     targetY: this.states.HIDDEN.y, 
                     actualY: this.states.HIDDEN.y // Harmoni-fix: Återställer startanimationen till en ren zoom för en mer kontrollerad ingång på alla enheter.
                 };
@@ -2972,6 +2974,11 @@
 
                     this.animate = this.animate.bind(this);
                     this.animate();
+
+                    // Harmoni-fix: Anropa updateViewState() vid initiering
+                    // för att ställa in den korrekta standardgeometrin (BUG 1).
+                    this.updateViewState();
+
                     this.isInitialized = true;
                 } catch (error) {
                     this.initializationFailed = true;
@@ -3229,6 +3236,10 @@
                 gsap.to(uniforms?.opacity || mat, { value: finalState.opacity, duration: 1.5, ease: 'power2.inOut' });
                 const starMat = this.stars.material.uniforms.opacity;
                 gsap.to(starMat, { value: finalState.opacity > 0 ? 1 : 0, duration: 1.5, ease: 'power2.inOut' });
+
+                // --- BORTTAGEN ÅTERSTÄLLNINGSKOD ---
+                // Den tvingande koden som låg här är nu borttagen
+                // för att tillåta geometrin att "minnas" sitt tillstånd.
             }
 
             handleThemeClick(themeKey) {
@@ -3236,6 +3247,10 @@
                     this.activeThemeKey = null; // Deselect
                 } else {
                     this.activeThemeKey = themeKey;
+                    // Harmoni-fix: Nollställ form-index BARA när ett nytt tema väljs (BUG 2)
+                    if (SACRED_GEOMETRY_LIBRARY[this.activeThemeKey]) {
+                        SACRED_GEOMETRY_LIBRARY[this.activeThemeKey].currentIndex = 0;
+                    }
                 }
                 this.updateViewState();
             }
@@ -3245,16 +3260,23 @@
                 this.updateViewState();
             }
             
-            updateViewState() {
-                // Update button UI
+            // Harmoni-fix: updateViewState är nu uppdelad.
+            // updateButtonUI() synkroniserar BARA knapparna med det aktiva läget.
+            // updateViewState() gör allt (knappar OCH geometri-ändring).
+            updateButtonUI() {
                 document.querySelectorAll('.glass-btn[data-theme]').forEach(btn => {
                     btn.classList.toggle('active', btn.dataset.theme === this.activeThemeKey);
                 });
                 const fractalBtn = document.getElementById('fractal-mode-toggle');
                 fractalBtn.classList.toggle('active', this.isParticleModeActive);
                 fractalBtn.classList.toggle('glow', this.isParticleModeActive && !!this.activeThemeKey);
+            }
 
-                // Update geometry
+            updateViewState() {
+                // Steg 1: Synkronisera knapparna
+                this.updateButtonUI();
+
+                // Steg 2: Uppdatera geometrin (detta är logiken som återställde)
                 this.elasticGeometry.setParticleMode(this.isParticleModeActive, this.activeThemeKey);
                 this.isMorphing = false;
                 this.currentMorphProgress = 0;
@@ -3263,7 +3285,7 @@
                 if (this.isParticleModeActive || (SACRED_GEOMETRY_LIBRARY[this.activeThemeKey]?.material === 'nebula')) {
                     if (this.activeThemeKey) {
                         const theme = SACRED_GEOMETRY_LIBRARY[this.activeThemeKey];
-                        theme.currentIndex = 0; // Reset index on select
+                        // theme.currentIndex = 0; // Harmoni-fix: Borttagen för att bevara minne (BUG 2)
                         this.activeShape = theme.forms[theme.currentIndex];
                         this.elasticGeometry.morphToShape(this.activeShape.name);
                         this.displayFormName(this.activeShape);
@@ -3276,7 +3298,7 @@
                 } else {
                     if (this.activeThemeKey) {
                         const theme = SACRED_GEOMETRY_LIBRARY[this.activeThemeKey];
-                        theme.currentIndex = 0; // Reset index on select
+                        // theme.currentIndex = 0; // Harmoni-fix: Borttagen för att bevara minne (BUG 2)
                         this.activeShape = theme.forms[theme.currentIndex];
                         this.elasticGeometry.morphToShape(this.activeShape.name);
                         this.displayFormName(this.activeShape);
@@ -3311,10 +3333,12 @@
                     window.addEventListener('touchmove', this.boundJoystickTouchMove, { passive: false });
                     window.addEventListener('touchend', this.boundJoystickTouchEnd, { passive: false });
                     window.addEventListener('touchcancel', this.boundJoystickTouchEnd, { passive: false });
-                }
+                } // <-- FIX: Lade till den saknade måsvingen här.
 
-                // Set initial state for workshop
-                this.updateViewState();
+                // Harmoni-fix: Anropa BARA UI-synken.
+                // Detta förhindrar att geometrin nollställs
+                // när man går in i verkstaden (BUG 2b).
+                this.updateButtonUI();
             }
             
             exitBuilderMode() {
