@@ -412,6 +412,34 @@
             text-shadow: none;
         }
 
+        /* NYTT: Stilar för Galleri-växlare (Blåkopia) */
+        body.light-theme #gallery-switch-container {
+            background-color: var(--nord-sym-blueprint-lines-faint);
+            border: 1px solid var(--nord-sym-blueprint-lines);
+        }
+        /* UPPDATERAD: Slider-elementet (Ljust läge) */
+        body.light-theme #gallery-switch-slider {
+            background-color: var(--nord-sym-blueprint-cyan);
+            box-shadow: 0 0 15px rgba(var(--nord-sym-blueprint-cyan-rgb), 0.3);
+        }
+        /* UPPDATERAD: Knappstilar (Ljust läge) */
+        body.light-theme .gallery-switch-btn {
+            background-color: transparent;
+            color: var(--nord-sym-blueprint-ink);
+            opacity: 0.7;
+        }
+        body.light-theme .gallery-switch-btn.active {
+            color: var(--nord-sym-blueprint-ink);
+            opacity: 1;
+        }
+        body.light-theme .gallery-switch-btn:hover {
+            opacity: 1;
+        }
+        body.light-theme #gallery-description-text {
+            color: var(--nord-sym-blueprint-ink) !important; /* Tailwind override */
+            opacity: 0.9;
+        }
+
         /* Galleri-kontroller (Blåkopia) */
         body.light-theme .gallery-control-btn {
             background: transparent;
@@ -924,6 +952,8 @@
         }
         .gallery-viewport {
             overflow: hidden;
+            /* NYTT: Perspektiv för 3D-flip */
+            perspective: 1000px;
         }
         .gallery-wrapper {
             display: flex;
@@ -2063,8 +2093,8 @@
         <section id="home-diagram-section" class="space-background-section py-16 lg:py-24">
             <div class="section-content-wrapper">
                 <div class="text-center mb-16 max-w-4xl mx-auto">
-                    <h2 class="section-title text-4xl md:text-5xl mb-4">Där er expertis möter rätt arkitektur.</h2>
-                    <p class="text-lg text-sky-200 mt-6 leading-relaxed">Vi förvandlar er unika process till ett intelligent, självgående ekosystem.</p>
+                    <h2 class="section-title text-4xl md:text-5xl mb-4">Er Expertis, Aktiverad.</h2>
+                    <p class="text-lg text-sky-200 mt-6 leading-relaxed">Vi synkroniserar er unika affärslogik med vår AI-arkitektur. Resultatet: ett intelligent, självlärande ekosystem som arbetar med er.</p>
                 </div>
                 <div class="venn-diagram-container">
                     <div class="venn-diagram-wrapper">
@@ -2083,10 +2113,28 @@
         <section id="atom-gallery-section" class="space-background-section py-20 lg:py-28">
             <div class="section-content-wrapper">
                 <div class="text-center mb-16">
-                    <span class="inline-block bg-sky-800/50 text-sky-200 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Vår Arkitektur</span>
-                    <h3 class="text-3xl md:text-4xl font-bold text-white mt-4">Våra Byggstenar</h3>
-                    <p class="text-center text-sky-200 max-w-3xl mx-auto mt-4 mb-8">
-                        Dessa är de beprövade grundelementen i vår arkitektur. Från denna palett av intelligens komponerar vi allt från fokuserade Micro-SaaS-lösningar till kompletta, självgående ekosystem. <a href='#home-contact-anchor' onclick='event.preventDefault(); window.nord.smoothScrollTo("#home-contact-anchor");' class='text-nord-sym-cyan hover:underline font-semibold whitespace-nowrap'>Se hur de kan kombineras för er.</a>
+                    <!-- BORTTAGEN: Gammal span-rubrik -->
+                    <!-- <span class="inline-block bg-sky-800/50 text-sky-200 text-2xl md:text-3xl font-semibold px-8 py-3 rounded-full uppercase tracking-wider" style="font-family: 'Comfortaa', sans-serif;">Byggstenar / Galleri</span> -->
+                    
+                    <!-- NY: Pill switch-växlare (Omstrukturerad för slide) -->
+                    <div id="gallery-switch-container" class="relative inline-flex items-stretch rounded-full bg-sky-900/70 p-1.5" style="font-family: 'Comfortaa', sans-serif;">
+                        <!-- Det glidande pillret -->
+                        <div id="gallery-switch-slider" class="absolute h-full rounded-full bg-nord-sym-cyan transition-all duration-300 ease-in-out" style="top: 0; left: 0;"></div>
+                        
+                        <!-- Knapparna (nu transparenta, ovanpå) -->
+                        <button id="gallery-switch-byggstenar" 
+                                class="gallery-switch-btn active relative z-10 text-nord-sym-deep-space-blue rounded-full px-6 py-2 text-lg md:text-xl uppercase tracking-wider transition-colors duration-300">
+                            Byggstenar
+                        </button>
+                        <button id="gallery-switch-galleri" 
+                                class="gallery-switch-btn inactive relative z-10 text-sky-200 hover:text-white rounded-full px-6 py-2 text-lg md:text-xl uppercase tracking-wider transition-colors duration-300">
+                            Galleri
+                        </button>
+                    </div>
+                    
+                    <!-- JUSTERAD: <p>-tagg med ny ID och borttagen länk -->
+                    <p id="gallery-description-text" class="text-center text-sky-200 max-w-3xl mx-auto mt-8 mb-8">
+                        Dessa är de beprövade grundelementen i vår arkitektur. Med dessa komponenter bygger vi allt från fokuserade Micro-SaaS-lösningar till fullskaliga, intelligenta arkitekturer.
                     </p>
                 </div>
                 <div class="gallery-container">
@@ -2100,7 +2148,7 @@
                     <button id="galleryPrev" aria-label="Föregående byggsten" class="gallery-control-btn">
                         <i class="ph-arrow-left-bold"></i>
                     </button>
-                    <span class="text-base sm:text-lg text-sky-300 select-none">Utforska byggstenarna</span>
+                    <span id="gallery-context-text" class="text-base sm:text-lg text-sky-300 select-none">Utforska byggstenarna</span>
                     <button id="galleryNext" aria-label="Nästa byggsten" class="gallery-control-btn">
                         <i class="ph-arrow-right-bold"></i>
                     </button>
@@ -2515,7 +2563,7 @@
             <div id="chat-messages" class="flex-grow p-4 overflow-y-auto">
                 <!-- Bot welcome message -->
                 <div class="message bot-message">
-                    <p>Hej! Hur kan jag hjälpa dig att utforska framtiden för er verksamhet idag?</p>
+                    <p>Hej! Jag är NordSyms digitala assistent. Hur kan jag hjälpa dig idag?</p>
                 </div>
             </div>
     
@@ -4327,21 +4375,108 @@
             this.isInitialMobileLoad = true; // HARMONI-FIX: Flagga för att förhindra initial scroll.
             this.paginationContainer = document.getElementById('galleryPagination');
             this.lastCardsPerPage = 0; // To track resize changes
-            this.galleryData = [
+            
+            // --- DATAHARMONISERING START ---
+            // BORTTAGEN: Den gamla monolitiska galleryData
+            
+            // NYTT: Data uppdelad i två källor
+            this.komponenterData = [
                 {
                     icon: 'ph-robot',
                     title: 'AI-Agenter',
-                    description: 'Vi designar och driftsätter autonoma AI-agenter som hanterar komplexa uppgifter, från research till kunddialog, med inbyggda loopar för mänsklig validering.',
+                    description: 'Vi designar autonoma AI-agenter för allt från research till kunddialog. De kan integreras i ett större ekosystem eller driftsättas som kraftfulla, fristående lösningar.',
                     signatures: [
                         { icon: 'ph-brain', text: 'Intelligens' },
                         { icon: 'ph-chats-circle', text: 'Dialog' },
                         { icon: 'ph-file-search', text: 'Research' }
                     ],
-                    indicator: 'Bygger på 40+ validerade mönster för AI-orkestrering.',
+                    indicator: 'Bygger på en hybridarkitektur: kraften från branschledande automationssystem och precisionen från våra egna, egenutvecklade ramverk.',
                     ctaText: 'Designa en gratis agent',
                     ctaIcon: 'ph-pencil-line',
                     ctaAction: 'openFreeAgentModal'
                 },
+                {
+                    icon: 'ph-chart-pie-slice', // <-- ÄNDRAD IKON
+                    title: 'AI-First Arkitektur', // <-- ÄNDRAD
+                    description: 'Designar system där AI inte är ett tillägg, utan kärnan. Varje process och datapunkt utvärderas för sin potential att tränas, automatiseras eller agera autonomt.', // <-- ÄNDRAD
+                     signatures: [ // <-- ÄNDRAD (anpassad till objektformat)
+                        { icon: 'ph-brain', text: 'Kärnlogik' },
+                        { icon: 'ph-compass-tool', text: 'Agent-design' },
+                        { icon: 'ph-sparkle', text: 'Proaktivt' }
+                    ],
+                    indicator: 'Arkitektur', // <-- ÄNDRAD
+                    indicatorColor: 'text-rose-400' // <-- NY EGENSKAP
+                },
+                {
+                    icon: 'ph-cube', // <-- ÄNDRAD (Bytt från 'ph-server' för att garantera rendering)
+                    title: 'Model Context Protocol', // <-- Behållen
+                    description: 'Vår interna arkitektur för att hantera och \'streama\' kontext mellan AI-modeller. Vi bygger och driftar egna MCP-servrar som säkerställer att agenter har delat, persistent minne oavsett vilken AI-modell som anropas.', // <-- Behållen
+                    signatures: [ // <-- ÄNDRAD
+                        { icon: 'ph-database', text: 'Persistent Minne' },
+                        { icon: 'ph-arrows-split', text: 'Kontext-flöde' },
+                        { icon: 'ph-check-circle', text: 'Modell-oberoende' } // <-- ÄNDRAD (Bytt från 'ph-pluggable')
+                    ],
+                    indicator: 'Kärnprotokoll' // <-- Behållen
+                },
+                {
+                    icon: 'ph-layout',
+                    title: 'Intelligenta Gränssnitt',
+                    description: 'Vi bygger skräddarsydda webbapplikationer och intelligenta dashboards som ger era team och kunder full kontroll över era nya AI-system.',
+                     signatures: [
+                        { icon: 'ph-palette', text: 'Design' },
+                        { icon: 'ph-chart-line', text: 'Data' },
+                        { icon: 'ph-user-focus', text: 'Upplevelse' }
+                    ],
+                    indicator: 'Från interaktiva dashboards till fullskaliga SaaS-plattformar.'
+                },
+                {
+                    icon: 'ph-arrows-clockwise',
+                    title: 'Intelligent Automation',
+                    description: 'Vi kartlägger och transformerar era kärnprocesser. Genom att koppla samman era befintliga system med AI-agenter skapar vi självgående flöden som eliminerar manuellt arbete.',
+                     signatures: [
+                        { icon: 'ph-map-trifold', text: 'Kartläggning' },
+                        { icon: 'ph-plugs-connected', text: 'Integration' },
+                        { icon: 'ph-timer', text: 'Effektivitet' }
+                    ],
+                    indicator: 'Optimerar allt från säljstöd (CRM) till intern administration.'
+                },
+                {
+                    icon: 'ph-database',
+                    title: 'Data & Insikter',
+                    description: 'Vi bygger system som inte bara samlar in, utan också förstår och agerar på er data. Från automatiserad research till att omvandla rådata till strategiska, prediktiva insikter.',
+                    signatures: [
+                        { icon: 'ph-magnifying-glass', text: 'Analys' },
+                        { icon: 'ph-chart-line-up', text: 'Prediktion' },
+                        { icon: 'ph-presentation-chart', text: 'Rapportering' }
+                    ],
+                    indicator: 'Levererar sammansatt intelligens från 20+ modeller för dataanalys.'
+                },
+                {
+                    icon: 'ph-books',
+                    title: 'Dynamiska Kunskapsbaser',
+                    description: 'Vi bygger system som inte bara utför uppgifter, utan som aktivt samlar in, strukturerar och förädlar er interna kunskap. Vi skapar ett levande företagsminne som gör hela organisationen smartare.',
+                    signatures: [
+                        { icon: 'ph-download-simple', text: 'Insamling' },
+                        { icon: 'ph-list-dashes', text: 'Strukturering' },
+                        { icon: 'ph-brain', text: 'Resonemang' }
+                    ],
+                    indicator: 'Från spridd data till ett centraliserat, intelligent \'företagsminne\'.'
+                },
+                {
+                    icon: 'ph-shield-check',
+                    title: 'Evolution & Säkerhet',
+                    description: 'Ett intelligent system måste vara säkert. Vi bygger självreparerande och säkra arkitekturer med proaktiv övervakning, åtkomstkontroll och en plan för kontinuerlig evolution.',
+                    signatures: [
+                        { icon: 'ph-lock', text: 'Säkerhet' },
+                        { icon: 'ph-binoculars', text: 'Övervakning' },
+                        { icon: 'ph-graph', text: 'Skalbarhet' }
+                    ],
+                    indicator: 'Byggt för 99.9% drifttid och proaktivt hotförsvar.'
+                }
+                // BORTTAGNA: De två sista teaser-korten flyttas till 'arketyperData'
+            ];
+
+            this.arketyperData = [
                 {
                     imageUrl: 'https://raw.githubusercontent.com/GusHem/NordSym-Logga/refs/heads/main/Klara%20avatar%20closeup%20v.3.svg',
                     title: 'Klara: Ett AI-First Catering-Ekosystem', 
@@ -4379,88 +4514,12 @@
                         { icon: 'ph-truck', text: 'Logistik' },
                         { icon: 'ph-chart-line-up', text: 'Effektivitet' }
                     ],
-                    indicator: 'Drivs av en hybridmotor som förenar kraften från världsledande AI med precisionen från våra egna, skrädarsydda agenter.',
+                    indicator: 'Drivs av en hybridmotor som förenar kraften från världsledande AI med precisionen från våra egna, skräddarsydda agenter.',
                     ctaText: 'Utforska Demo',
                     ctaIcon: 'ph-play-circle',
                     ctaAction: 'openComingSoonModal'
                 },
-                {
-                    icon: 'ph-chart-line',
-                    title: 'Data & Insikt',
-                    description: 'Våra system samlar in, analyserar och omvandlar data från alla era källor till handlingsbara insikter med hjälp av avancerad RAG-teknologi.',
-                     signatures: [
-                        { icon: 'ph-database', text: 'Datakällor' },
-                        { icon: 'ph-chart-bar', text: 'Analys' },
-                        { icon: 'ph-lightbulb', text: 'Insikt' }
-                    ],
-                    indicator: 'Använder 15+ beprövade integrationsmönster för dataharmonisering.'
-                },
-                {
-                    icon: 'ph-magic-wand',
-                    title: 'Innehållsflöden',
-                    description: 'Vi automatiserar hela er innehållscykel – från idé och research till skapande och distribution på flera plattformar, optimerat för maximal räckvidd.',
-                    signatures: [
-                        { icon: 'ph-pencil-circle', text: 'Skapande' },
-                        { icon: 'ph-paper-plane-tilt', text: 'Distribution' },
-                        { icon: 'ph-megaphone', text: 'Räckvidd' }
-                    ],
-                    indicator: 'Bygger på beprövade modeller för automatiserad innehållsdistribution.'
-                },
-                {
-                    icon: 'ph-envelope-simple',
-                    title: 'CRM & Säljautomation',
-                    description: 'Vi revolutionerar er säljprocess med AI-driven personalisering, automatiserad lead-hantering och komplett livscykelautomation direkt i ert CRM.',
-                     signatures: [
-                        { icon: 'ph-users-three', text: 'Leads' },
-                        { icon: 'ph-target', text: 'Personalisering' },
-                        { icon: 'ph-chart-line-up', text: 'Konvertering' }
-                    ],
-                    indicator: 'Optimerar säljflöden med över 30+ ramverk för CRM-automation.'
-                },
-                {
-                    icon: 'ph-magnifying-glass',
-                    title: 'Automatiserad Research',
-                    description: 'Sätt en armé av AI-agenter i arbete för att leverera djupgående marknads-, konkurrent- och företagsanalyser på en bråkdel av den manuella tiden.',
-                     signatures: [
-                        { icon: 'ph-globe-hemisphere-west', text: 'Marknad' },
-                        { icon: 'ph-buildings', text: 'Företag' },
-                        { icon: 'ph-users', text: 'Konkurrenter' }
-                    ],
-                    indicator: 'Levererar sammansatt intelligens från 20+ modeller för research-automation.'
-                },
-                {
-                    icon: 'ph-film-strip',
-                    title: 'Mediaproduktion',
-                    description: 'Från råmaterial till färdigt innehåll. Vi bygger AI-drivna flöden som automatiserar produktion och distribution av video, ljud och bild för alla era kanaler.',
-                    signatures: [
-                        { icon: 'ph-video-camera', text: 'Video' },
-                        { icon: 'ph-microphone-stage', text: 'Ljud' },
-                        { icon: 'ph-image', text: 'Bild' }
-                    ],
-                    indicator: 'Hanterar hela mediaproduktionen med 18+ beprövade systemflöden.'
-                },
-                {
-                    icon: 'ph-cube-focus',
-                    title: 'Digitala Tvillingar',
-                    description: 'Vi skapar dynamiska, digitala replikor av era processer. Simulera framtida scenarier, optimera i realtid och fatta beslut med oöverträffad precision.',
-                    signatures: [
-                        { icon: 'ph-virtual-reality', text: 'Simulering' },
-                        { icon: 'ph-chart-line-up', text: 'Optimering' },
-                        { icon: 'ph-brain', text: 'Insikt' }
-                    ],
-                    indicator: 'Bygger på avancerade modeller för systemsimulering.'
-                },
-                {
-                    icon: 'ph-lightning',
-                    title: 'Processautomation',
-                    description: 'Vi transformerar era manuella processer till självkörande, intelligenta arbetsflöden som lär sig och anpassar sig över tid, komplett med robust felhantering.',
-                    signatures: [
-                        { icon: 'ph-arrows-clockwise', text: 'Självgående' },
-                        { icon: 'ph-timer', text: 'Effektivitet' },
-                        { icon: 'ph-shield-check', text: 'Robusthet' }
-                    ],
-                    indicator: 'Drivs av en hybridmotor som förenar kraften från världsledande AI med precisionen från våra egna, skräddarsydda agenter.'
-                },
+                // NYA TILLAGDA KORT (Flyttade från Byggstenar)
                 {
                     teaser: true,
                     icon: 'ph-lock-simple',
@@ -4476,15 +4535,52 @@
                     indicator: 'Lansering Q1 2026'
                 }
             ];
+
+            this.dataSources = {
+                'byggstenar': this.komponenterData,
+                'galleri': this.arketyperData
+            };
+            
+            // ÄNDRING: Refaktorisera textSources till objekt
+            this.textSources = {
+                'byggstenar': {
+                    description: 'Dessa är de beprövade grundelementen i vår arkitektur. Med dessa komponenter bygger vi allt från fokuserade Micro-SaaS-lösningar till fullskaliga, intelligenta arkitekturer.', // <-- JUSTERAD
+                    context: 'Utforska byggstenarna'
+                },
+                'galleri': {
+                    description: 'Detta är vårt galleri av \'Arketyper\'. Se dessa som kraftfulla koncept och demonstrationer som visar hur våra Byggstenar kan kombineras till specifika, intelligenta system.',
+                    context: 'Utforska galleriet'
+                }
+            };
+            
+            this.currentView = 'byggstenar'; // Startvy
+            // --- DATAHARMONISERING SLUT ---
+            
+            // BORTTAGEN: Den buggiga state-variabeln
+            // this.lastPageCount = 0;
         }
         init() {
             this.populateGallery();
-            this.setupGalleryControls();
+            this.setupGalleryControls(); // <-- Måste köras efter populate
+            this.initGallerySwitch(); // <-- NYTT ANROP
         }
         populateGallery() {
             const wrapper = document.getElementById('galleryWrapper');
             if (!wrapper) return;
-            wrapper.innerHTML = this.galleryData.map(cardData => this.createCardHTML(cardData)).join('');
+            
+            // NY LOGIK: Hämta data från den aktiva källan
+            const currentData = this.dataSources[this.currentView];
+            wrapper.innerHTML = currentData.map(cardData => this.createCardHTML(cardData)).join('');
+
+            // BORTTAGEN: Den gamla, buggiga "hack"-logiken
+            // this.lastCardsPerPage = 0; 
+            
+            // ERSÄTTNING: Återställ status och uppdatera UI manuellt
+            this.isInitialMobileLoad = true; // Förhindra mobil auto-scroll
+            this.currentIndex = 0; // Återställ index till SIDA 0
+            // this.lastCardsPerPage = 0; // BORTTAGEN
+            this.updatePagination(); // Bygger om prickarna
+            this.updateGallery(); // Uppdaterar position och knappstatus
         }
         createCardHTML(data) {
              const isTeaser = data.teaser || false;
@@ -4530,103 +4626,136 @@
                     <p class="description">${data.description}</p>
                     ${signaturesHTML}
                     ${ctaButton}
-                    <p class="indicator">${data.indicator}</p>
+                    <p class="indicator ${data.indicatorColor || ''}">${data.indicator}</p>
                 </div>
             `;
         }
+
+        // --- NY FUNKTION START ---
+        initGallerySwitch() {
+            const btnByggstenar = document.getElementById('gallery-switch-byggstenar');
+            const btnGalleri = document.getElementById('gallery-switch-galleri');
+            const slider = document.getElementById('gallery-switch-slider');
+
+            if (!btnByggstenar || !btnGalleri || !slider) return;
+
+            const updateSwitchUI = (activeBtn, inactiveBtn) => {
+                // Flytta slidern
+                slider.style.width = `${activeBtn.offsetWidth}px`;
+                slider.style.left = `${activeBtn.offsetLeft}px`;
+
+                // Uppdatera textfärger
+                activeBtn.classList.remove('inactive', 'text-sky-200', 'hover:text-white');
+                activeBtn.classList.add('active', 'text-nord-sym-deep-space-blue');
+
+                inactiveBtn.classList.remove('active', 'text-nord-sym-deep-space-blue');
+                inactiveBtn.classList.add('inactive', 'text-sky-200', 'hover:text-white');
+            };
+
+            // Sätt initialt läge (körs efter en kort fördröjning för att låta DOM renderas)
+            setTimeout(() => {
+                const activeBtn = document.querySelector('.gallery-switch-btn.active') || btnByggstenar;
+                const inactiveBtn = activeBtn === btnByggstenar ? btnGalleri : btnByggstenar;
+                updateSwitchUI(activeBtn, inactiveBtn);
+            }, 100);
+
+            // Lägg till klick-lyssnare
+            btnByggstenar.addEventListener('click', () => {
+                if (btnByggstenar.classList.contains('active')) return;
+                updateSwitchUI(btnByggstenar, btnGalleri);
+                // NYTT: Anropa logik för att byta vy
+                this.switchView('byggstenar');
+            });
+
+            btnGalleri.addEventListener('click', () => {
+                if (btnGalleri.classList.contains('active')) return;
+                updateSwitchUI(btnGalleri, btnByggstenar); // KORRIGERAD: Rätt ordning
+                // NYTT: Anropa logik för att byta vy
+                this.switchView('galleri');
+            });
+        }
+        // --- NY FUNKTION SLUT ---
+
+        // --- NY FUNKTION START (ÅTERSTÄLLD FRÅN PLANEN) ---
+        // Denna funktion saknades, vilket orsakade 'TypeError'
+        switchView(viewName) {
+            if (this.currentView === viewName || !gsap) return;
+            this.currentView = viewName;
+            
+            const wrapper = document.getElementById('galleryWrapper');
+            const descriptionText = document.getElementById('gallery-description-text');
+            const contextText = document.getElementById('gallery-context-text');
+            
+            const oldCards = gsap.utils.toArray('#galleryWrapper .archetype-card');
+            const newTexts = this.textSources[viewName];
+
+            // 1. Animera ut texter
+            gsap.to([descriptionText, contextText], {
+                opacity: 0,
+                duration: 0.3,
+                ease: 'power2.in',
+                onComplete: () => {
+                    // 2. Uppdatera texter när de är dolda
+                    descriptionText.textContent = newTexts.description;
+                    contextText.textContent = newTexts.context;
+                    
+                    // 3. Animera in texter
+                    gsap.to([descriptionText, contextText], {
+                        opacity: 1,
+                        duration: 0.4,
+                        delay: 0.5, // Vänta tills korten börjar vända in
+                        ease: 'power2.out'
+                    });
+                }
+            });
+
+            // 4. Animera ut gamla kort med stagger
+            gsap.to(oldCards, {
+                rotateY: -90,
+                opacity: 0,
+                duration: 0.35,
+                stagger: 0.07, // Liten fördröjning mellan varje kort
+                ease: 'power2.in',
+                onComplete: () => {
+                    // 5. Byt innehåll
+                    this.isInitialMobileLoad = true; // Förhindra mobil auto-scroll
+                    this.currentIndex = 0; // Återställ index
+                    this.lastCardsPerPage = 0; // Tvinga paginering att ritas om
+                    this.populateGallery(); // Bygger om HTML med ny data
+                    
+                    const newCards = gsap.utils.toArray('#galleryWrapper .archetype-card');
+                    
+                    // 6. Sätt starttillstånd för nya kort (vända 90 grader)
+                    gsap.set(newCards, { rotateY: 90, opacity: 0 });
+                    
+                    // 7. Animera in nya kort med stagger
+                    gsap.to(newCards, {
+                        rotateY: 0,
+                        opacity: 1,
+                        duration: 0.45,
+                        stagger: 0.07,
+                        delay: 0.2, // Liten paus innan de vänds in
+                        ease: 'power2.out'
+                    });
+                }
+            });
+        }
+        // --- NY FUNKTION SLUT ---
+
+        // ÄNDRING: Helt omstrukturerad för att hantera "stale closures"
+        // Logiken är utbruten till klassmetoder, setup körs bara en gång.
         setupGalleryControls() {
             const galleryWrapper = document.getElementById('galleryWrapper'),
                 nextBtn = document.getElementById('galleryNext'),
                 prevBtn = document.getElementById('galleryPrev');
+            
             if (!galleryWrapper || !nextBtn || !prevBtn) return;
+
+            // Lyssnare binds EN GÅNG till klassmetoderna
+            nextBtn.addEventListener('click', () => this.next());
+            prevBtn.addEventListener('click', () => this.prev());
             
-            let currentIndex = 0;
-            
-            const getCardsPerPage = () => {
-                if (window.innerWidth >= 1280) return 3; // Adjusted for better fit
-                if (window.innerWidth > 768) return 2;
-                return 1;
-            };
-
-            const totalCards = this.galleryData.length;
-
-            const updatePagination = () => {
-                if (!this.paginationContainer) return;
-                const cardsPerPage = getCardsPerPage();
-                // Only redraw if the number of pages changes
-                if (this.lastCardsPerPage !== cardsPerPage) {
-                    this.paginationContainer.innerHTML = '';
-                    const pageCount = Math.ceil(totalCards / cardsPerPage);
-                    if (pageCount <= 1) return;
-
-                    for (let i = 0; i < pageCount; i++) {
-                        const dot = document.createElement('button');
-                        dot.classList.add('gallery-pagination-dot');
-                        dot.setAttribute('aria-label', `Gå till sida ${i + 1}`);
-                        dot.addEventListener('click', () => {
-                            currentIndex = i; 
-                            updateGallery();
-                        });
-                        this.paginationContainer.appendChild(dot);
-                    }
-                    this.lastCardsPerPage = cardsPerPage;
-                }
-
-                const dots = this.paginationContainer.querySelectorAll('.gallery-pagination-dot');
-                dots.forEach((dot, index) => {
-                    const pageIndex = window.innerWidth > 768 ? Math.floor(currentIndex) : currentIndex;
-                    dot.classList.toggle('active', index === pageIndex);
-                });
-            };
-
-            const updateGallery = () => {
-                const cardsPerPage = getCardsPerPage();
-                const maxIndex = totalCards - cardsPerPage;
-                const effectiveMaxIndex = window.innerWidth <= 768 ? totalCards - 1 : maxIndex;
-                
-                if (currentIndex > effectiveMaxIndex) currentIndex = effectiveMaxIndex;
-                if (currentIndex < 0) currentIndex = 0;
-
-                const cardWidth = galleryWrapper.children[0]?.offsetWidth || 0;
-                if (cardWidth === 0) return;
-                
-                const gap = window.innerWidth > 768 ? 32 : 24;
-
-                if (window.innerWidth > 768) {
-                    const totalMove = (cardWidth + gap) * currentIndex;
-                    galleryWrapper.style.transform = `translateX(-${totalMove}px)`;
-                } else {
-                    if (!this.isInitialMobileLoad) {
-                        const card = galleryWrapper.children[currentIndex];
-                        if (card) {
-                            const scrollTarget = card.offsetLeft;
-                            galleryWrapper.scrollTo({ left: scrollTarget, behavior: 'smooth' });
-                        }
-                    }
-                    this.isInitialMobileLoad = false;
-                }
-
-                prevBtn.classList.toggle('disabled', currentIndex === 0);
-                nextBtn.classList.toggle('disabled', currentIndex >= effectiveMaxIndex);
-                updatePagination();
-            };
-
-            nextBtn.addEventListener('click', () => {
-                const cardsPerPage = getCardsPerPage();
-                const effectiveMaxIndex = window.innerWidth <= 768 ? totalCards - 1 : totalCards - cardsPerPage;
-                if (currentIndex < effectiveMaxIndex) {
-                    currentIndex++;
-                    updateGallery();
-                }
-            });
-
-            prevBtn.addEventListener('click', () => {
-                if (currentIndex > 0) {
-                    currentIndex--;
-                    updateGallery();
-                }
-            });
-            
+            // Mobil scroll-hantering
             if (window.innerWidth <= 768) {
                 let scrollTimeout;
                 galleryWrapper.addEventListener('scroll', () => {
@@ -4634,18 +4763,142 @@
                     scrollTimeout = setTimeout(() => {
                         const cardWidth = galleryWrapper.children[0].offsetWidth;
                         const gap = 24;
-                        currentIndex = Math.round(galleryWrapper.scrollLeft / (cardWidth + gap));
-                        updateGallery();
+                        this.currentIndex = Math.round(galleryWrapper.scrollLeft / (cardWidth + gap));
+                        this.updateGallery();
                     }, 150);
                 });
             }
 
+            // Global resize-lyssnare
             window.addEventListener('resize', () => {
                 this.isInitialMobileLoad = true;
-                updateGallery();
+                this.updatePagination(); // Bygg om paginering om antalet sidor ändras
+                this.updateGallery(); // Uppdatera position och knappstatus
             });
+        } // <-- FIX: DEN SAKNADE MÅSVINGEN FÖR setupGalleryControls()
 
-            updateGallery();
+        // NY KLASSMETOD: Logik för nästa kort (uppdaterad)
+        next() {
+            const cardsPerPage = this.getCardsPerPage();
+            const currentTotalCards = this.dataSources[this.currentView].length;
+            // KORRIGERAD: Logik baserad på pageCount
+            const pageCount = Math.ceil(currentTotalCards / cardsPerPage);
+            const maxPageIndex = pageCount - 1;
+            
+            if (this.currentIndex < maxPageIndex) {
+                this.currentIndex++;
+                this.updateGallery();
+            }
+        }
+
+        // NY KLASSMETOD: Logik för föregående kort
+        prev() {
+            if (this.currentIndex > 0) {
+                this.currentIndex--;
+                this.updateGallery();
+            }
+        }
+        // NY KLASSMETOD: Hämtar kort per sida (KORRIGERAD)
+        getCardsPerPage() {
+            if (window.innerWidth > 1024) return 3; // KORRIGERAD: 1280 -> 1024
+            if (window.innerWidth > 768) return 2;
+            return 1;
+        }
+
+        // NY KLASSMETOD: Bygger om pagineringsprickarna (KORRIGERAD)
+        // BORTTAGEN: Den felaktiga, duplicerade 'updatePagination() {'-raden som orsakade SyntaxError har tagits bort härifrån.
+        // NY KLASSMETOD: Bygger om pagineringsprickarna (KORRIGERAD OCH FÖRENKLAD)
+        updatePagination() {
+            if (!this.paginationContainer) return;
+            const cardsPerPage = this.getCardsPerPage();
+            const currentTotalCards = this.dataSources[this.currentView].length;
+            const pageCount = Math.ceil(currentTotalCards / cardsPerPage);
+
+            // KORRIGERAD: Den 'smarta' if-satsen är borttagen.
+            // Vi ritar ALLTID om punkterna när denna funktion anropas
+            // (vilket bara är vid 'switchView' eller 'resize').
+            this.paginationContainer.innerHTML = '';
+            
+            if (pageCount <= 1) {
+                return; // Inga prickar behövs för en sida
+            }
+
+            for (let i = 0; i < pageCount; i++) {
+                const dot = document.createElement('button');
+                    dot.classList.add('gallery-pagination-dot');
+                    dot.setAttribute('aria-label', `Gå till sida ${i + 1}`);
+                    dot.addEventListener('click', () => {
+                        this.currentIndex = i; // Sätt nuvarande SIDA
+                        this.updateGallery();
+                    });
+                this.paginationContainer.appendChild(dot);
+            }
+            
+            // BORTTAGEN: `this.lastPageCount = pageCount;`
+            
+            // BORTTAGEN: Den redundanta "active dot"-logiken.
+            // `updateGallery` anropas alltid efter `updatePagination`
+            // och hanterar detta.
+        }
+
+        // NY KLASSMETOD: Uppdaterar galleriets position och knappstatus (KORRIGERAD)
+        updateGallery() {
+            const galleryWrapper = document.getElementById('galleryWrapper');
+            const nextBtn = document.getElementById('galleryNext');
+            const prevBtn = document.getElementById('galleryPrev');
+            if (!galleryWrapper || !nextBtn || !prevBtn || !galleryWrapper.children.length) return;
+
+            const cardsPerPage = this.getCardsPerPage();
+            const currentTotalCards = this.dataSources[this.currentView].length;
+            // KORRIGERAD: Logik baserad på pageCount
+            const pageCount = Math.ceil(currentTotalCards / cardsPerPage);
+            const maxPageIndex = pageCount - 1;
+            
+            if (this.currentIndex > maxPageIndex) this.currentIndex = maxPageIndex;
+            if (this.currentIndex < 0) this.currentIndex = 0;
+
+            const cardWidth = galleryWrapper.children[0]?.offsetWidth || 0;
+            if (cardWidth === 0) return;
+            
+            const gap = window.innerWidth > 768 ? 32 : 24;
+
+            if (window.innerWidth > 768) {
+                // KORRIGERAD: Beräkna flytt baserat på SIDA (currentIndex)
+                // istället för kort-index.
+                const cardIndexToMoveTo = this.currentIndex * cardsPerPage;
+                const totalMove = (cardWidth + gap) * cardIndexToMoveTo;
+                
+                // Vi måste begränsa sista sidans scroll
+                const totalWidth = (cardWidth + gap) * currentTotalCards - gap;
+                const viewportWidth = galleryWrapper.parentElement.offsetWidth;
+                const maxScroll = Math.max(0, totalWidth - viewportWidth);
+                
+                // Om vi är på sista sidan, scrolla till max
+                if (this.currentIndex === maxPageIndex) {
+                     galleryWrapper.style.transform = `translateX(-${maxScroll}px)`;
+                } else {
+                     galleryWrapper.style.transform = `translateX(-${totalMove}px)`;
+                }
+                
+            } else {
+                if (!this.isInitialMobileLoad) {
+                    const card = galleryWrapper.children[this.currentIndex];
+                    if (card) {
+                        const scrollTarget = card.offsetLeft;
+                        galleryWrapper.scrollTo({ left: scrollTarget, behavior: 'smooth' });
+                    }
+                }
+                this.isInitialMobileLoad = false;
+            }
+
+            prevBtn.classList.toggle('disabled', this.currentIndex === 0);
+            nextBtn.classList.toggle('disabled', this.currentIndex >= maxPageIndex); // KORRIGERAD
+            
+            // Uppdatera pagineringsprickarnas status
+            const dots = this.paginationContainer.querySelectorAll('.gallery-pagination-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === this.currentIndex);
+            });
         }
     }
 
