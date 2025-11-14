@@ -1229,6 +1229,19 @@
          .legal-content-container a:hover { color: var(--nord-sym-light-accent); }
         .hero-headline-glow { animation: hero-glow-animation 5s ease-in-out infinite; }
         
+        /* -- NYTT: Interaktiv trigger för AI-First -- */
+        .interactive-ai-first-text {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            /* Subtil glöd som standard för att antyda interaktivitet */
+            text-shadow: 0 0 8px rgba(var(--nord-sym-cyan-rgb), 0.3);
+            white-space: nowrap; /* Förhindrar att "AI-First" delas upp */
+        }
+        .interactive-ai-first-text:hover {
+            color: var(--nord-sym-cyan);
+            text-shadow: 0 0 20px rgba(var(--nord-sym-cyan-rgb), 0.7);
+        }
+        
         /* Harmoni-fix: Återställer stilen för den accentuerade texten i rubriker. */
         .section-title-accent {
             color: var(--nord-sym-cyan);
@@ -2112,7 +2125,7 @@
                 <div class="text-center mb-16">
                     <h2 class="section-title text-4xl md:text-5xl">Vår Arkitektur: AI som Operativsystem</h2>
                     <p class="mt-6 max-w-3xl mx-auto">
-                        Vad innebär en AI-First Metodik? För konkurrenter är AI ett verktyg man lägger ovanpå gamla processer. För oss är det <strong>själva operativsystemet</strong>. Hela vår arkitektur – från första idé till driftsatt system – är byggd <em>för</em> och <em>med</em> intelligens. Skillnaden är fundamental: De bygger statisk kod som hanterar uppgifter. Vi bygger levande, intelligenta system som förstår er affärslogik och blir smartare över tid.
+                        Vad innebär en <span class="interactive-ai-first-text">AI-First</span> Metodik? För konkurrenter är AI ett verktyg man lägger ovanpå gamla processer. För oss är det <strong>själva operativsystemet</strong>. Hela vår arkitektur – från första idé till driftsatt system – är byggd <em>för</em> och <em>med</em> intelligens. Skillnaden är fundamental: De bygger statisk kod som hanterar uppgifter. Vi bygger levande, intelligenta system som förstår er affärslogik och blir smartare över tid.
                     </p>
                 </div>
 
