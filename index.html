@@ -761,10 +761,40 @@
             -webkit-backdrop-filter: none;
             box-shadow: 0 4px 6px rgba(0,0,0,0.04);
         }
-        body.light-theme .ritbordet-card:hover {
+        body.light-theme .ritbordet-card:not(.flippable):hover {
             border-color: var(--nord-sym-blueprint-cyan);
             box-shadow: 0 0 20px rgba(var(--nord-sym-blueprint-cyan-rgb), 0.2);
         }
+        body.light-theme .ritbordet-card.flippable:hover .flip-card-front {
+             border-color: var(--nord-sym-blueprint-cyan);
+             box-shadow: 0 0 20px rgba(var(--nord-sym-blueprint-cyan-rgb), 0.2);
+        }
+
+        /* --- NYTT: Flip Card Mekanik (LJUST TEMA) --- */
+        body.light-theme .flip-card-front {
+            background: var(--nord-sym-blueprint-bg);
+            border: 1px solid var(--nord-sym-blueprint-lines);
+            backdrop-filter: none;
+        }
+        body.light-theme .flip-card-back {
+            background: rgba(var(--nord-sym-blueprint-cyan-rgb), 0.05);
+            border: 1px solid var(--nord-sym-blueprint-cyan);
+            backdrop-filter: none;
+            transform: rotateY(180deg);
+        }
+        body.light-theme .flip-card-back h5 {
+            color: var(--nord-sym-blueprint-cyan);
+            border-bottom-color: rgba(var(--nord-sym-blueprint-cyan-rgb), 0.3);
+        }
+        body.light-theme .flip-card-back li {
+            color: var(--nord-sym-blueprint-ink);
+            opacity: 0.8;
+        }
+        body.light-theme .flip-card-back li i {
+            color: var(--nord-sym-blueprint-cyan);
+        }
+        /* --- Slut på Flip Card (LJUST TEMA) --- */
+
         body.light-theme .ritbordet-card i {
             color: var(--nord-sym-blueprint-cyan);
         }
@@ -1369,7 +1399,7 @@
         .ritbordet-card {
             background: rgba(var(--nord-sym-deep-space-blue-rgb), 0.6);
             border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.2);
-            padding: 1.5rem;
+            padding: 1.5rem; /* Behålls för icke-flippbara */
             text-align: left;
             display: flex;
             flex-direction: column;
@@ -1377,12 +1407,94 @@
             -webkit-backdrop-filter: blur(10px);
             border-radius: 1rem;
             transition: all 0.3s ease;
+            position: relative; /* <-- Redan här */
+            perspective: 1000px; /* <-- NYTT */
         }
-        .ritbordet-card:hover {
+        .ritbordet-card.flippable {
+            padding: 0; /* <-- NYTT: Nollställ padding för flippbara */
+            cursor: pointer;
+            background: transparent; /* Ta bort bakgrund från container */
+            border: none; /* Ta bort border från container */
+        }
+        .ritbordet-card:not(.flippable):hover { /* <-- NYTT: Begränsa hover-effekt */
             transform: translateY(-5px);
             box-shadow: 0 0 25px rgba(var(--nord-sym-cyan-rgb), 0.25);
             border-color: var(--nord-sym-cyan);
         }
+        .ritbordet-card.flippable:hover .flip-card-front { /* <-- NYTT: Hover-effekt för framsidan */
+             box-shadow: 0 0 25px rgba(var(--nord-sym-cyan-rgb), 0.25);
+             border-color: var(--nord-sym-cyan);
+        }
+
+        /* --- NYTT: Flip Card Mekanik --- */
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 250px; /* Säkerställ minsta höjd */
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            transform-style: preserve-3d;
+        }
+        .ritbordet-card.is-flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Safari */
+            backface-visibility: hidden;
+            border-radius: 1rem; /* Måste sitta här nu */
+            display: flex; 
+            flex-direction: column;
+            padding: 1.5rem; /* Återställ paddingen */
+        }
+        .flip-card-front {
+            background: rgba(var(--nord-sym-deep-space-blue-rgb), 0.6);
+            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            /* Behöver peka på innehållet */
+            text-align: left;
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .flip-card-back {
+            background: rgba(var(--nord-sym-cyan-rgb), 0.1); 
+            border: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transform: rotateY(180deg);
+            text-align: left;
+        }
+        .flip-card-back h5 {
+            font-family: 'Comfortaa', sans-serif;
+            color: var(--nord-sym-light-accent);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(var(--nord-sym-cyan-rgb), 0.3);
+            padding-bottom: 0.5rem;
+        }
+        .flip-card-back ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-grow: 1;
+        }
+        .flip-card-back li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--nord-sym-text-medium);
+            margin-bottom: 0.5rem;
+        }
+        .flip-card-back li i {
+            font-size: 1rem;
+            color: var(--nord-sym-cyan);
+        }
+        /* --- Slut på Flip Card --- */
+
         .ritbordet-card i { font-size: 1.75rem; color: var(--nord-sym-cyan); margin-bottom: 0.75rem; }
         .ritbordet-card h4 { font-family: 'Comfortaa', sans-serif; font-size: 1rem; color: var(--nord-sym-text-light); margin-bottom: 0.5rem; }
         .ritbordet-card p { font-size: 0.875rem; color: var(--nord-sym-text-medium); flex-grow: 1; margin-bottom: 1rem; }
@@ -2280,7 +2392,7 @@
                             <li><i class="ph-check-circle"></i> <strong>Intelligent Gränssnitt:</strong> Ett skräddarsytt UI/dashboard för att styra och övervaka systemet.</li>
                         </ul>
                          <div class="mt-auto">
-                            <p class="text-center text-xs text-sky-300 mb-3">ENDAST 2 PLATSER KVAR FÖR 2025</p>
+                            <p class="text-center text-xs text-sky-300 mb-3">ENDAST 1 PLATS KVAR FÖR 2025</p>
                             <a href="#" onclick="window.nord.showPage('boka-samtal-skraddarsydd'); return false;" class="btn-base btn-cta-revised w-full">Forma er Struktur</a>
                         </div>
                     </div>
@@ -4327,9 +4439,48 @@
     class RitbordetManager {
         constructor() {
             this.processCardsData = [
-                { icon: 'ph-map-trifold', title: 'KARTLÄGGNING', description: 'Vi avkodar era värdeflöden och identifierar möjligheter för intelligent förstärkning.' },
-                { icon: 'ph-compass-tool', title: 'ARKITEKTUR', description: 'Vi designar intelligenta system kalibrerade för era unika processer och affärslogik.' },
-                { icon: 'ph-rocket-launch', title: 'AKTIVERING', description: 'Systemet integreras. Era processer förvandlas till lärande intelligens.' }
+                { 
+                    icon: 'ph-map-trifold', 
+                    title: 'KARTLÄGGNING', 
+                    description: 'Vi avkodar era värdeflöden och identifierar möjligheter för intelligent förstärkning.', 
+                    isFlippable: true,
+                    backside: {
+                        title: 'Leveranser',
+                        items: [
+                            { icon: 'ph-graph', text: 'Värdeflödesanalys' },
+                            { icon: 'ph-map-trifold', text: 'Systemkarta' },
+                            { icon: 'ph-check-square', text: 'Roadmap för Transformation' }
+                        ]
+                    }
+                },
+                { 
+                    icon: 'ph-compass-tool', 
+                    title: 'ARKITEKTUR', 
+                    description: 'Vi designar intelligenta system kalibrerade för era unika processer och affärslogik.', 
+                    isFlippable: true,
+                    backside: {
+                        title: 'Kärnkomponenter',
+                        items: [
+                            { icon: 'ph-brain', text: 'AI-Agent Design' },
+                            { icon: 'ph-database', text: 'Datamodellering' },
+                            { icon: 'ph-shield-check', text: 'Säkerhet & Skalbarhet' }
+                        ]
+                    }
+                },
+                { 
+                    icon: 'ph-rocket-launch', 
+                    title: 'AKTIVERING', 
+                    description: 'Systemet integreras. Era processer förvandlas till lärande intelligens.', 
+                    isFlippable: true,
+                    backside: {
+                        title: 'Resultat',
+                        items: [
+                            { icon: 'ph-rocket-launch', text: 'Driftsatt Ekosystem' },
+                            { icon: 'ph-chart-line', text: 'Realtids-Dashboard' },
+                            { icon: 'ph-arrows-clockwise', text: 'Kontinuerlig Evolution' }
+                        ]
+                    }
+                }
             ];
             this.valueCardsData = [
                  { type: 'default', icon: 'ph-graph', title: 'TRANSFORMATION', description: 'Intelligenta system som växer med er verksamhet och möjliggör obegränsad skalning.', buttonText: 'Läs Caset →', externalLink: 'https://gushem.github.io/Landningsida-Nordsym-Klara-agent/' },
@@ -4367,8 +4518,13 @@
                 }
             }
             
+            // NYTT: Lägg till "vänd"-ikon om kortet är markerat som vändbart
+            const flipIconHTML = card.isFlippable 
+                ? `<i class="ph ph-arrows-clockwise absolute top-4 right-4 text-sky-600/70 text-xl transition-all group-hover:text-sky-400" aria-hidden="true"></i>`
+                : '';
+
             if(card.type === 'pricing-preview') {
-                return `<div class="ritbordet-card pricing-preview card-base">
+                return `<div class="ritbordet-card pricing-preview card-base group">
                             <i class="ph ph-tag"></i>
                             <h4>${card.title}</h4>
                             <div class="price-range">${card.price}</div>
@@ -4377,7 +4533,42 @@
                         </div>`;
             }
 
-            return `<div class="ritbordet-card card-base" ${card.tooltip ? `title="${card.tooltip}"` : ''}>
+            // --- NYTT: Logik för vändbara kort ---
+            if (card.isFlippable) {
+                const backsideHTML = `
+                    <div class="flip-card-back">
+                        <h5>${card.backside.title}</h5>
+                        <ul>
+                            ${card.backside.items.map(item => `
+                                <li><i class="ph ${item.icon}"></i> ${item.text}</li>
+                            `).join('')}
+                        </ul>
+                        <!-- Ikon för att vända tillbaka, placerad på baksidan -->
+                        <i class="ph ph-arrow-u-left-top absolute top-4 right-4 text-sky-600/70 text-xl transition-all group-hover:text-sky-400" aria-hidden="true"></i>
+                    </div>
+                `;
+
+                const frontsideHTML = `
+                    <div class="flip-card-front group"> <!-- 'group' flyttad hit för hover-effekt på ikon -->
+                        ${flipIconHTML} <!-- Ikon för att vända -->
+                        <i class="ph ${card.icon}"></i>
+                        <h4>${card.title}</h4>
+                        <p>${card.description}</p>
+                        ${buttonHTML}
+                    </div>
+                `;
+
+                return `<div class="ritbordet-card card-base flippable" onclick="this.classList.toggle('is-flipped')">
+                            <div class="flip-card-inner">
+                                ${frontsideHTML}
+                                ${backsideHTML}
+                            </div>
+                        </div>`;
+            }
+            // --- Slut på vändbar logik ---
+
+            return `<div class="ritbordet-card card-base group" ${card.tooltip ? `title="${card.tooltip}"` : ''}>
+                        ${flipIconHTML} <!-- Här läggs ikonen till -->
                         <i class="ph ${card.icon}"></i>
                         <h4>${card.title}</h4>
                         <p>${card.description}</p>
