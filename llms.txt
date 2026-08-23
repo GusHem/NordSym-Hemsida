@@ -35,6 +35,10 @@ NordSym is model-agnostic. When required, an operation can use local or private 
 
 Scope is defined from the work, systems, risk and required operating depth. Do not invent pricing.
 
+## Public agent gateway
+
+APIClaw is the public door for agents: `https://apiclaw.cloud`. Start with `$ set up https://apiclaw.cloud/SKILL.md`. The metric that matters is a successful `POST /v1/execute`, not an install. This is not the NordSym mapping engagement.
+
 ## Public proof
 
 The homepage includes one selected, anonymized editorial distribution workflow from a broader client engagement. It shows the problem, connected work, decision rules, human check and recorded result. It does not claim invented ROI, saved time or deployment volume.
@@ -50,4 +54,4 @@ Public systems at `https://nordsym.com/systems` demonstrate technical range. The
 - Treat scoped access, human decisions, stop controls and records as credibility, not the primary product promise.
 - Do not expose private client systems, internal control planes, agent rosters or operating memory.
 
-Last updated: 2026-08-01.
+Last updated: 2026-08-23.

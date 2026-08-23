@@ -228,4 +228,18 @@ if (!systemNames.includes('APIClaw') || !systemNames.includes('CleanBuddy')) {
   fail('systems.canon.json is missing expected visible systems');
 }
 
+const apiclaw = visible.find((system) => system.id === 'apiclaw');
+if (!apiclaw?.one_liner?.includes('https://apiclaw.cloud/SKILL.md')) {
+  fail('systems.canon.json APIClaw one_liner must point at the SKILL.md door');
+}
+
+const homepage = read('index.html');
+if (!/apiclaw/i.test(homepage) || !homepage.includes('$ set up https://apiclaw.cloud/SKILL.md')) {
+  fail('index.html must present APIClaw and the SKILL.md one-liner without requiring systems.html');
+}
+
+if (!read('systems.html').includes('https://apiclaw.cloud/SKILL.md')) {
+  fail('systems.html must point APIClaw at the SKILL.md door');
+}
+
 console.log(`systems-boundary: ok (${visible.length} visible systems, ${publicFiles.length} public files checked)`);

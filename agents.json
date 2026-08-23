@@ -25,5 +25,5 @@
     "local, private and on-premise AI architecture"
   ],
   "not_public": ["internal agent roster", "client-specific agents", "private agreement surfaces", "internal runtime maps", "internal approval surfaces"],
-  "last_updated": "2026-08-01"
+  "last_updated": "2026-08-23"
 }
