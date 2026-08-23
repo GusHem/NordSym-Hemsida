@@ -133,6 +133,15 @@
   .model-step strong{display:block;font-size:15px;font-weight:600;margin-top:5px;}
   .model-ticker{display:flex;align-items:center;justify-content:center;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.13em;color:#8B826F;}
   .model-ticker i{width:5px;height:5px;background:#A8432B;display:block;animation:softpulse 1.8s ease-in-out infinite;}
+  .agent-gateway{padding:4px 40px 80px;background:#F3EEE4;}
+  .agent-gateway__inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:end;padding-top:34px;border-top:1px solid rgba(33,29,23,.12);}
+  .agent-gateway__copy p{font-size:16px;line-height:1.65;color:#4B463C;max-width:44ch;margin:22px 0 0;}
+  .agent-gateway__copy code{font-family:'IBM Plex Mono',monospace;font-size:.88em;}
+  .agent-gateway__door{border:1px solid rgba(33,29,23,.16);background:rgba(249,246,239,.72);padding:22px 24px 24px;}
+  .agent-gateway__door-label{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#A8432B;margin-bottom:16px;}
+  .agent-gateway__door pre{margin:0;overflow-x:auto;}
+  .agent-gateway__door code{font-family:'IBM Plex Mono',monospace;font-size:14.5px;line-height:1.55;color:#211D17;white-space:nowrap;}
+  .agent-gateway__door a{display:inline-flex;align-items:center;gap:6px;margin-top:18px;font-family:'IBM Plex Mono',monospace;font-size:12px;}
   .receipt{padding:118px 40px;background:#17140F;color:#F3EEE4;border-top:1px solid rgba(243,238,228,.1);}
   .receipt__inner{max-width:1180px;margin:0 auto;}
   .receipt__head{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.72fr);gap:72px;align-items:end;margin-bottom:50px;}
@@ -231,6 +240,9 @@
     .model-step::before{left:-35px;top:22px;}
     .model-step.is-active [hidden]{display:block!important;margin-top:10px;font-size:13.5px;line-height:1.55;color:#6A6355;max-width:36ch;}
     .model-ticker{justify-content:flex-start;margin-top:24px;}
+    .agent-gateway{padding:4px 18px 68px!important;}
+    .agent-gateway__inner{grid-template-columns:1fr;gap:22px;padding-top:28px;}
+    .agent-gateway__door code{white-space:pre-wrap;word-break:break-word;}
   }
   @media (max-width:560px){
     [style*="grid-template-columns: repeat(3, 1fr)"]{grid-template-columns:1fr!important;}
@@ -326,11 +338,11 @@
     <div style="display: flex; flex-direction: column; gap: 26px; align-items: flex-start; margin-top: 36px;">
       <p style="font-size: 18px; line-height: 1.55; color: rgb(75, 70, 60); max-width: 44ch; margin: 0px;">NordSym builds and operates AI agents inside your tech stack to take over recurring work that costs your company time and money.</p>
       <p style="font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.55;letter-spacing:.04em;color:#6A6355;max-width:58ch;margin:18px 0 0;padding-left:14px;border-left:1px solid rgba(168,67,43,.6);">For work that still depends on someone to chase it, check it or rescue it when the process breaks.</p>
-      <div style="display: flex; align-items: center; gap: 22px;">
+      <div style="display: flex; align-items: center; gap: 22px; flex-wrap: wrap;">
         <a href="/book/" class="scp1" style="display: inline-flex; align-items: center; gap: 9px; background: rgb(168, 67, 43); color: rgb(243, 238, 228); font-size: 15px; font-weight: 500; padding: 13px 24px; border-radius: 2px; transition: transform 0.18s, background 0.2s;">Find what an agent can take over
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
         </a>
-
+        <a href="#apiclaw" style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;color:#6A6355;">For agents · APIClaw</a>
       </div>
     </div>
     </div>
@@ -338,6 +350,20 @@
       <canvas id="hero-constellation" width="584" height="540" style="width: 100%; height: 540px; display: block;"></canvas>
     </div>
   </div></header>
+  <section id="apiclaw" class="agent-gateway" aria-labelledby="apiclaw-title">
+    <div class="agent-gateway__inner">
+      <div class="agent-gateway__copy">
+        <div class="section-kicker">Public agent gateway</div>
+        <h2 id="apiclaw-title" class="section-title" style="max-width:16ch;">APIClaw is the live door for agents.</h2>
+        <p>NordSym builds and operates AI agents inside a company's tech stack. Agents that need a live API execute start at APIClaw. The metric that matters is a successful <code>POST /v1/execute</code>, not an install.</p>
+      </div>
+      <div class="agent-gateway__door">
+        <span class="agent-gateway__door-label">Live door</span>
+        <pre><code>$ set up https://apiclaw.cloud/SKILL.md</code></pre>
+        <a href="https://apiclaw.cloud" target="_blank" rel="noopener">apiclaw.cloud <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
   <section id="stack-rail" aria-labelledby="stack-rail-title">
     <div class="stack-rail__heading">
       <div class="stack-rail__eyebrow">Built inside your tech stack</div>
@@ -743,7 +769,7 @@
       <a aria-label="NordSym on LinkedIn" href="https://www.linkedin.com/company/nordsym-ab/" target="_blank" rel="noreferrer" style="width: 40px; height: 40px; border: 1px solid rgba(243, 238, 228, 0.18); display: grid; place-items: center; color: rgb(243, 238, 228); text-decoration: none;"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5ZM.32 8.02h4.36V24H.32V8.02ZM8.12 8.02h4.18v2.18h.06c.58-1.1 2-2.26 4.13-2.26 4.42 0 5.23 2.9 5.23 6.67V24h-4.35v-8.32c0-1.98-.04-4.53-2.76-4.53-2.77 0-3.19 2.16-3.19 4.39V24H8.12V8.02Z"></path></svg></a>
       <a aria-label="Gustav on X" href="https://x.com/GusHem" target="_blank" rel="noreferrer" style="width: 40px; height: 40px; border: 1px solid rgba(243, 238, 228, 0.18); display: grid; place-items: center; color: rgb(243, 238, 228); text-decoration: none;"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M18.9 1.5h3.68l-8.04 9.19L24 22.5h-7.4l-5.8-7.58-6.64 7.58H.48l8.6-9.83L0 1.5h7.58l5.24 6.93L18.9 1.5Zm-1.29 18.92h2.04L6.47 3.47H4.28l13.33 16.95Z"></path></svg></a>
 
-    </div><div style="margin-top: 18px; display: flex; flex-direction: column; gap: 9px; font-size: 14px;"><a href="/book/" style="color: rgb(199, 188, 169);">Find what an agent can take over</a><a href="/systems" style="color: rgb(199, 188, 169);">Systems</a><a href="/privacy.html" style="color: rgb(199, 188, 169);">Privacy</a><a href="mailto:contact@nordsym.com" style="color: rgb(199, 188, 169);">contact@nordsym.com</a></div></div>
+    </div><div style="margin-top: 18px; display: flex; flex-direction: column; gap: 9px; font-size: 14px;"><a href="/book/" style="color: rgb(199, 188, 169);">Find what an agent can take over</a><a href="#apiclaw" style="color: rgb(199, 188, 169);">APIClaw</a><a href="https://apiclaw.cloud" target="_blank" rel="noopener" style="color: rgb(199, 188, 169);">apiclaw.cloud</a><a href="/systems" style="color: rgb(199, 188, 169);">Systems</a><a href="/privacy.html" style="color: rgb(199, 188, 169);">Privacy</a><a href="mailto:contact@nordsym.com" style="color: rgb(199, 188, 169);">contact@nordsym.com</a></div></div>
     <div><div style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 11px; letter-spacing: 0.14em; color: rgb(140, 132, 116); text-transform: uppercase; margin-bottom: 16px;">Give your AI context</div><div style="display: grid; gap: 12px; min-width: min(340px, 100%);"><button id="copy-ai-context" type="button" style="border: 1px solid rgba(243, 238, 228, 0.18); background: transparent; color: rgb(243, 238, 228); padding: 14px 16px; text-align: left; cursor: pointer; font-family: &quot;IBM Plex Mono&quot;, monospace; letter-spacing: 0.1em; text-transform: uppercase; font-size: 11.5px; line-height: 1.45;"><span style="display: block; color: rgb(243, 238, 228);">Copy NordSym brief</span><span id="copy-ai-context-status" style="display: block; margin-top: 4px; color: rgb(140, 132, 116); letter-spacing: 0.06em; text-transform: none; font-family: &quot;Instrument Sans&quot;, sans-serif; font-size: 12.5px;">Short context for any assistant</span></button><div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;"><span style="font-family: &quot;IBM Plex Mono&quot;, monospace; font-size: 10px; letter-spacing: 0.14em; color: rgb(140, 132, 116); text-transform: uppercase; margin-right: 2px;">Open in</span><a aria-label="Open in ChatGPT" href="https://chatgpt.com/?q=Evaluate%20NordSym%20(nordsym.com)%2C%20a%20firm%20that%20builds%20and%20operates%20the%20governed%20operating%20layer%20between%20a%20company's%20existing%20stack%20and%20the%20AI%20agents%20that%20run%20recurring%20business%20operations.%20Is%20this%20a%20credible%20approach%20to%20agent-native%20operations%2C%20and%20who%20is%20it%20best%20suited%20for%3F%20Include%20context%20from%20https%3A%2F%2Fnordsym.com%2Fllms.txt." target="_blank" rel="noreferrer" class="scp5" style="width: 40px; height: 40px; border: 1px solid rgba(243, 238, 228, 0.22); display: grid; place-items: center; color: rgb(243, 238, 228); background: transparent; transition: transform 0.18s, background 0.18s, border-color 0.18s, box-shadow 0.18s;"><img src="/assets/chatgpt.svg" alt="" style="width: 18px; height: 18px; opacity: 1;"></a><a aria-label="Open in Claude" href="https://claude.ai/new?q=Evaluate%20NordSym%20(nordsym.com)%2C%20a%20firm%20that%20builds%20and%20operates%20the%20governed%20operating%20layer%20between%20a%20company's%20existing%20stack%20and%20the%20AI%20agents%20that%20run%20recurring%20business%20operations.%20Is%20this%20a%20credible%20approach%20to%20agent-native%20operations%2C%20and%20who%20is%20it%20best%20suited%20for%3F%20Include%20context%20from%20https%3A%2F%2Fnordsym.com%2Fllms.txt." target="_blank" rel="noreferrer" class="scp5" style="width: 40px; height: 40px; border: 1px solid rgba(243, 238, 228, 0.22); display: grid; place-items: center; color: rgb(243, 238, 228); background: transparent; transition: transform 0.18s, background 0.18s, border-color 0.18s, box-shadow 0.18s;"><img src="/assets/claude.svg" alt="" style="width: 18px; height: 18px; opacity: 1;"></a><a aria-label="Open in Perplexity" href="https://www.perplexity.ai/search?q=Evaluate%20NordSym%20(nordsym.com)%2C%20a%20firm%20that%20builds%20and%20operates%20the%20governed%20operating%20layer%20between%20a%20company's%20existing%20stack%20and%20the%20AI%20agents%20that%20run%20recurring%20business%20operations.%20Is%20this%20a%20credible%20approach%20to%20agent-native%20operations%2C%20and%20who%20is%20it%20best%20suited%20for%3F%20Include%20context%20from%20https%3A%2F%2Fnordsym.com%2Fllms.txt." target="_blank" rel="noreferrer" class="scp5" style="width: 40px; height: 40px; border: 1px solid rgba(243, 238, 228, 0.22); display: grid; place-items: center; color: rgb(243, 238, 228); background: transparent; transition: transform 0.18s, background 0.18s, border-color 0.18s, box-shadow 0.18s;"><img src="/assets/perplexity.svg" alt="" style="width: 18px; height: 18px; opacity: 1;"></a><a aria-label="Open in Grok" href="https://x.com/i/grok?text=Evaluate%20NordSym%20(nordsym.com)%2C%20a%20firm%20that%20builds%20and%20operates%20the%20governed%20operating%20layer%20between%20a%20company's%20existing%20stack%20and%20the%20AI%20agents%20that%20run%20recurring%20business%20operations.%20Is%20this%20a%20credible%20approach%20to%20agent-native%20operations%2C%20and%20who%20is%20it%20best%20suited%20for%3F%20Include%20context%20from%20https%3A%2F%2Fnordsym.com%2Fllms.txt." target="_blank" rel="noreferrer" class="scp5" style="width: 40px; height: 40px; border: 1px solid rgba(243, 238, 228, 0.22); display: grid; place-items: center; color: rgb(243, 238, 228); background: transparent; transition: transform 0.18s, background 0.18s, border-color 0.18s, box-shadow 0.18s;"><img src="/assets/grok.svg" alt="" style="width: 18px; height: 18px; opacity: 1;"></a></div></div></div>
   </div><div style="max-width: 1180px; margin: 48px auto 0px; padding-top: 22px; border-top: 1px solid rgba(243, 238, 228, 0.14); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 12.5px; color: rgb(140, 132, 116);"><span>© 2026 NordSym. Founder-led, agent-operated.</span><span>NordSym AB · 559535-5768</span></div></footer></div></div></div>
 

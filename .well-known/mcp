@@ -11,11 +11,12 @@
       "well_known": "https://apiclaw.cloud/.well-known/mcp",
       "llms_txt": "https://apiclaw.cloud/llms.txt",
       "agents_md": "https://apiclaw.cloud/agents.md",
-      "role": "API and provider gateway for agents"
+      "role": "Public agent gateway. Live door: $ set up https://apiclaw.cloud/SKILL.md",
+      "skill": "https://apiclaw.cloud/SKILL.md"
     }
   ],
   "public_positioning": "AI agents built and operated inside your tech stack to take recurring work off your team.",
-  "last_updated": "2026-08-01",
+  "last_updated": "2026-08-23",
   "discovery": {
     "llms_txt": "https://nordsym.com/llms.txt",
     "agents_md": "https://nordsym.com/agents.md",

@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "NordSym public discovery",
-    "version": "2026-08-01",
+    "version": "2026-08-23",
     "description": "Public discovery metadata for NordSym, a firm that builds and operates AI agents inside client tech stacks."
   },
   "servers": [
